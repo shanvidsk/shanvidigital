@@ -119,26 +119,116 @@
         .fb-btn.delete { color: #ef4444; background: #fef2f2; }
         .fb-btn.delete:hover { background: #fee2e2; }
 
-        @media (max-width: 768px) {
-            body { overflow: auto; height: auto; }
-            .app-container { flex-direction: column; height: auto; min-height: 100vh; }
-            .sidebar { width: 100%; height: auto; border-right: none; border-top: 1px solid var(--border-color); order: 2; padding: 15px; flex-shrink: 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); padding-bottom: max(15px, env(safe-area-inset-bottom)); }
-            .brand, .sec-label { display: none; }
-            .type-grid { margin-bottom: 10px; gap: 6px; }
-            .type-card { padding: 10px; }
-            .type-card i { font-size: 18px; margin-bottom: 4px; }
-            .settings-box { display: none; }
-            .scan-grid { margin-bottom: 10px; gap: 8px; }
-            .scan-box { padding: 15px 5px; border-width: 1px; }
-            .scan-full { height: 70px; }
-            .sidebar-footer { margin-top: 10px; gap: 10px; }
-            .btn { height: 40px; font-size: 12px; }
-            .main-content { order: 1; padding: 20px; height: 60vh; flex: none; }
-            .top-tools { width: 90%; justify-content: space-between; top: 15px; padding: 8px 15px; }
-            .float-bar { bottom: 10px; padding: 8px 20px; gap: 15px; }
-            .fb-btn { width: 38px; height: 38px; font-size: 14px; }
-            .back-home-link { display: none; } /* Hide on mobile so it doesn't break layout */
-        }
+       @media (max-width: 768px) {
+
+    body { overflow: auto; height: auto; }
+
+    .app-container { 
+        flex-direction: column; 
+        height: auto; 
+        min-height: 100vh; 
+    }
+
+   .sidebar { 
+    width: 100%; 
+    height: auto; 
+    border-right: none; 
+    border-top: none; 
+    order: 2; 
+    padding: 16px 15px; 
+    flex-shrink: 0; 
+
+    background: #ffffff;
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.08);
+
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
+}
+
+    /* ✅ Brand SHOW hoga */
+    .brand { 
+        display: flex; 
+        margin-bottom: 10px;
+    }
+
+    /* Label hide rakh sakte ho compact ke liye */
+    .sec-label { 
+        display: none; 
+    }
+
+    .type-grid { margin-bottom: 10px; gap: 6px; }
+
+    .type-card { padding: 10px; }
+
+    .type-card i { 
+        font-size: 18px; 
+        margin-bottom: 4px; 
+    }
+
+    /* ✅ Double ID toggle SHOW hoga */
+    .settings-box { 
+        display: block; 
+        padding: 10px; 
+        margin-bottom: 10px;
+    }
+
+    .toggle-label {
+        font-size: 12px;
+    }
+
+    .scan-grid { margin-bottom: 10px; gap: 8px; }
+
+    .scan-box { 
+        padding: 15px 5px; 
+        border-width: 1px; 
+    }
+
+    .scan-full { height: 70px; }
+
+    .sidebar-footer { 
+        margin-top: 10px; 
+        gap: 10px; 
+    }
+
+    .btn { 
+        height: 40px; 
+        font-size: 12px; 
+    }
+
+  .main-content {
+    order: 1;
+    padding: 15px;
+    height: auto;
+    min-height: 45vh;
+    flex: none;
+}
+
+    .top-tools { 
+        width: 90%; 
+        justify-content: space-between; 
+        top: 15px; 
+        padding: 8px 15px; 
+    }
+
+    .float-bar { 
+        bottom: 10px; 
+        padding: 8px 20px; 
+        gap: 15px; 
+    }
+
+    .fb-btn { 
+        width: 38px; 
+        height: 38px; 
+        font-size: 14px; 
+    }
+
+    .back-home-link { 
+        display: none; 
+    }
+}
 
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; z-index: 9999; display: none; flex-direction: column; }
         .modal-body { flex: 1; position: relative; overflow: hidden; background: #000; }
