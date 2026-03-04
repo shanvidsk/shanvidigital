@@ -239,18 +239,87 @@
             .why-us-list li { justify-content: center; }
         }
 
-        @media (max-width: 768px) {
-            header { padding: 15px; flex-direction: column; gap: 15px; }
-            .site-logo { height: 50px; width: 50px; }
-            nav ul { flex-wrap: wrap; justify-content: center; gap: 15px; }
-            nav ul li a { font-size: 14px; }
-            .hero h1 { font-size: 32px; }
-            .section-title { font-size: 28px; }
-            .card { padding: 30px 20px; }
-            .price-card.popular { transform: scale(1); }
-            .price-card.popular:hover { transform: translateY(-10px); }
-            .local-seo-box { padding: 30px; }
-        }
+
+
+        /* Global Safety Fix (इमेजेज को बाहर जाने से रोकने के लिए) */
+img, iframe, video { 
+    max-width: 100%; 
+    height: auto; 
+}
+
+/* डेस्कटॉप के लिए GPU Acceleration (Performance Fix) */
+.hero::before {
+    will-change: transform; 
+}
+.hero-image {
+    will-change: transform;
+}
+
+/* मोबाइल व्यू - 100% Responsive & Optimized Layout */
+@media (max-width: 768px) {
+    /* Performance Fixes */
+    .hero::before {
+        animation: none; /* भारी बैकग्राउंड एनिमेशन को बंद कर दिया */
+        opacity: 0.5; /* स्टेबल ग्रैडिएंट लुक के लिए */
+    }
+    .hero-image {
+        /* मोबाइल पर CPU बचाने के लिए फ्लोट एनिमेशन थोड़ा धीमा किया */
+        animation: float 8s ease-in-out infinite; 
+    }
+
+    /* Header Fixes */
+    header { padding: 15px 20px; flex-direction: column; gap: 12px; }
+    .site-logo { height: 50px; width: 50px; }
+    nav ul { flex-wrap: wrap; justify-content: center; gap: 12px; }
+    nav ul li a { font-size: 14px; }
+    
+    /* Typography & Global Spacing */
+    .hero { padding: 60px 20px 40px; }
+    .hero h1 { font-size: 28px; }
+    .section-title { font-size: 24px; }
+    section { padding: 50px 20px; } /* फालतू गैप कम किया, !important हटा दिया */
+
+    /* Grid Layouts - Force Single Column on Mobile */
+    .grid-container, 
+    .pricing-grid, 
+    .gallery-grid { 
+        grid-template-columns: 1fr; /* इससे सभी कार्ड्स एक के नीचे एक आएंगे */
+        gap: 20px; 
+    }
+
+    /* Cards & Boxes Padding Fixes */
+    .card, .price-card { padding: 30px 20px; }
+    .why-us-box { padding: 30px 20px; margin-bottom: 40px; }
+    
+    /* Fix Horizontal Scroll Issue */
+    .why-us-left, .why-us-right { min-width: 100%; }
+
+    /* Popular Pricing Card Fix */
+    .price-card.popular { transform: scale(1); border-width: 2px; }
+    .price-card.popular:hover { transform: translateY(-5px); }
+    
+    /* Local SEO Box */
+    .local-seo-box { padding: 30px 20px; margin: 30px 10px; border-radius: 15px; }
+
+    /* Footer Wrap Fix */
+    .footer-grid { gap: 30px; text-align: center; }
+    .footer-grid .f-col ul li { justify-content: center; } /* Icons को सेंटर करने के लिए */
+    .social-icons { justify-content: center; }
+    
+    /* Copyright Text Fix (HTML के Inline CSS को ओवरराइड करने के लिए यहाँ !important जरूरी है) */
+    .footer-bottom > div { 
+        flex-direction: column !important; 
+        text-align: center; 
+        gap: 8px; 
+        justify-content: center !important; 
+    }
+}
+
+/* Very Small Mobile Phones (iPhone SE etc.) */
+@media (max-width: 380px) {
+    .top-offer-bar { font-size: 13px; padding: 10px; }
+    .hero h1 { font-size: 24px; }
+}
     </style>
 </head>
 <body>
