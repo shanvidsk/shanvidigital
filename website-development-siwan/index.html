@@ -77,6 +77,9 @@
 }
 </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -92,7 +95,7 @@
             --transition-speed: 0.4s;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.7; overflow-x: hidden; }
 
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 99999; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; }
@@ -106,66 +109,78 @@
         .blink-text { animation: blinker 1.5s linear infinite; color: #ffea00; margin-right: 5px; }
         @keyframes blinker { 50% { opacity: 0; } }
 
-        header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); color: var(--text-dark); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-bottom: 2px solid var(--primary-color); }
+        /* Header */
+        header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); color: var(--text-dark); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border-bottom: 1px solid #eee; }
         .header-left { display: flex; align-items: center; gap: 15px; }
-        .site-logo { height: 60px; width: 60px; border-radius: 50%; border: 2px solid var(--primary-color); padding: 2px; transition: transform var(--transition-speed); }
+        .site-logo { height: 50px; width: 50px; border-radius: 50%; border: 2px solid var(--primary-color); padding: 2px; transition: transform var(--transition-speed); }
         .site-logo:hover { transform: rotate(5deg) scale(1.05); }
         .header-left h2 { font-size: 20px; font-weight: 800; margin:0; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
+        .header-right { display: flex; align-items: center; gap: 20px; }
         nav ul { list-style: none; display: flex; gap: 25px; }
-        nav ul li a { color: var(--text-dark); text-decoration: none; font-size: 15px; font-weight: 600; position: relative; padding-bottom: 5px; transition: color var(--transition-speed); }
+        nav ul li a { color: var(--text-dark); text-decoration: none; font-size: 14px; font-weight: 600; position: relative; padding-bottom: 5px; transition: color var(--transition-speed); }
         nav ul li a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--primary-color); transition: width var(--transition-speed); }
         nav ul li a:hover { color: var(--primary-color); }
         nav ul li a:hover::after, nav ul li a.active::after { width: 100%; }
         nav ul li a.active { color: var(--primary-color); }
+        .nav-cta { background: var(--primary-color); color: white; padding: 8px 18px; border-radius: 30px; font-size: 14px; text-decoration: none; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 10px rgba(230,81,0,0.2); }
+        .nav-cta:hover { background: var(--secondary-color); color: white; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(230,81,0,0.3); }
 
-        .hero { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; text-align: left; padding: 100px 5%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; min-height: 80vh; }
-        .hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(230,81,0,0.1) 0%, rgba(0,0,0,0) 70%); animation: pulse 10s infinite; pointer-events: none; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        /* 🔥 Ultimate Hero Section with Glow Animation */
+        .hero { background: radial-gradient(circle at 20% 30%, rgba(255,152,0,0.15), transparent 40%), linear-gradient(135deg, #1e293b, #0f172a); color: white; text-align: left; padding: 80px 5%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: space-between; min-height: 80vh; }
         
-        .hero-content { flex: 1; max-width: 600px; animation: slideUp 1s ease forwards; z-index: 1; }
+        .hero::before { content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,152,0,0.15), transparent 70%); top: -150px; right: -150px; animation: heroGlow 8s infinite alternate; z-index: 0; pointer-events: none; }
+        @keyframes heroGlow { 0% { transform: scale(1); } 100% { transform: scale(1.3); } }
+
+        .hero-content { background: rgba(255, 255, 255, 0.03); padding: 32px; border-radius: 20px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.08); flex: 1; max-width: 540px; animation: slideUp 1s ease forwards; z-index: 2; box-shadow: 0 25px 50px rgba(0,0,0,0.1); position: relative; }
         @keyframes slideUp { from {opacity: 0; transform: translateY(30px);} to {opacity: 1; transform: translateY(0);} }
         
-        .hero-badge { display: inline-block; background: rgba(255, 152, 0, 0.2); border: 1px solid var(--secondary-color); color: var(--secondary-color); padding: 5px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase; }
+        .hero-badge { display: inline-block; background: rgba(255, 152, 0, 0.2); border: 1px solid var(--secondary-color); color: var(--secondary-color); padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase; }
         
-        .hero h1 { font-size: 42px; margin-bottom: 20px; font-weight: 800; line-height: 1.2; }
+        .hero h1 { font-size: 38px; margin-bottom: 20px; font-weight: 800; line-height: 1.2; }
         .hero h1 span { color: var(--secondary-color); }
-        .hero p { font-size: 16px; color: #cbd5e1; margin-bottom: 25px; line-height: 1.8; }
+        .hero p { font-size: 15px; color: #cbd5e1; margin-bottom: 25px; line-height: 1.8; }
         
         .hero-features { margin-bottom: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .hero-features div { font-size: 15px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+        .hero-features div { font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
         .hero-features i { color: #4ade80; font-size: 18px; }
 
-        .hero-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--primary-color); color: white; text-decoration: none; padding: 15px 35px; border-radius: 8px; font-weight: bold; font-size: 16px; transition: all var(--transition-speed); box-shadow: 0 10px 25px rgba(230, 81, 0, 0.4); border: 2px solid transparent; }
-        .hero-btn:hover { background: transparent; border-color: var(--primary-color); color: var(--primary-color); transform: translateY(-3px); box-shadow: 0 15px 35px rgba(230, 81, 0, 0.2); }
+        .hero-btn { display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(135deg, #ff9800, #e65100); color: white; text-decoration: none; padding: 15px 35px; border-radius: 8px; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 10px 25px rgba(230, 81, 0, 0.4); border: 1px solid transparent; }
+        .hero-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(230, 81, 0, 0.5); border-color: #ff9800; }
 
-        .hero-image { flex: 1; display: flex; justify-content: center; position: relative; z-index: 1; animation: float 6s ease-in-out infinite; }
+        .hero-image { flex: 1; display: flex; justify-content: center; position: relative; z-index: 2; animation: float 6s ease-in-out infinite; }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-20px); } 100% { transform: translateY(0px); } }
 
-        /* Tech Stack moved below Hero */
-        .tech-stack { background: white; padding: 30px 0; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; text-align: center; }
-        .tech-logos { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; max-width: 1000px; margin: 0 auto; opacity: 0.7; }
+        /* 🔥 Trust Stats Strip */
+        .trust-strip { background: white; padding: 25px 5%; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; box-shadow: 0 10px 20px rgba(0,0,0,0.02); border-bottom: 1px solid #f1f5f9; position: relative; z-index: 2; font-weight: 600; color: var(--text-dark); }
+        .trust-strip div { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+        .trust-strip i { color: #fbbf24; font-size: 20px; }
+        .trust-strip .fa-laptop-code { color: var(--primary-color); }
+        .trust-strip .fa-smile { color: #25d366; }
+
+        .tech-stack { background: var(--bg-light); padding: 30px 0; border-bottom: 1px solid #e2e8f0; text-align: center; }
+        .tech-logos { display: flex; justify-content: center; align-items: center; gap: 25px; flex-wrap: wrap; max-width: 1000px; margin: 0 auto; opacity: 0.7; }
         .tech-logos i { font-size: 40px; transition: all 0.3s; }
         .tech-logos i:hover { transform: scale(1.2); opacity: 1; }
 
         section { padding: 80px 5%; max-width: 1300px; margin: 0 auto; text-align: center; }
         .section-header { margin-bottom: 50px; text-align: center; }
-        .section-subtitle { color: var(--primary-color); font-weight: bold; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin-bottom: 10px; display: block; }
+        .section-subtitle { color: var(--primary-color); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 13px; margin-bottom: 10px; display: block; }
         .section-title { color: var(--text-dark); font-size: 36px; font-weight: 800; line-height: 1.3; }
 
+        /* 🔥 Cards with Micro Interaction Hover Scale */
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .card { background: white; padding: 40px 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); text-align: left; position: relative; overflow: hidden; border: 1px solid #f1f5f9; z-index: 1; }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 0; background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%); transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: -1; border-radius: 15px; }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(230, 81, 0, 0.15); border-color: transparent; }
+        .card { background: white; padding: 40px 30px; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease; text-align: left; position: relative; overflow: hidden; border: 1px solid #f1f5f9; z-index: 1; }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 0; background: linear-gradient(180deg, var(--primary-color) 0%, var(--secondary-color) 100%); transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: -1; border-radius: 15px; }
+        .card:hover { transform: translateY(-15px) scale(1.02); box-shadow: 0 30px 60px rgba(0,0,0,0.15); border-color: transparent; }
         .card:hover::before { height: 100%; }
         
-        .card-icon { width: 60px; height: 60px; background: #fff8f2; color: var(--primary-color); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 25px; transition: all 0.5s ease; }
+        .card-icon { width: 60px; height: 60px; background: linear-gradient(135deg, #ff9800, #e65100); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 25px; transition: all 0.5s ease; box-shadow: 0 8px 20px rgba(230,81,0,0.2); }
         .card h3 { margin-bottom: 15px; color: var(--text-dark); font-size: 22px; font-weight: 700; transition: color 0.5s ease; }
-        .card p { font-size: 15px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.6; transition: color 0.5s ease; flex-grow: 1; }
-        
-        .card:hover .card-icon { background: rgba(255,255,255,0.2); color: white; transform: rotateY(180deg); }
+        .card p { font-size: 14px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.6; transition: color 0.5s ease; flex-grow: 1; }
+        .card:hover .card-icon { transform: rotateY(180deg); box-shadow: 0 10px 25px rgba(0,0,0,0.1); background: white; color: var(--primary-color); }
         .card:hover h3, .card:hover p { color: white; }
-        .card-link { display: inline-flex; align-items: center; gap: 5px; color: var(--primary-color); font-weight: 600; text-decoration: none; font-size: 15px; transition: all 0.3s; }
+        .card-link { display: inline-flex; align-items: center; gap: 5px; color: var(--primary-color); font-weight: 600; text-decoration: none; font-size: 14px; transition: all 0.3s; }
         .card:hover .card-link { color: white; }
         .card:hover .card-link i { transform: translateX(5px); }
 
@@ -173,46 +188,84 @@
         .why-us-left { flex: 1; min-width: 300px; }
         .why-us-right { flex: 1; min-width: 300px; }
         .why-us-list { list-style: none; }
-        .why-us-list li { margin-bottom: 20px; display: flex; align-items: center; gap: 15px; font-weight: 600; font-size: 16px; color: var(--text-dark); }
+        .why-us-list li { margin-bottom: 20px; display: flex; align-items: center; gap: 15px; font-weight: 600; font-size: 15px; color: var(--text-dark); }
         .why-us-list i { background: #fff8f2; color: var(--primary-color); padding: 12px; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
 
+        /* 🔥 Pricing Block Highlighting */
         .pricing-section { background-color: #fff8f2; padding: 80px 5%; border-top: 1px solid #ffe0b2; border-bottom: 1px solid #ffe0b2; }
         .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; align-items: center; }
-        .price-card { background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all var(--transition-speed); position: relative; border: 1px solid #f1f5f9; text-align: center; }
-        .price-card:hover { transform: translateY(-15px); box-shadow: 0 20px 50px rgba(230, 81, 0, 0.15); border-color: var(--primary-color); }
-        .price-card.popular { border: 2px solid var(--primary-color); transform: scale(1.05); z-index: 2; box-shadow: 0 20px 40px rgba(230, 81, 0, 0.1); }
+        .price-card { background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); transition: all var(--transition-speed); position: relative; border: 1px solid #f1f5f9; text-align: center; }
+        .price-card:hover { transform: translateY(-15px); box-shadow: 0 30px 60px rgba(230, 81, 0, 0.15); border-color: var(--primary-color); }
+        .price-card.popular { background: linear-gradient(180deg, #ffffff, #fff8f2); border: 2px solid var(--primary-color); transform: scale(1.05); z-index: 2; box-shadow: 0 20px 40px rgba(230, 81, 0, 0.1); }
         .price-card.popular:hover { transform: scale(1.05) translateY(-10px); }
-        .popular-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--primary-color); color: white; padding: 5px 20px; border-radius: 20px; font-size: 12px; font-weight: bold; letter-spacing: 1px; }
-        .price-card h3 { font-size: 22px; color: var(--text-dark); margin-bottom: 15px; }
+        .save-badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--primary-color); color: white; padding: 5px 20px; border-radius: 20px; font-size: 12px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(230,81,0,0.3); }
+        
+        .price-card h3 { background: linear-gradient(135deg, #fff3e0, #ffe0b2); padding: 15px; border-radius: 10px; font-size: 20px; color: var(--text-dark); margin-bottom: 25px; font-weight: 700; }
+        
         .price-amount { font-size: 40px; font-weight: 800; color: var(--primary-color); margin-bottom: 20px; display: flex; justify-content: center; align-items: flex-start; }
         .price-amount span { font-size: 20px; margin-top: 5px; }
         .price-features { list-style: none; margin-bottom: 30px; text-align: left; }
-        .price-features li { padding: 10px 0; border-bottom: 1px solid #f1f5f9; color: var(--text-muted); font-size: 15px; display: flex; align-items: center; gap: 10px; }
+        .price-features li { padding: 10px 0; border-bottom: 1px solid #f1f5f9; color: var(--text-muted); font-size: 14px; display: flex; align-items: center; gap: 10px; font-weight: 500; }
         .price-features i { color: #25d366; }
-        .price-btn { display: block; width: 100%; padding: 15px; border-radius: 8px; font-weight: bold; text-decoration: none; transition: all 0.3s; }
+        .price-btn { display: block; width: 100%; padding: 15px; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.3s; }
         .btn-outline { background: transparent; border: 2px solid var(--primary-color); color: var(--primary-color); }
         .btn-outline:hover { background: var(--primary-color); color: white; }
         .btn-solid { background: var(--primary-color); color: white; border: 2px solid var(--primary-color); }
         .btn-solid:hover { background: var(--secondary-color); border-color: var(--secondary-color); }
 
+        /* Portfolio */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px; }
-        .g-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: transform 0.4s; position: relative; }
-        .g-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .g-img-box { width: 100%; height: 220px; overflow: hidden; position: relative; }
-        .g-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s; }
+        .g-card { background: white; border-radius: 12px; box-shadow: 0 15px 30px rgba(0,0,0,0.08); transition: transform 0.4s; position: relative; }
+        .g-card:hover { transform: translateY(-10px); }
+        .g-img-box { width: 100%; height: 220px; position: relative; overflow: hidden; border-radius: 12px 12px 0 0; }
+        .g-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s; border-radius: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
         .g-card:hover .g-img-box img { transform: scale(1.1); }
-        .g-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(230, 81, 0, 0.8); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s; }
+        .g-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(230, 81, 0, 0.7); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s; border-radius: 10px; }
         .g-card:hover .g-overlay { opacity: 1; }
-        .g-overlay a { color: white; font-size: 24px; text-decoration: none; width: 50px; height: 50px; border-radius: 50%; border: 2px solid white; display: flex; align-items: center; justify-content: center; transform: translateY(20px); transition: transform 0.4s; }
+        .g-overlay a { color: white; font-size: 20px; text-decoration: none; width: 45px; height: 45px; border-radius: 50%; border: 2px solid white; display: flex; align-items: center; justify-content: center; transform: translateY(20px); transition: transform 0.4s; }
         .g-card:hover .g-overlay a { transform: translateY(0); }
         .g-info { padding: 20px; text-align: left; }
-        .g-info h3 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); }
+        .g-info h3 { font-size: 18px; margin-bottom: 5px; color: var(--text-dark); font-weight: 700; }
         .g-info p { font-size: 14px; color: var(--text-muted); }
+
+        /* 🔥 Testimonials Section with Google Trust Badge */
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .t-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left; border: 1px solid #f1f5f9; position: relative; }
+        .t-card::before { content: '\201C'; font-size: 60px; color: #ffe0b2; position: absolute; top: 10px; right: 20px; font-family: serif; line-height: 1; }
+        .stars { color: #fbbf24; margin-bottom: 15px; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .stars span { color: var(--text-dark); font-size: 13px; font-weight: 600; background: #f1f5f9; padding: 2px 8px; border-radius: 12px; }
+        .t-text { color: var(--text-muted); font-size: 14px; font-style: italic; margin-bottom: 20px; line-height: 1.8; }
+        .t-client { display: flex; align-items: center; gap: 15px; }
+        .t-avatar { width: 50px; height: 50px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: bold; }
+        .t-name { font-weight: 700; color: var(--text-dark); font-size: 15px; }
+        .t-biz { font-size: 12px; color: var(--text-muted); }
+
+        /* CTA Section */
+        .cta-section { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); padding: 60px 5%; border-radius: 20px; color: white; max-width: 1100px; margin: 40px auto; text-align: center; box-shadow: 0 20px 40px rgba(230, 81, 0, 0.2); position: relative; overflow: hidden; }
+        .cta-section::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 60%); pointer-events: none; }
+        .cta-section h2 { font-size: 32px; font-weight: 800; margin-bottom: 15px; color: white; position: relative; z-index: 2; }
+        .cta-section p { font-size: 16px; margin-bottom: 30px; opacity: 0.9; position: relative; z-index: 2; }
+        .cta-btn { display: inline-block; background: white; color: var(--primary-color); padding: 15px 35px; border-radius: 30px; font-weight: 700; text-decoration: none; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.1); position: relative; z-index: 2; }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(0,0,0,0.2); color: var(--text-dark); }
+
+        /* FAQ Section */
+        .faq-container { max-width: 800px; margin: 0 auto; text-align: left; }
+        details { background: white; border: 1px solid #ffe0b2; border-radius: 10px; margin-bottom: 15px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.02); transition: all 0.3s; }
+        details:hover { box-shadow: 0 8px 25px rgba(230,81,0,0.08); }
+        summary { font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; color: var(--text-dark); font-size: 16px; }
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--primary-color); transition: transform 0.3s; }
+        details[open] summary::after { transform: rotate(45deg); }
+        details[open] summary { color: var(--primary-color); margin-bottom: 15px; }
+        .faq-text { color: var(--text-muted); font-size: 14px; line-height: 1.8; }
 
         .local-seo-box { background: linear-gradient(135deg, #fff 0%, #fff8f2 100%); border-radius: 20px; padding: 50px; max-width: 1000px; margin: 50px auto; border: 1px solid #ffe0b2; box-shadow: 0 20px 40px rgba(0,0,0,0.03); text-align: left; position: relative; overflow: hidden; }
         .local-seo-box::after { content: '\f3c5'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; bottom: -20px; right: -20px; font-size: 150px; color: rgba(230, 81, 0, 0.05); }
-        .local-seo-box h2 { color: var(--text-dark); font-size: 28px; margin-bottom: 20px; font-weight: 800; }
-        .local-seo-box p { color: var(--text-muted); font-size: 16px; line-height: 1.8; margin-bottom: 15px; }
+        .local-seo-box h2 { color: var(--text-dark); font-size: 26px; margin-bottom: 20px; font-weight: 800; }
+        .local-seo-box p { color: var(--text-muted); font-size: 15px; line-height: 1.8; margin-bottom: 15px; }
+        
+        /* Map Container */
+        .map-container { border-radius: 15px; overflow: hidden; margin-top: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 2px solid white; }
 
         .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 30px; right: 30px; background-color: #25d366; color: #FFF; border-radius: 50px; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0px 5px 20px rgba(37, 211, 102, 0.4); z-index: 1000; text-decoration: none; transition: transform 0.3s; animation: pulse-wa 2s infinite; }
         @keyframes pulse-wa { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); } 70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
@@ -222,104 +275,67 @@
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; text-align: left; max-width: 1200px; margin: 0 auto 40px; }
         .f-col h3 { color: white; font-size: 18px; margin-bottom: 20px; font-weight: 600; }
         .f-col ul { list-style: none; }
-        .f-col ul li { margin-bottom: 10px; }
+        .f-col ul li { margin-bottom: 10px; font-size: 14px;}
         .f-col ul li a { color: #94a3b8; text-decoration: none; transition: color 0.3s; }
         .f-col ul li a:hover { color: var(--secondary-color); padding-left: 5px; }
         .social-icons { display: flex; gap: 15px; margin-top: 20px; }
         .social-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.05); color: white; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: all 0.3s; }
         .social-icon:hover { background: var(--primary-color); transform: translateY(-3px); }
-        .footer-bottom { padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 14px; display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 0 auto; gap: 10px; }
+        .footer-bottom { padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; display: flex; flex-direction: column; align-items: center; max-width: 1200px; margin: 0 auto; gap: 10px; }
         .seo-tags { font-size: 12px; color: #64748b; margin-bottom: 10px; text-align: center; }
+        .footer-bottom-flex { display: flex; justify-content: space-between; width: 100%; align-items: center; }
 
+        img, iframe, video { max-width: 100%; height: auto; }
+        .hero-image { will-change: transform; }
+
+        /* Responsive Fixes */
         @media (max-width: 992px) { 
             .hero { flex-direction: column; text-align: center; padding-top: 60px; }
+            .hero::before { width: 400px; height: 400px; top: -50px; right: -50px; }
             .hero-content { margin-bottom: 40px; }
             .hero-features { grid-template-columns: 1fr; justify-content: center; width: max-content; margin: 0 auto 30px; text-align: left; }
             .why-us-box { flex-direction: column; text-align: center; }
             .why-us-list li { justify-content: center; }
+            .trust-strip { gap: 20px; flex-direction: column; align-items: center; }
         }
 
+        @media (max-width: 768px) {
+            .hero { padding: 40px 20px; }
+            .hero-content { padding: 25px; backdrop-filter: blur(5px); }
+            .hero-image { animation: float 8s ease-in-out infinite; }
 
+            header { padding: 15px 20px; flex-direction: column; gap: 15px; }
+            .header-right { flex-direction: column; width: 100%; gap: 15px;}
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 15px; }
+            nav ul li a { font-size: 14px; }
+            .nav-cta { width: 100%; text-align: center; }
+            
+            .hero h1 { font-size: 26px; }
+            .section-title { font-size: 24px; }
+            section { padding: 50px 20px; }
 
-        /* Global Safety Fix (इमेजेज को बाहर जाने से रोकने के लिए) */
-img, iframe, video { 
-    max-width: 100%; 
-    height: auto; 
-}
+            .grid-container, .pricing-grid, .gallery-grid, .testimonial-grid { grid-template-columns: 1fr; gap: 20px; }
+            .card, .price-card, .t-card { padding: 30px 20px; }
+            .why-us-box { padding: 30px 20px; margin-bottom: 40px; }
+            .why-us-left, .why-us-right { min-width: 100%; }
+            .price-card.popular { transform: scale(1); border-width: 2px; }
+            .price-card.popular:hover { transform: translateY(-5px); }
+            
+            .cta-section { padding: 40px 20px; margin: 30px 10px; }
+            .cta-section h2 { font-size: 24px; }
 
-/* डेस्कटॉप के लिए GPU Acceleration (Performance Fix) */
-.hero::before {
-    will-change: transform; 
-}
-.hero-image {
-    will-change: transform;
-}
+            .local-seo-box { padding: 30px 20px; margin: 30px 10px; border-radius: 15px; }
 
-/* मोबाइल व्यू - 100% Responsive & Optimized Layout */
-@media (max-width: 768px) {
-    /* Performance Fixes */
-    .hero::before {
-        animation: none; /* भारी बैकग्राउंड एनिमेशन को बंद कर दिया */
-        opacity: 0.5; /* स्टेबल ग्रैडिएंट लुक के लिए */
-    }
-    .hero-image {
-        /* मोबाइल पर CPU बचाने के लिए फ्लोट एनिमेशन थोड़ा धीमा किया */
-        animation: float 8s ease-in-out infinite; 
-    }
+            .footer-grid { gap: 30px; text-align: center; }
+            .footer-grid .f-col ul li { justify-content: center; } 
+            .social-icons { justify-content: center; }
+            .footer-bottom-flex { flex-direction: column; text-align: center; gap: 8px; justify-content: center; }
+        }
 
-    /* Header Fixes */
-    header { padding: 15px 20px; flex-direction: column; gap: 12px; }
-    .site-logo { height: 50px; width: 50px; }
-    nav ul { flex-wrap: wrap; justify-content: center; gap: 12px; }
-    nav ul li a { font-size: 14px; }
-    
-    /* Typography & Global Spacing */
-    .hero { padding: 60px 20px 40px; }
-    .hero h1 { font-size: 28px; }
-    .section-title { font-size: 24px; }
-    section { padding: 50px 20px; } /* फालतू गैप कम किया, !important हटा दिया */
-
-    /* Grid Layouts - Force Single Column on Mobile */
-    .grid-container, 
-    .pricing-grid, 
-    .gallery-grid { 
-        grid-template-columns: 1fr; /* इससे सभी कार्ड्स एक के नीचे एक आएंगे */
-        gap: 20px; 
-    }
-
-    /* Cards & Boxes Padding Fixes */
-    .card, .price-card { padding: 30px 20px; }
-    .why-us-box { padding: 30px 20px; margin-bottom: 40px; }
-    
-    /* Fix Horizontal Scroll Issue */
-    .why-us-left, .why-us-right { min-width: 100%; }
-
-    /* Popular Pricing Card Fix */
-    .price-card.popular { transform: scale(1); border-width: 2px; }
-    .price-card.popular:hover { transform: translateY(-5px); }
-    
-    /* Local SEO Box */
-    .local-seo-box { padding: 30px 20px; margin: 30px 10px; border-radius: 15px; }
-
-    /* Footer Wrap Fix */
-    .footer-grid { gap: 30px; text-align: center; }
-    .footer-grid .f-col ul li { justify-content: center; } /* Icons को सेंटर करने के लिए */
-    .social-icons { justify-content: center; }
-    
-    /* Copyright Text Fix (HTML के Inline CSS को ओवरराइड करने के लिए यहाँ !important जरूरी है) */
-    .footer-bottom > div { 
-        flex-direction: column !important; 
-        text-align: center; 
-        gap: 8px; 
-        justify-content: center !important; 
-    }
-}
-
-/* Very Small Mobile Phones (iPhone SE etc.) */
-@media (max-width: 380px) {
-    .top-offer-bar { font-size: 13px; padding: 10px; }
-    .hero h1 { font-size: 24px; }
-}
+        @media (max-width: 380px) {
+            .top-offer-bar { font-size: 13px; padding: 10px; }
+            .hero h1 { font-size: 22px; }
+        }
     </style>
 </head>
 <body>
@@ -338,7 +354,7 @@ img, iframe, video {
             <img src="/logo.jpg" alt="Shanvi Digital Logo" class="site-logo">
             <h2>शान्वी डिजिटल</h2>
         </div>
-        <div class="header-right" style="display: flex; align-items: center;">
+        <div class="header-right">
            <nav>
             <ul>
                 <li><a href="/">Home</a></li>
@@ -346,18 +362,19 @@ img, iframe, video {
                 <li><a href="/pvc-card-printing-siwan.html">PVC Card</a></li>
                 <li><a href="website-development-siwan.html" class="active">Web Design</a></li>
             </ul>
-        </nav>
+           </nav>
+           <a href="javascript:void(0);" onclick="sendWhatsApp('नमस्ते, मुझे फ्री डेमो देखना है।')" class="nav-cta">Free Demo</a>
         </div>
     </header>
 
     <div class="hero">
         <div class="hero-content">
             <div class="hero-badge">⭐ 15+ Happy Clients in Siwan</div>
-            <h1>Best Website Designer in <span>Siwan, Basantpur Bihar</span></h1>
+            <h1>Best Website Designer in <span>Siwan, Basantpur</span></h1>
             
             <p>
                 क्या आप अपनी दुकान, स्कूल, क्लिनिक या सर्विस को <strong>Google पर दिखाना चाहते हैं?</strong><br>
-                हम Siwan, Basantpur में shops, schools और local businesses के लिए <strong>professional WordPress website development</strong> सर्विस देते हैं। Mobile Responsive और SEO Friendly वेबसाइट के साथ अपने ग्राहकों को आसानी से ऑनलाइन लाएं।
+                हम Siwan, Basantpur में <strong>professional WordPress website development</strong> सर्विस देते हैं। Mobile Responsive और SEO Friendly वेबसाइट के साथ अपने ग्राहकों को आसानी से ऑनलाइन लाएं।
             </p>
 
             <div class="hero-features">
@@ -367,17 +384,27 @@ img, iframe, video {
                 <div><i class="fas fa-check-circle"></i> Lifetime Basic Support</div>
             </div>
 
-            <p style="font-size:14px; color:#ff9800; font-weight:bold; margin-bottom: 12px; letter-spacing: 0.5px;">
+            <p style="font-size:13px; color:#ff9800; font-weight:700; margin-bottom: 12px; letter-spacing: 0.5px;">
                 ⚡ Limited Time Offer – Free Google Business (Map) Setup
             </p>
 
             <a href="javascript:void(0);" onclick="sendWhatsApp('नमस्ते, मुझे अपनी वेबसाइट बनवानी है, कृपया डेमो और प्लान्स भेजें।')" class="hero-btn">
-                <i class="fab fa-whatsapp"></i> अभी फ्री डेमो देखें
+                <i class="fab fa-whatsapp" style="font-size: 20px;"></i> अभी फ्री डेमो देखें
             </a>
+            
+            <p style="font-size:13px; color:#94a3b8; margin-top:15px; font-weight:500;">
+                Trusted by businesses in Siwan • Basantpur • Maharajganj • Darauli
+            </p>
         </div>
         <div class="hero-image">
-            <img src="hero-web-design.png" alt="WordPress Website Design in Siwan" loading="eager" style="width: 100%; max-width: 550px; z-index: 2; position: relative; animation: float 6s ease-in-out infinite;">
+            <img src="hero-web-design.webp" alt="WordPress Website Design in Siwan" loading="eager" fetchpriority="high" style="width: 100%; max-width: 550px; z-index: 2; position: relative;">
         </div>
+    </div>
+
+    <div class="trust-strip">
+        <div><i class="fas fa-star"></i> 5 Star Google Rated Service</div>
+        <div><i class="fas fa-smile"></i> 15+ Happy Local Clients</div>
+        <div><i class="fas fa-laptop-code"></i> 20+ Websites Delivered</div>
     </div>
 
     <div class="tech-stack">
@@ -426,7 +453,7 @@ img, iframe, video {
             <div class="why-us-left">
                 <span class="section-subtitle">Why Choose Shanvi Digital</span>
                 <h2 class="section-title" style="margin-bottom: 20px; font-size: 32px;">Siwan's Most Trusted Web Agency</h2>
-                <p style="color: var(--text-muted); font-size: 16px; line-height: 1.8;">
+                <p style="color: var(--text-muted); font-size: 15px; line-height: 1.8;">
                     हम सिर्फ वेबसाइट नहीं बनाते, बल्कि आपके लोकल बिज़नेस को ग्रो करने में मदद करते हैं। 
                     हमारा उद्देश्य आपको एक ऐसा डिजिटल प्लेटफार्म देना है जो आपके लिए नए ग्राहक लाए।
                 </p>
@@ -464,7 +491,7 @@ img, iframe, video {
             </div>
 
             <div class="price-card popular">
-                <div class="popular-badge">MOST POPULAR</div>
+                <div class="save-badge">BEST VALUE</div>
                 <h3>Professional Website</h3>
                 <div class="price-amount"><span>₹</span>8,999</div>
                 <ul class="price-features">
@@ -540,6 +567,70 @@ img, iframe, video {
         </div>
     </section>
 
+    <section style="background: #fff8f2; padding: 80px 5%;">
+        <div class="section-header">
+            <span class="section-subtitle">Happy Clients</span>
+            <h2 class="section-title">What Local Businesses Say</h2>
+        </div>
+        <div class="testimonial-grid">
+            <div class="t-card">
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <span>5.0 Google Rating</span>
+                </div>
+                <p class="t-text">"Shanvi Digital created an amazing website for my shop. Their service is incredibly fast and the support they provide locally in Basantpur is unmatched. Highly recommended!"</p>
+                <div class="t-client">
+                    <div class="t-avatar">R</div>
+                    <div>
+                        <div class="t-name">Rahul Kumar</div>
+                        <div class="t-biz">Local Shop Owner, Siwan</div>
+                    </div>
+                </div>
+            </div>
+            <div class="t-card">
+                <div class="stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <span>5.0 Google Rating</span>
+                </div>
+                <p class="t-text">"हमारा स्कूल अब गूगल पर आसानी से मिल जाता है। ₹8,999 वाला प्लान लिया था, वेबसाइट की स्पीड बहुत अच्छी है और WhatsApp बटन से सीधे एडमिशन एन्क्वायरी आ रही है।"</p>
+                <div class="t-client">
+                    <div class="t-avatar">S</div>
+                    <div>
+                        <div class="t-name">Sanjay Singh</div>
+                        <div class="t-biz">School Director, Basantpur</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready to Grow Your Business Online?</h2>
+        <p>Join 15+ happy clients in Siwan and take your business to the next level.</p>
+        <a href="javascript:void(0);" onclick="sendWhatsApp('नमस्ते शान्वी डिजिटल, मुझे अपनी वेबसाइट बनवानी है।')" class="cta-btn">Get Your Website Now</a>
+    </section>
+
+    <section id="faq">
+        <div class="section-header">
+            <span class="section-subtitle">Got Questions?</span>
+            <h2 class="section-title">Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-container">
+            <details>
+                <summary>वेबसाइट बनने में कितना समय लगता है?</summary>
+                <p class="faq-text">साधारण बिज़नेस वेबसाइट या लैंडिंग पेज 3 से 5 दिनों के अंदर तैयार करके लाइव कर दिया जाता है। ई-कॉमर्स वेबसाइट में 7-10 दिन लग सकते हैं।</p>
+            </details>
+            <details>
+                <summary>क्या वेबसाइट के साथ डोमेन और होस्टिंग फ्री मिलेगी?</summary>
+                <p class="faq-text">हाँ, हमारे Starter और Professional पैकेज में 1 साल के लिए डोमेन (.in या .com) और फ़ास्ट होस्टिंग बिलकुल फ्री दी जाती है।</p>
+            </details>
+            <details>
+                <summary>वेबसाइट बनने के बाद अगर कोई बदलाव करना हो तो?</summary>
+                <p class="faq-text">हम आपको WordPress का एडमिन पैनल देते हैं जिससे आप खुद छोटे बदलाव कर सकते हैं। इसके अलावा हम Lifetime Basic Support भी देते हैं।</p>
+            </details>
+        </div>
+    </section>
+
     <div class="local-seo-box">
         <h2>Website Designer in Siwan, Basantpur & Nearby Areas</h2>
         <p>
@@ -552,6 +643,10 @@ img, iframe, video {
             ताकि आपका बिज़नेस Google पर आसानी से रैंक कर सके। हमारा ऑफिस Shaharkola Bazar, Basantpur में स्थित है। 
             आज ही हमसे संपर्क करें और अपने बिज़नेस को डिजिटल बनाएं।
         </p>
+        
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3580.4223615634783!2d84.61552979999999!3d26.182935500000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3992dd004fe5f4bb%3A0x87598cfca8a675d8!2sShanvi%20Digital%20Seva%20Kendra!5e0!3m2!1sen!2sin!4v1772678709697!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
     </div>
 
     <footer>
@@ -592,7 +687,7 @@ img, iframe, video {
             <div class="seo-tags">
                 Popular Searches: Website designer in Siwan | Web designer Basantpur | WordPress developer Siwan | Website development Siwan Bihar
             </div>
-            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+            <div class="footer-bottom-flex">
                 <div>© 2026 Shanvi Digital Seva Kendra. All Rights Reserved.</div>
                 <div>Web Design in Siwan, Bihar</div>
             </div>
