@@ -1,115 +1,652 @@
-Perfect 👍 ab clear ho gaya — **tum GitHub Pages use kar rahe ho**.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shanvi Digital - Master Biodata Maker V8</title>
+    
+    <style>
+        /* --- Font Faces --- */
+        @font-face { font-family: 'Hind'; font-style: normal; font-weight: 300; font-display: swap; src: url(https://fonts.gstatic.com/s/hind/v18/5aU19_a8oxmIfMJaER2SjQpf.woff2) format('woff2'); }
+        @font-face { font-family: 'Hind'; font-style: normal; font-weight: 400; font-display: swap; src: url(https://fonts.gstatic.com/s/hind/v18/5aU69_a8oxmIdGh4BCOz.woff2) format('woff2'); }
+        @font-face { font-family: 'Hind'; font-style: normal; font-weight: 500; font-display: swap; src: url(https://fonts.gstatic.com/s/hind/v18/5aU19_a8oxmIfJpbER2SjQpf.woff2) format('woff2'); }
+        @font-face { font-family: 'Hind'; font-style: normal; font-weight: 600; font-display: swap; src: url(https://fonts.gstatic.com/s/hind/v18/5aU19_a8oxmIfLZcER2SjQpf.woff2) format('woff2'); }
+        @font-face { font-family: 'Hind'; font-style: normal; font-weight: 700; font-display: swap; src: url(https://fonts.gstatic.com/s/hind/v18/5aU19_a8oxmIfNJdER2SjQpf.woff2) format('woff2'); }
 
-Ab seedhi baat:
+        /* --- A4 Page & Layout Setup --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        @page { size: A4; margin: 0; }
+        body { 
+            background-color: #e5e7eb; 
+            font-family: 'Hind', sans-serif; 
+            display: flex; 
+            flex-direction: row; 
+            height: 100vh;
+            overflow: hidden;
+            max-width: 100vw; 
+            -webkit-print-color-adjust: exact !important; 
+            print-color-adjust: exact !important; 
+        }
 
-## 🔎 GitHub Pages me kya hota hai?
+        /* --- Sidebar / Form Panel --- */
+        .sidebar {
+            width: 500px; 
+            max-width: 100vw; 
+            background: #fff;
+            padding: 20px;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar h1 { font-size: 20px; color: #1e3a8a; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px;}
+        
+        /* Master Controls Area */
+        .master-controls { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #cbd5e1; }
+        .ctrl-group { margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px;}
+        .ctrl-group label { font-weight: 600; font-size: 13px; color: #334155; }
+        .ctrl-group select { padding: 6px; border-radius: 4px; border: 1px solid #ccc; font-family: inherit; font-size: 13px;}
+        
+        /* Fixed Upload UI Using CSS Grid */
+        .upload-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;}
+        .upload-box { background: #fff; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; flex-direction: column; justify-content: space-between;}
+        .upload-box label { font-size: 12px; font-weight: bold; color: #1e293b; margin-bottom: 5px; display: block;}
+        .upload-box input[type="file"] { font-size: 11px; width: 100%; cursor: pointer;}
+        
+        .align-box { background: #fee2e2; padding: 10px; border-radius: 5px; border: 1px dashed #ef4444; margin-top: 15px;}
+        .align-box label { display: flex; justify-content: space-between; font-size: 12px; color: #991b1b; margin-bottom: 5px;}
+        .align-box input[type="range"] { width: 100%; }
 
-GitHub Pages automatically:
+        .print-btn { 
+            width: 100%; padding: 12px; font-size: 16px; background: #8b5cf6; color: #fff; border: none; border-radius: 5px; 
+            cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .print-btn:hover { background: #7c3aed; }
+        .hint-text { font-size: 12px; color: #059669; font-weight: 600; background: #d1fae5; padding: 8px; border-radius: 4px; text-align: center; margin-bottom: 15px;}
 
-```
-pvc-card-printing-siwan.html
-```
+        /* Editable Form Rows */
+        .form-content-area { flex: 1; }
+        .section-box { border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; margin-bottom: 15px; background: #fafafa;}
+        .sec-title-input { width: 100%; font-size: 16px; font-weight: bold; color: #4338ca; border: none; border-bottom: 2px solid #c7d2fe; background: transparent; padding-bottom: 5px; margin-bottom: 12px; outline: none;}
+        
+        .field-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: center;}
+        .field-row input { padding: 8px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px; font-family: inherit; outline: none; transition: 0.2s;}
+        .field-row input:focus { border-color: #3b82f6; background: #eff6ff; box-shadow: 0 0 0 2px rgba(59,130,246,0.2);}
+        .field-row input::placeholder { color: #94a3b8; font-style: italic; }
+        
+        .inp-label { width: 35%; font-weight: 600; color: #475569; background: #f8fafc;}
+        .inp-value { flex: 1; min-width: 0; }
+        .del-btn { background: #fee2e2; color: #dc2626; border: none; border-radius: 4px; width: 32px; height: 32px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 14px; flex-shrink: 0; transition: 0.2s;}
+        .del-btn:hover { background: #fecaca; }
+        
+        .add-field-btn { background: #e0f2fe; color: #0284c7; border: 1px dashed #38bdf8; padding: 8px 10px; font-size: 13px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 5px; transition: 0.2s;}
+        .add-field-btn:hover { background: #bae6fd; }
 
-ko serve karta hai as:
+        /* Footer Links */
+        .sidebar-footer { text-align: center; font-size: 12px; padding-top: 15px; border-top: 1px solid #e2e8f0; color: #64748b; margin-top: 20px;}
+        .sidebar-footer a { color: #2563eb; text-decoration: none; font-weight: 600; cursor: pointer;}
+        .sidebar-footer a:hover { text-decoration: underline; }
 
-```
-/pvc-card-printing-siwan
-```
+        /* --- Preview Area --- */
+        .preview-area {
+            flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 20px; overflow-y: auto; background: #cbd5e1;
+        }
 
-Lekin internally file `.html` hi hoti hai.
+        /* --- MOBILE COMPATIBILITY FIXES --- */
+        @media (max-width: 850px) {
+            body { flex-direction: column; overflow-y: auto; height: auto; overflow-x: hidden; }
+            .sidebar { width: 100%; height: auto; overflow: visible; border-bottom: 3px solid #94a3b8; padding: 15px; }
+            .upload-row { grid-template-columns: 1fr; } 
+            .preview-area { width: 100%; overflow-x: auto; padding: 15px 10px; justify-content: flex-start; }
+            .pdf-wrap { min-width: 210mm; } 
+        }
 
----
+        /* --- MODAL (POPUP) CSS --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; }
+        .modal-content { background: #fff; width: 90%; max-width: 600px; max-height: 85vh; border-radius: 8px; padding: 25px; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); font-family: 'Hind', sans-serif; position: relative; }
+        .modal-content h2 { color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px;}
+        .modal-content h4 { color: #334155; margin-top: 15px; margin-bottom: 5px;}
+        .modal-content p { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 10px;}
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #ef4444; border: none; background: transparent; font-weight: bold; }
 
-# ✅ Ab Tumhara Sitemap Check
+        @media print { 
+            .sidebar, .modal-overlay { display: none !important; } 
+            .preview-area { padding: 0; background: transparent; overflow: visible; display: block;} 
+            body { height: auto; overflow: visible; display: block; }
+            .pdf-wrap { box-shadow: none !important; transform: none !important; min-width: auto; } 
+        }
 
-Tumne sitemap me dala hai:
+        /* --- Dynamic CSS Variables --- */
+        :root {
+            --base-bg-color: #ffffff;
+            --text-color: #000000;
+            --heading-color: #a3060a;
+            --padding-top: 150px;
+            --padding-sides: 60px;
+        }
 
-```
-https://shanvidigital.in/pvc-card-printing-siwan
-```
+        /* --- Biodata Content Styles --- */
+        .pdf-wrap { 
+            width: 210mm; height: 297mm; position: relative; background-color: var(--base-bg-color); 
+            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); flex-shrink: 0;
+        }
+        .frame-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+        
+        .pdf-body { 
+            position: relative; z-index: 2; width: 100%; height: 100%;
+            padding: var(--padding-top) var(--padding-sides);
+            display: flex; flex-direction: column;
+        }
+        
+        .godImageContainer { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .godImageContainer .heading.name { font-size: 26px; font-weight: 700; color: var(--heading-color); flex: 1; margin: 0; border: none;}
+        .godImageContainer .god-name { text-align: right; margin: 0; border: none; font-size: 22px;}
+        .god-image { height: 75px; object-fit: contain; } 
 
-👉 Agar ye URL open ho raha hai
-👉 Aur `.html` bhi open ho raha hai
+        .header-content { display: flex; justify-content: space-between; align-items: flex-start; }
+        .details-column { flex: 1; }
+        
+        .photo-column { 
+            width: 110px; height: 130px; border: 3px solid var(--heading-color); border-radius: 8px; 
+            overflow: hidden; margin-left: 15px; display: flex; justify-content: center; align-items: center;
+            background: rgba(255,255,255,0.8);
+        }
+        .photo-column img { width: 100%; height: 100%; object-fit: cover; }
+        .hide-element { display: none !important; }
+        
+        .heading { color: var(--heading-color); font-size: 20px; font-weight: 700; margin-top: 10px; margin-bottom: 8px; border-bottom: 1px dashed var(--heading-color); display: inline-block; padding-bottom: 2px;}
+        
+        .item { display: flex; margin-bottom: 4px; line-height: 1.3; align-items: flex-start; }
+        .property, .value, .dots { font-size: 15px; font-weight: 600; color: var(--text-color); }
+        .property { width: 160px; flex-shrink: 0; }
+        .dots { width: 15px; text-align: center; margin-right: 5px; flex-shrink: 0; }
+        .value { flex: 1; word-wrap: break-word; overflow-wrap: break-word; font-weight: 500;}
 
-To ye **duplicate URL issue** ho sakta hai.
+    </style>
+</head>
+<body>
 
----
+    <div class="sidebar" id="appSidebar">
+        <h1>Shanvi Digital - Master Maker</h1>
+        
+        <div class="master-controls">
+            <div class="ctrl-group">
+                <label>🌐 Language (भाषा)</label>
+                <select id="langSelect" onchange="changeLanguage()">
+                    <option value="en" selected>English Typing</option>
+                    <option value="hi">Auto Hindi (Type in English & press Space)</option>
+                </select>
+            </div>
 
-# 🎯 Important Test (Abhi karo)
+            <div class="ctrl-group">
+                <label>🎨 Select Frame Design</label>
+                <select id="themeSelect" onchange="applyTheme()">
+                    <optgroup label="Premium / Modern">
+                        <option value="marriage_biodata" selected>Marriage Biodata (Red Elephant)</option>
+                        <option value="bright_royal_blue">Bright Royal Blue</option>
+                        <option value="simple_orange">Simple Orange</option>
+                        <option value="simple_purple">Simple Purple</option>
+                    </optgroup>
+                    <optgroup label="Abstract & New Gen">
+                        <option value="abstract_01">Abstract 01</option>
+                        <option value="abstract_02">Abstract 02</option>
+                        <option value="new_gen_01">New Generation 01</option>
+                        <option value="new_gen_02">New Generation 02</option>
+                        <option value="new_gen_03">New Generation 03</option>
+                    </optgroup>
+                    <optgroup label="Classic / Traditional">
+                        <option value="traditional_00">Traditional 00</option>
+                        <option value="traditional_01">Traditional 01</option>
+                        <option value="traditional_02">Traditional 02</option>
+                        <option value="traditional_03">Traditional 03</option>
+                        <option value="traditional_04">Traditional 04</option>
+                        <option value="traditional_05">Traditional 05</option>
+                        <option value="traditional_06">Traditional 06</option>
+                        <option value="traditional_07">Traditional 07</option>
+                        <option value="traditional_09">Traditional 09</option>
+                        <option value="traditional_10">Traditional 10</option>
+                        <option value="traditional_11">Traditional 11</option>
+                        <option value="traditional_12">Traditional 12</option>
+                        <option value="traditional_13">Traditional 13</option>
+                        <option value="traditional_14">Traditional 14</option>
+                    </optgroup>
+                </select>
+            </div>
 
-Browser me manually check karo:
+            <div class="upload-row">
+                <div class="upload-box">
+                    <label>📸 Profile Photo</label>
+                    <input type="file" id="photoUpload" accept="image/*" onchange="loadPhoto(event)">
+                    <label style="font-weight: normal; margin-top: 8px; font-size: 11px; cursor: pointer; display: flex; gap: 5px; align-items: center; color: #475569;">
+                        <input type="checkbox" id="togglePhoto" onchange="togglePhotoVisibility()"> Show on Biodata
+                    </label>
+                </div>
+                <div class="upload-box">
+                    <label>🕉️ God Icon</label>
+                    <input type="file" id="godIconUpload" accept="image/*" onchange="loadGodIcon(event)">
+                    <span style="font-size: 10px; color: #64748b; margin-top: 8px;">(Optional, default is Ganesh Ji)</span>
+                </div>
+            </div>
+            
+            <div class="align-box">
+                <div style="font-weight: bold; text-align: center; margin-bottom: 8px;">🛠️ Alignment & Padding Fixer</div>
+                <label>Top Space <input type="range" id="padTop" min="20" max="200" value="150" oninput="updatePadding()"></label>
+                <label>Side Space <input type="range" id="padSides" min="20" max="150" value="60" oninput="updatePadding()"></label>
+            </div>
 
-### 1️⃣ Open:
+            <button class="print-btn" onclick="window.print()">🖨️ Print Biodata</button>
+        </div>
 
-```
-https://shanvidigital.in/pvc-card-printing-siwan
-```
+        <div class="form-content-area">
+            <div id="hindiHint" class="hint-text" style="display:none;">💡 Hindi Mode ON: Type in English & press Space.</div>
 
-### 2️⃣ Fir open:
+            <div class="section-box">
+                <input type="text" class="sec-title-input hi-enable" id="inp_mainTitle" value="Marriage Biodata" oninput="updateText('prev_mainTitle', this.value)">
+                <input type="text" class="sec-title-input hi-enable" id="inp_godName" value="॥ श्री गणेशाय नमः ॥" style="font-size: 14px; text-align: center; border:none;" oninput="updateText('prev_godName', this.value)">
+            </div>
 
-```
-https://shanvidigital.in/pvc-card-printing-siwan.html
-```
+            <div class="section-box" id="form_sec_1">
+                <input type="text" class="sec-title-input hi-enable" id="inp_h_sec1" value="Personal Details" oninput="updateSectionHead('sec1', this.value)">
+                <div id="container_sec1"></div>
+                <button class="add-field-btn" onclick="addNewField('sec1')">+ Add New Field</button>
+            </div>
 
-### Observe karo:
+            <div class="section-box" id="form_sec_2">
+                <input type="text" class="sec-title-input hi-enable" id="inp_h_sec2" value="Family Details" oninput="updateSectionHead('sec2', this.value)">
+                <div id="container_sec2"></div>
+                <button class="add-field-btn" onclick="addNewField('sec2')">+ Add New Field</button>
+            </div>
 
-* Kya dono same content dikha rahe?
-* Kya address bar me redirect ho raha hai?
-* Ya dono alag-alag open ho rahe?
+            <div class="section-box" id="form_sec_3">
+                <input type="text" class="sec-title-input hi-enable" id="inp_h_sec3" value="Contact Details" oninput="updateSectionHead('sec3', this.value)">
+                <div id="container_sec3"></div>
+                <button class="add-field-btn" onclick="addNewField('sec3')">+ Add New Field</button>
+            </div>
+        </div>
 
----
+        <div class="sidebar-footer">
+            <a onclick="openDisclaimer()">Legal Disclaimer & Terms</a> | Shanvi Digital © 2026
+        </div>
+        <br><br>
+    </div>
 
-# 🔥 GitHub Pages Reality
+    <div class="preview-area">
+        <div class="pdf-wrap" id="biodataPage">
+            <img src="marriage-biodata_frame.png" id="frameImg" class="frame-bg" alt="frame border">
+            
+            <div class="pdf-body">
+                <div class="godImageContainer">
+                    <div class="heading name" id="prev_mainTitle">Marriage Biodata</div>
+                    <img src="r20.png" alt="Shree Ganesh" class="god-image" id="biodataGodIcon">
+                    <div class="heading name god-name" id="prev_godName">॥ श्री गणेशाय नमः ॥</div>
+                </div>
 
-Default GitHub Pages:
+                <div class="header-content">
+                    <div class="details-column">
+                        <div class="section" id="prev_sec_1">
+                            <h2 class="heading" id="prev_h_sec1">Personal Details</h2>
+                            <div id="prev_container_sec1"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="photo-column hide-element" id="profilePhotoContainer">
+                        <img id="biodataPhoto" src="https://via.placeholder.com/120x140?text=Photo" alt="Profile Photo">
+                    </div>
+                </div>
 
-❌ Automatically 301 redirect nahi karta `.html` se clean URL par
-Iska matlab dono URL open ho sakte hain.
+                <div class="sections">
+                    <div class="section" id="prev_sec_2">
+                        <h2 class="heading" id="prev_h_sec2">Family Details</h2>
+                        <div id="prev_container_sec2"></div>
+                    </div>
 
-Aur ye SEO ke liye achha nahi.
+                    <div class="section" id="prev_sec_3">
+                        <h2 class="heading" id="prev_h_sec3">Contact Details</h2>
+                        <div id="prev_container_sec3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
----
+    <div class="modal-overlay" id="disclaimerModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeDisclaimer()">&times;</button>
+            <h2>Legal Disclaimer & Terms of Use</h2>
+            <p><em>Last Updated: March 2026</em></p>
+            
+            <h4>General Information</h4>
+            <p>The content and tools provided on Shanvi Digital (shanvidigital.in) are strictly for general informational and personal formatting purposes only. While we strive to offer the best service, we make no absolute guarantees regarding the accuracy, reliability, or completeness of the biodata generated through this tool.</p>
+            
+            <h4>Limitation of Liability</h4>
+            <p>Shanvi Digital shall not be held responsible or liable for any direct, indirect, incidental, or consequential loss or damage arising from the use of our biodata maker. You use this website entirely at your own discretion and risk.</p>
+            
+            <h4>No Professional Matrimonial Advice</h4>
+            <p>This tool is designed solely to help you format a matrimonial profile visually. It does not constitute professional matchmaking, relationship, or matrimonial advice. We strongly encourage users to verify details and consult appropriate experts before making any major life decisions based on the generated profiles.</p>
+            
+            <h4>Third-Party Links</h4>
+            <p>Our platform may occasionally feature links to external sites. We do not endorse, monitor, or take responsibility for the content, privacy policies, or practices of any third-party websites.</p>
+            
+            <h4>User Experiences & Independent Views</h4>
+            <p>Any opinions, views, or details expressed by users within their generated biodata are strictly their own and do not represent the official stance or policies of Shanvi Digital. User testimonials reflect individual experiences, and results or experiences may vary.</p>
+            
+            <h4>Fair Usage</h4>
+            <p>Shanvi Digital may utilize certain graphics (such as borders, frames, and icons) strictly for decorative formatting purposes under the principles of "fair use." If you hold the copyright to any material and wish for it to be removed, please reach out to us directly.</p>
 
-# 🟢 Tumhare Case Me Best Safe Option
+            <br>
+            <p><strong>Contact Us:</strong> If you have any questions or concerns regarding this disclaimer, please email us at: <a href="mailto:info@shanvidigital.in" style="color: #2563eb; text-decoration: underline;">info@shanvidigital.in</a></p>
+        </div>
+    </div>
 
-👉 Sitemap me `.html` version use karo.
+    <script>
+        let fieldCounter = 0;
+        
+        // --- MULTI-LANGUAGE DICTIONARY ---
+        const langDict = {
+            "mainTitle": { en: "Marriage Biodata", hi: "विवाह बायोडाटा" },
+            "godName": { en: "॥ श्री गणेशाय नमः ॥", hi: "॥ श्री गणेशाय नमः ॥" },
+            "h_sec1": { en: "Personal Details", hi: "व्यक्तिगत विवरण" },
+            "h_sec2": { en: "Family Details", hi: "पारिवारिक विवरण" },
+            "h_sec3": { en: "Contact Details", hi: "संपर्क विवरण" },
+            "f1": { en: "Full Name", hi: "पूरा नाम" },
+            "f2": { en: "Rashi Name", hi: "राशि का नाम" },
+            "f3": { en: "Date of Birth", hi: "जन्म तिथि" },
+            "f4": { en: "Height", hi: "ऊंचाई" },
+            "f5": { en: "Place of Birth", hi: "जन्म स्थान" },
+            "f6": { en: "Religious", hi: "धर्म" },
+            "f7": { en: "Caste", hi: "जाति" },
+            "f8": { en: "Gotra", hi: "गोत्र" },
+            "f9": { en: "Complexion", hi: "रंग" },
+            "f10": { en: "Matriculation", hi: "दसवीं" },
+            "f11": { en: "Intermediate", hi: "बारहवीं" },
+            "f12": { en: "Diploma", hi: "डिप्लोमा" },
+            "f13": { en: "Graduation", hi: "स्नातक" },
+            "f14": { en: "Professional", hi: "पेशेवर योग्यता" },
+            "f15": { en: "Job/Occupation", hi: "नौकरी / पेशा" },
+            "f16": { en: "Grand Father", hi: "दादा जी" },
+            "f17": { en: "Grand Mother", hi: "दादी जी" },
+            "f18": { en: "Father Name", hi: "पिता का नाम" },
+            "f19": { en: "Father Occupation", hi: "पिता का व्यवसाय" },
+            "f20": { en: "Mother Name", hi: "माता का नाम" },
+            "f21": { en: "Mother Occupation", hi: "माता का व्यवसाय" },
+            "f22": { en: "Sisters", hi: "बहनें" },
+            "f23": { en: "Brothers", hi: "भाई" },
+            "f24": { en: "Mobile Number", hi: "मोबाइल नंबर" },
+            "f25": { en: "Address", hi: "पता" }
+        };
 
-Matlab change karo:
+        // --- COMPLETELY SAFE 100% DUMMY PLACEHOLDERS ---
+        const initialData = {
+            "sec1": [
+                { id: "f1", lbl: "Full Name", val: "", placeholder: "e.g., Priya Sharma" },
+                { id: "f2", lbl: "Rashi Name", val: "", placeholder: "e.g., Kanya / None" },
+                { id: "f3", lbl: "Date of Birth", val: "", placeholder: "e.g., 15/08/1998 10:30 AM" },
+                { id: "f4", lbl: "Height", val: "", placeholder: "e.g., 5' 4\"" },
+                { id: "f5", lbl: "Place of Birth", val: "", placeholder: "e.g., New Delhi" },
+                { id: "f6", lbl: "Religious", val: "Hindu", placeholder: "Select Religion", options: ["Hindu", "Muslim", "Sikh", "Christian", "Jain", "Buddhist"] },
+                { id: "f7", lbl: "Caste", val: "Brahmin", placeholder: "e.g., Brahmin, Rajput" },
+                { id: "f8", lbl: "Gotra", val: "", placeholder: "e.g., Bharadwaj, Kashyap" },
+                { id: "f9", lbl: "Complexion", val: "Fair", placeholder: "Select Complexion", options: ["Fair", "Wheatish", "Dark"] },
+                { id: "f10", lbl: "Matriculation", val: "", placeholder: "e.g., CBSE Board (95%)" },
+                { id: "f11", lbl: "Intermediate", val: "", placeholder: "e.g., CBSE Board (92%)" },
+                { id: "f12", lbl: "Diploma", val: "", placeholder: "e.g., ITI / Polytechnic" }, 
+                { id: "f13", lbl: "Graduation", val: "", placeholder: "e.g., B.Tech / B.A / B.Com" },
+                { id: "f14", lbl: "Professional", val: "", placeholder: "e.g., Full Stack Web Developer" },
+                { id: "f15", lbl: "Job/Occupation", val: "", placeholder: "e.g., Software Engineer at MNC" }
+            ],
+            "sec2": [
+                { id: "f16", lbl: "Grand Father", val: "", placeholder: "e.g., Late Shri Ramakant Sharma" },
+                { id: "f17", lbl: "Grand Mother", val: "", placeholder: "e.g., Smt. Geeta Sharma" },
+                { id: "f18", lbl: "Father Name", val: "", placeholder: "e.g., Mr. Rajeev Sharma" },
+                { id: "f19", lbl: "Father Occupation", val: "", placeholder: "e.g., Govt. Teacher / Businessman" },
+                { id: "f20", lbl: "Mother Name", val: "", placeholder: "e.g., Mrs. Sunita Sharma" },
+                { id: "f21", lbl: "Mother Occupation", val: "", placeholder: "e.g., Housewife" },
+                { id: "f22", lbl: "Sisters", val: "", placeholder: "e.g., 1 Elder (Married)" },
+                { id: "f23", lbl: "Brothers", val: "", placeholder: "e.g., 1 Younger (Studying)" }
+            ],
+            "sec3": [
+                { id: "f24", lbl: "Mobile Number", val: "", placeholder: "e.g., +91 9876543210" },
+                { id: "f25", lbl: "Address", val: "", placeholder: "e.g., Flat 101, Galaxy Apartments, New Delhi" }
+            ]
+        };
 
-```xml
-<loc>https://shanvidigital.in/pvc-card-printing-siwan.html</loc>
-```
+        function initApp() {
+            fieldCounter = 40; 
+            for(let section in initialData) {
+                initialData[section].forEach(item => {
+                    createRowDOM(section, item.id, item.lbl, item.val, item.placeholder, item.options);
+                });
+            }
+            applyTheme();
+        }
 
-Ye safest hai GitHub Pages ke liye.
+        // --- CORE LOGIC: Create Row (With Datalist Support) ---
+        function createRowDOM(sectionId, id, lblTxt, valTxt, placeholderText = "Leave blank to hide", optionsArray = null) {
+            const formContainer = document.getElementById(`container_${sectionId}`);
+            
+            // Build Datalist if options exist
+            let dataListHtml = '';
+            let listAttr = '';
+            if (optionsArray && optionsArray.length > 0) {
+                listAttr = `list="list_${id}"`;
+                dataListHtml = `<datalist id="list_${id}">`;
+                optionsArray.forEach(opt => {
+                    dataListHtml += `<option value="${opt}">`;
+                });
+                dataListHtml += `</datalist>`;
+            }
 
----
+            const rowHtml = `
+                <div class="field-row" id="form_row_${id}">
+                    <input type="text" id="inp_lbl_${id}" class="inp-label hi-enable" value="${lblTxt}" oninput="updateItemLbl('${id}', this.value)">
+                    <input type="text" class="inp-value hi-enable" ${listAttr} value='${valTxt}' placeholder="${placeholderText}" oninput="updateItemVal('${id}', this.value)">
+                    ${dataListHtml}
+                    <button class="del-btn" onclick="removeRow('${id}')" title="Delete Row">🗑</button>
+                </div>
+            `;
+            formContainer.insertAdjacentHTML('beforeend', rowHtml);
 
-# ⭐ Final Recommendation (Professional)
+            // Preview logic: hide if empty initially
+            const prevContainer = document.getElementById(`prev_container_${sectionId}`);
+            const displayStyle = valTxt.trim() === '' ? 'display: none;' : '';
+            const prevHtml = `
+                <p class="item" id="prev_row_${id}" style="${displayStyle}">
+                    <span class="property" id="prev_lbl_${id}">${lblTxt}</span>
+                    <span class="dots">:</span>
+                    <span class="value" id="prev_val_${id}">${valTxt}</span>
+                </p>
+            `;
+            prevContainer.insertAdjacentHTML('beforeend', prevHtml);
+        }
 
-Agar tum:
+        function addNewField(sectionId) {
+            fieldCounter++;
+            const newId = 'custom_' + fieldCounter;
+            createRowDOM(sectionId, newId, "New Detail", "", "Enter detail here");
+        }
 
-* GitHub hi use karoge
-* Server side redirect nahi laga sakte
+        function removeRow(id) {
+            document.getElementById(`form_row_${id}`).remove();
+            document.getElementById(`prev_row_${id}`).remove();
+        }
 
-👉 To sab URLs sitemap me `.html` ke sath rakho.
+        function updateItemLbl(id, newText) {
+            document.getElementById(`prev_lbl_${id}`).innerText = newText;
+        }
 
-Example:
+        function updateItemVal(id, newText) {
+            document.getElementById(`prev_val_${id}`).innerText = newText;
+            const rowItem = document.getElementById(`prev_row_${id}`);
+            if (newText.trim() === '') {
+                rowItem.style.display = 'none';
+            } else {
+                rowItem.style.display = 'flex';
+            }
+        }
 
-```xml
-https://shanvidigital.in/
-https://shanvidigital.in/pvc-card-printing-siwan.html
-https://shanvidigital.in/scanner.html
-https://shanvidigital.in/website-development-siwan.html
-https://shanvidigital.in/marriage-biodata.html
-```
+        function updateSectionHead(secId, newText) {
+            const head = document.getElementById(`prev_h_${secId}`);
+            head.innerText = newText;
+            head.style.display = newText.trim() === '' ? 'none' : 'inline-block';
+        }
 
----
+        function updateText(id, newText) {
+            document.getElementById(id).innerText = newText;
+        }
 
-# 🚀 Short Answer:
+        // --- LANGUAGE SWITCH LOGIC ---
+        function changeLanguage() {
+            const lang = document.getElementById('langSelect').value;
+            document.getElementById('hindiHint').style.display = lang === 'hi' ? 'block' : 'none';
 
-❌ Abhi wala sitemap 100% safe nahi hai
-✅ `.html` version use karna better hai GitHub Pages me
+            const updatePairs = (inputId, prevId, newText) => {
+                const inp = document.getElementById(inputId);
+                const prev = document.getElementById(prevId);
+                if(inp && prev) {
+                    inp.value = newText;
+                    prev.innerText = newText;
+                }
+            };
 
----
+            updatePairs('inp_mainTitle', 'prev_mainTitle', langDict['mainTitle'][lang]);
+            updatePairs('inp_godName', 'prev_godName', langDict['godName'][lang]);
+            updatePairs('inp_h_sec1', 'prev_h_sec1', langDict['h_sec1'][lang]);
+            updatePairs('inp_h_sec2', 'prev_h_sec2', langDict['h_sec2'][lang]);
+            updatePairs('inp_h_sec3', 'prev_h_sec3', langDict['h_sec3'][lang]);
 
-Agar chaho to main tumhara final SEO-safe sitemap bana du properly structured.
+            for (let key in langDict) {
+                if(key.startsWith('f')) {
+                    updatePairs('inp_lbl_' + key, 'prev_lbl_' + key, langDict[key][lang]);
+                }
+            }
+        }
+
+        // --- ALL 24 THEMES CONFIG ---
+        const themesConfig = {
+            "marriage_biodata": { frame: "marriage-biodata_frame.png", bg: "#ffffff", text: "#000000", heading: "#a3060a", pt: 150, ps: 60 },
+            "bright_royal_blue": { frame: "bright_royal_blue_frame.jpg", bg: "#03234c", text: "#d9d95e", heading: "#FFEB3B", pt: 60, ps: 45 },
+            "simple_orange": { frame: "simple_orange_frame.jpg", bg: "#ffffff", text: "#994b03", heading: "#994b03", pt: 40, ps: 30 },
+            "simple_purple": { frame: "simple_purple_frame.png", bg: "#ffffff", text: "#660025", heading: "#660025", pt: 30, ps: 45 },
+            "abstract_01": { frame: "abstract_01_frame.jpg", bg: "#ffffff", text: "#795548", heading: "#795548", pt: 70, ps: 80 },
+            "abstract_02": { frame: "abstract_02_frame.jpg", bg: "#ffeeda", text: "#681707", heading: "#681707", pt: 45, ps: 40 },
+            "new_gen_01": { frame: "new_genration_01_frame.jpg", bg: "#ffffff", text: "#ae1d2e", heading: "#ae1d2e", pt: 100, ps: 55 },
+            "new_gen_02": { frame: "new_genration_02_frame.jpg", bg: "#faeadb", text: "#771f0c", heading: "#771f0c", pt: 40, ps: 40 },
+            "new_gen_03": { frame: "new_genration_03_frame.jpg", bg: "#ffffff", text: "#3f194a", heading: "#3f194a", pt: 40, ps: 75 },
+            "traditional_00": { frame: "traditional_00_frame.jpg", bg: "#ffffff", text: "#000000", heading: "#000000", pt: 30, ps: 35 },
+            "traditional_01": { frame: "traditional_01_frame.jpg", bg: "#ffffff", text: "#681707", heading: "#681707", pt: 35, ps: 40 },
+            "traditional_02": { frame: "traditional_02_frame.jpg", bg: "#ffffff", text: "#bc8225", heading: "#bc8225", pt: 65, ps: 40 },
+            "traditional_03": { frame: "traditional_03_frame.jpg", bg: "#ffffff", text: "#6d0031", heading: "#6d0031", pt: 65, ps: 40 },
+            "traditional_04": { frame: "traditional_04_frame.jpg", bg: "#ffffff", text: "#681707", heading: "#681707", pt: 35, ps: 40 },
+            "traditional_05": { frame: "traditional_05_frame.jpg", bg: "#86685e", text: "#ffffff", heading: "#ffffff", pt: 30, ps: 35 },
+            "traditional_06": { frame: "traditional_06_frame.jpg", bg: "#ffffff", text: "#000000", heading: "#000000", pt: 40, ps: 40 },
+            "traditional_07": { frame: "traditional_07_frame.jpg", bg: "#f0e7d6", text: "#681707", heading: "#681707", pt: 40, ps: 40 },
+            "traditional_09": { frame: "traditional_09_frame.jpg", bg: "#ffffff", text: "#5c4300", heading: "#5c4300", pt: 55, ps: 45 },
+            "traditional_10": { frame: "traditional_10_frame.jpg", bg: "#ebe5d5", text: "#a3060a", heading: "#a3060a", pt: 40, ps: 50 },
+            "traditional_11": { frame: "traditional_11_frame.jpg", bg: "#ffffff", text: "#a46902", heading: "#a3060a", pt: 45, ps: 35 },
+            "traditional_12": { frame: "traditional_12_frame.jpg", bg: "#242e23", text: "#ffe8a3", heading: "#ffc107", pt: 30, ps: 35 },
+            "traditional_13": { frame: "traditional_13_frame.jpg", bg: "#ffffff", text: "#b41326", heading: "#b41326", pt: 35, ps: 35 },
+            "traditional_14": { frame: "traditional_14_frame.jpg", bg: "#ffcd86", text: "#ffcd86", heading: "#ffcd86", pt: 65, ps: 55 }
+        };
+
+        function applyTheme() {
+            const selected = document.getElementById("themeSelect").value;
+            const theme = themesConfig[selected];
+            if(theme) {
+                document.getElementById("frameImg").src = theme.frame;
+                const root = document.documentElement;
+                root.style.setProperty('--base-bg-color', theme.bg);
+                root.style.setProperty('--text-color', theme.text);
+                root.style.setProperty('--heading-color', theme.heading);
+                
+                document.getElementById("padTop").value = theme.pt;
+                document.getElementById("padSides").value = theme.ps;
+                updatePadding();
+            }
+        }
+
+        function updatePadding() {
+            const top = document.getElementById("padTop").value + "px";
+            const sides = document.getElementById("padSides").value + "px";
+            const root = document.documentElement;
+            root.style.setProperty('--padding-top', top);
+            root.style.setProperty('--padding-sides', sides);
+        }
+
+        // --- UPLOAD LOGIC ---
+        function loadPhoto(event) {
+            const image = document.getElementById('biodataPhoto');
+            image.src = URL.createObjectURL(event.target.files[0]);
+            document.getElementById("togglePhoto").checked = true;
+            togglePhotoVisibility();
+        }
+
+        function togglePhotoVisibility() {
+            const isChecked = document.getElementById("togglePhoto").checked;
+            const photoContainer = document.getElementById("profilePhotoContainer");
+            if(isChecked) { photoContainer.classList.remove("hide-element"); } 
+            else { photoContainer.classList.add("hide-element"); }
+        }
+
+        function loadGodIcon(event) {
+            const image = document.getElementById('biodataGodIcon');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        }
+
+        // --- GOOGLE TRANSLITERATION ---
+        async function fetchHindi(word) {
+            if (!word || !/[a-zA-Z]/.test(word)) return word; 
+            try {
+                let res = await fetch(`https://inputtools.google.com/request?text=${encodeURIComponent(word)}&itc=hi-t-i0-und&num=1&cp=0&cs=1&ie=utf-8&oe=utf-8&app=demopage`);
+                let data = await res.json();
+                if (data[0] === 'SUCCESS') {
+                    return data[1][0][1][0]; 
+                }
+            } catch (e) { console.error(e); }
+            return word;
+        }
+
+        document.getElementById('appSidebar').addEventListener('keyup', async function(e) {
+            if (e.target.classList.contains('hi-enable')) {
+                const lang = document.getElementById('langSelect').value;
+                if (e.code === 'Space' && lang === 'hi') {
+                    const inputElem = e.target;
+                    let cursorPosition = inputElem.selectionStart;
+                    let textBeforeCursor = inputElem.value.substring(0, cursorPosition);
+                    let textAfterCursor = inputElem.value.substring(cursorPosition);
+                    
+                    let words = textBeforeCursor.split(' ');
+                    let lastWord = words[words.length - 2]; 
+                    
+                    if (lastWord && lastWord.trim() !== '') {
+                        let hindiWord = await fetchHindi(lastWord);
+                        words[words.length - 2] = hindiWord;
+                        let newTextBefore = words.join(' ');
+                        
+                        inputElem.value = newTextBefore + textAfterCursor;
+                        inputElem.selectionStart = inputElem.selectionEnd = newTextBefore.length;
+                        
+                        const event = new Event('input', { bubbles: true });
+                        inputElem.dispatchEvent(event);
+                    }
+                }
+            }
+        });
+
+        // --- DISCLAIMER MODAL LOGIC ---
+        function openDisclaimer() {
+            document.getElementById('disclaimerModal').style.display = 'flex';
+        }
+        function closeDisclaimer() {
+            document.getElementById('disclaimerModal').style.display = 'none';
+        }
+
+        // Run On Load
+        window.onload = initApp;
+
+    </script>
+</body>
+</html>
