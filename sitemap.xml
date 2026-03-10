@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
     <loc>https://shanvidigital.in/</loc>
-    <lastmod>2026-03-03</lastmod>
+    <lastmod>2026-03-10</lastmod>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://shanvidigital.in/pvc-card-printing-siwan.html</loc>
-    <lastmod>2026-03-03</lastmod>
+    <lastmod>2026-03-10</lastmod>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://shanvidigital.in/scanner.html</loc>
-    <lastmod>2026-03-03</lastmod>
+    <lastmod>2026-03-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://shanvidigital.in/website-development-siwan/</loc>
+    <lastmod>2026-03-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://shanvidigital.in/marriage-biodata/</loc>
+    <lastmod>2026-03-10</lastmod>
     <priority>0.8</priority>
   </url>
 
