@@ -222,7 +222,6 @@
             .upload-row { grid-template-columns: 1fr; } 
             .preview-area { width: 100%; overflow: hidden; padding: 20px 0 80px 0; align-items: center; justify-content: center; }
             
-            /* Pro Scaling for Mobile View */
             .pdf-wrap-container { transform: scale(0.48); margin-bottom: -150%; }
             @media (max-width: 400px) { .pdf-wrap-container { transform: scale(0.42); margin-bottom: -170%; } }
 
@@ -241,8 +240,9 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; backdrop-filter: blur(2px);}
         .modal-content { background: #fff; width: 90%; max-width: 600px; max-height: 85vh; border-radius: 12px; padding: 30px; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); font-family: 'Hind', sans-serif; position: relative; }
         .modal-content h2 { color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 15px;}
-        .modal-content h4 { color: #334155; margin-top: 18px; margin-bottom: 6px;}
-        .modal-content p { font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 12px;}
+        .modal-content h3 { color: #8b5cf6; margin-top: 20px; font-size: 18px;}
+        .modal-content h4 { color: #334155; margin-top: 15px; margin-bottom: 4px; font-size: 15px;}
+        .modal-content p { font-size: 13px; color: #475569; line-height: 1.6; margin-bottom: 10px;}
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 26px; cursor: pointer; color: #ef4444; border: none; background: transparent; font-weight: bold; transition: 0.2s;}
         .close-btn:hover { color: #b91c1c; transform: scale(1.1);}
 
@@ -417,19 +417,44 @@
             <button class="close-btn" onclick="closeDisclaimer()">&times;</button>
             <h2>Legal Disclaimer & Terms of Use</h2>
             <p><em>Last Updated: March 2026</em></p>
-            <h4>General Information</h4>
+            
+            <h3>Shanvi Digital Terms & Conditions</h3>
             <p>The content and tools provided on Shanvi Digital (shanvidigital.in) are strictly for general informational and personal formatting purposes only. While we strive to offer the best service, we make no absolute guarantees regarding the accuracy, reliability, or completeness of the biodata generated through this tool.</p>
-            <h4>Limitation of Liability</h4>
             <p>Shanvi Digital Seva Kendra shall not be held responsible or liable for any direct, indirect, incidental, or consequential loss or damage arising from the use of our biodata maker.</p>
+
+            <hr style="margin: 20px 0; border: 1px dashed #cbd5e1;">
+
+            <h3>Standard Website Disclaimer</h3>
+            <h4>Website Disclaimer</h4>
+            <p>The information provided on Shanvi Digital is for general informational and educational purposes only. All information on the site is provided in good faith, however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the Website.</p>
+            
+            <h4>No Liability</h4>
+            <p>Under no circumstance shall we have any liability to you for any loss or damage of any kind incurred as a result of the use of the Website or reliance on any information provided on the Website. Your use of the Website and your reliance on any information on the Website is solely at your own risk.</p>
+            
+            <h4>External Links Disclaimer</h4>
+            <p>The Website may contain links to external websites that are not provided or maintained by or in any way affiliated with Shanvi Digital. Please note that we do not guarantee the accuracy, relevance, timeliness, or completeness of any information on these external websites.</p>
+            
+            <h4>Professional Disclaimer</h4>
+            <p>The Website cannot and does not contain matrimonial advice. The matrimonial information is provided for general informational and educational purposes only and is not a substitute for professional advice. Accordingly, before taking any actions based upon such information, we encourage you to consult with the appropriate professionals.</p>
+            
+            <h4>Testimonials Disclaimer</h4>
+            <p>The Website may contain testimonials by users of our products and/or services. These testimonials reflect the real-life experiences and opinions of such users. However, the experiences are personal to those particular users, and may not necessarily be representative of all users of our products and/or services. We do not claim, and you should not assume, that all users will have the same experiences.</p>
+            
+            <h4>Fair Use Disclaimer</h4>
+            <p>Shanvi Digital may use copyrighted material which has not always been specifically authorized by the copyright owner. We are making such material available for criticism, comment, news reporting, teaching, scholarship, or research. We believe this constitutes a "fair use" of any such copyrighted material as provided for in section 107 of the United States Copyright law.</p>
+            
+            <h4>Views Expressed Disclaimer</h4>
+            <p>The views and opinions expressed in the Website are those of the authors and do not necessarily reflect the official policy or position of any other agency, organization, employer, or company, including shanvidigital.in.</p>
+            
             <br>
-            <p><strong>Contact Us:</strong> Sabji Market, in front of the SBI CSP, Shaharkola Bazar.<br> Phone: +91-9507675743</p>
+            <p><strong>Contact Us:</strong> Sabji Market, in front of the SBI CSP, Shaharkola Bazar, Basantpur, Siwan, Bihar - 841406.<br> Phone: +91-9507675743 | Email: info@shanvidigital.in</p>
         </div>
     </div>
 
     <script>
         let fieldCounter = 50;
         
-        // --- 100% COMPLETE MULTI-LANGUAGE DICTIONARY ---
+        // --- MULTI-LANGUAGE DICTIONARY ---
         const langDict = {
             "mainTitle": { en: "Marriage Biodata", hi: "विवाह बायोडाटा" },
             "godName": { en: "॥ श्री गणेशाय नमः ॥", hi: "॥ श्री गणेशाय नमः ॥" },
@@ -583,9 +608,6 @@
             
             localStorage.setItem('shanviBiodataState', JSON.stringify(state));
         }
-
-        // Event listener hooks auto-save to every typing action
-        document.getElementById('appSidebar').addEventListener('input', function() { saveFormState(); });
 
         function resetData() {
             if(confirm("Are you sure you want to start fresh? All typed data will be deleted.")) {
@@ -744,7 +766,7 @@
 
         function loadGodIcon(event) { document.getElementById('biodataGodIcon').src = URL.createObjectURL(event.target.files[0]); }
 
-        // --- GOOGLE TRANSLITERATION ---
+        // --- GOOGLE TRANSLITERATION (MOBILE FIX) ---
         async function fetchHindi(word) {
             if (!word || !/[a-zA-Z]/.test(word)) return word; 
             try {
@@ -755,21 +777,37 @@
             return word;
         }
 
-        document.getElementById('appSidebar').addEventListener('keyup', async function(e) {
-            if (e.target.classList.contains('hi-enable') && e.code === 'Space' && document.getElementById('langSelect').value === 'hi') {
+        let isConverting = false;
+        document.getElementById('appSidebar').addEventListener('input', async function(e) {
+            if(!isConverting) { saveFormState(); } // Save state on regular input
+
+            if (e.target.classList.contains('hi-enable') && document.getElementById('langSelect').value === 'hi') {
+                if (isConverting) return;
+
                 const inputElem = e.target;
+                let val = inputElem.value;
                 let cursorPosition = inputElem.selectionStart;
-                let textBeforeCursor = inputElem.value.substring(0, cursorPosition);
-                let textAfterCursor = inputElem.value.substring(cursorPosition);
-                let words = textBeforeCursor.split(' ');
-                let lastWord = words[words.length - 2]; 
-                
-                if (lastWord && lastWord.trim() !== '') {
-                    words[words.length - 2] = await fetchHindi(lastWord);
-                    let newTextBefore = words.join(' ');
-                    inputElem.value = newTextBefore + textAfterCursor;
-                    inputElem.selectionStart = inputElem.selectionEnd = newTextBefore.length;
-                    inputElem.dispatchEvent(new Event('input', { bubbles: true }));
+
+                // Mobile Fix: Detect space character before the cursor instead of Space keycode
+                if (cursorPosition > 0 && val.charAt(cursorPosition - 1) === ' ') {
+                    let textBeforeSpace = val.substring(0, cursorPosition - 1);
+                    let textAfterSpace = val.substring(cursorPosition);
+                    
+                    let words = textBeforeSpace.split(' ');
+                    let lastWord = words[words.length - 1]; 
+                    
+                    if (lastWord && lastWord.trim() !== '' && /[a-zA-Z]/.test(lastWord)) {
+                        isConverting = true;
+                        let hindiWord = await fetchHindi(lastWord);
+                        words[words.length - 1] = hindiWord;
+                        let newTextBefore = words.join(' ') + ' ';
+                        
+                        inputElem.value = newTextBefore + textAfterSpace;
+                        inputElem.selectionStart = inputElem.selectionEnd = newTextBefore.length; // Keep cursor correct
+                        
+                        inputElem.dispatchEvent(new Event('input', { bubbles: true })); // Trigger update
+                        isConverting = false;
+                    }
                 }
             }
         });
