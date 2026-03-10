@@ -2,22 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shanvi Digital-Biodata Maker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Marriage Biodata Maker | Shanvi Digital Seva Kendra</title>
+    <meta name="description" content="Create premium and professional marriage biodata online in minutes. Available in Hindi and English with auto-typing. By Shanvi Digital Seva Kendra.">
+    <meta name="keywords" content="biodata maker, marriage biodata, shadi biodata, free biodata format, Shanvi Digital, online biodata generator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://shanvidigital.in/">
+
+    <meta property="og:title" content="Premium Marriage Biodata Maker - Shanvi Digital">
+    <meta property="og:description" content="Generate beautiful marriage biodata with 20+ premium frames. Type in English, auto-converts to Hindi!">
+    <meta property="og:url" content="https://shanvidigital.in/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Shanvi Digital Seva Kendra">
+    <meta property="og:image" content="https://shanvidigital.in/images/biodata-preview.jpg">
+
+    <link rel="preload" href="https://fonts.gstatic.com/s/hind/v18/5aU69_a8oxmIdGh4BCOz.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/hind/v18/5aU19_a8oxmIfLZcER2SjQpf.woff2" as="font" type="font/woff2" crossorigin>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "LocalBusiness",
+          "name": "Shanvi Digital Seva Kendra",
+          "telephone": "+91-9507675743",
+          "url": "https://shanvidigital.in/",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Sabji Market, in front of the SBI CSP, Shaharkola Bazar",
+            "addressCountry": "IN"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [{
+            "@type": "Question",
+            "name": "How to type in Hindi for Marriage Biodata?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Simply select the Hindi language option from the top. Type in English and press space, it will automatically convert to Hindi."
+            }
+          }]
+        }
+      ]
+    }
+    </script>
     
     <style>
         /* --- Font Faces --- */
         @font-face { font-family: 'Hind'; font-style: normal; font-weight: 300; font-display: swap; src: url(https://fonts.gstatic.com/s/hind/v18/5aU19_a8oxmIfMJaER2SjQpf.woff2) format('woff2'); }
         @font-face { font-family: 'Hind'; font-style: normal; font-weight: 400; font-display: swap; src: url(https://fonts.gstatic.com/s/hind/v18/5aU69_a8oxmIdGh4BCOz.woff2) format('woff2'); }
-        @font-face { font-family: 'Hind'; font-style: normal; font-weight: 500; font-display: swap; src: url(https://fonts.gstatic.com/s/hind/v18/5aU19_a8oxmIfJpbER2SjQpf.woff2) format('woff2'); }
         @font-face { font-family: 'Hind'; font-style: normal; font-weight: 600; font-display: swap; src: url(https://fonts.gstatic.com/s/hind/v18/5aU19_a8oxmIfLZcER2SjQpf.woff2) format('woff2'); }
         @font-face { font-family: 'Hind'; font-style: normal; font-weight: 700; font-display: swap; src: url(https://fonts.gstatic.com/s/hind/v18/5aU19_a8oxmIfNJdER2SjQpf.woff2) format('woff2'); }
 
-        /* --- A4 Page & Layout Setup --- */
+        /* --- Scrollbar Customization --- */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* --- Base & Layout --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         @page { size: A4; margin: 0; }
         body { 
-            background-color: #e5e7eb; 
+            background-color: #f1f5f9; /* Softer background */
             font-family: 'Hind', sans-serif; 
             display: flex; 
             flex-direction: row; 
@@ -30,94 +80,76 @@
 
         /* --- Sidebar / Form Panel --- */
         .sidebar {
-            width: 500px; 
-            max-width: 100vw; 
-            background: #fff;
+            width: 480px; 
+            min-width: 400px;
+            background: #ffffff;
             padding: 20px;
             height: 100%;
             overflow-y: auto;
             overflow-x: hidden;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            box-shadow: 4px 0 15px rgba(0,0,0,0.05);
             z-index: 10;
             display: flex;
             flex-direction: column;
+            scroll-behavior: smooth;
         }
         
-        .sidebar h1 { font-size: 20px; color: #1e3a8a; margin-bottom: 15px; text-align: center; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px;}
+        .sidebar h1 { font-size: 22px; color: #1e3a8a; margin-bottom: 20px; text-align: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 12px; font-weight: 700;}
         
         /* Master Controls Area */
-        .master-controls { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #cbd5e1; }
-        .ctrl-group { margin-bottom: 10px; display: flex; flex-direction: column; gap: 5px;}
-        .ctrl-group label { font-weight: 600; font-size: 13px; color: #334155; }
-        .ctrl-group select { padding: 6px; border-radius: 4px; border: 1px solid #ccc; font-family: inherit; font-size: 13px;}
+        .master-controls { background: #f8fafc; padding: 18px; border-radius: 10px; margin-bottom: 25px; border: 1px solid #e2e8f0; }
+        .ctrl-group { margin-bottom: 12px; display: flex; flex-direction: column; gap: 6px;}
+        .ctrl-group label { font-weight: 600; font-size: 13px; color: #475569; }
+        .ctrl-group select { padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 14px; outline: none; transition: 0.2s; background: #fff;}
+        .ctrl-group select:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.1); }
         
         /* Fixed Upload UI Using CSS Grid */
-        .upload-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;}
-        .upload-box { background: #fff; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; display: flex; flex-direction: column; justify-content: space-between;}
-        .upload-box label { font-size: 12px; font-weight: bold; color: #1e293b; margin-bottom: 5px; display: block;}
+        .upload-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px;}
+        .upload-box { background: #ffffff; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.2s;}
+        .upload-box:hover { border-color: #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+        .upload-box label { font-size: 12px; font-weight: 700; color: #1e293b; margin-bottom: 6px; display: block;}
         .upload-box input[type="file"] { font-size: 11px; width: 100%; cursor: pointer;}
         
-        .align-box { background: #fee2e2; padding: 10px; border-radius: 5px; border: 1px dashed #ef4444; margin-top: 15px;}
-        .align-box label { display: flex; justify-content: space-between; font-size: 12px; color: #991b1b; margin-bottom: 5px;}
-        .align-box input[type="range"] { width: 100%; }
+        .align-box { background: #fef2f2; padding: 12px; border-radius: 8px; border: 1px dashed #fca5a5; margin-top: 15px;}
+        .align-box label { display: flex; justify-content: space-between; font-size: 12px; color: #991b1b; margin-bottom: 6px; font-weight: 600;}
+        .align-box input[type="range"] { width: 100%; accent-color: #ef4444; }
 
         .print-btn { 
-            width: 100%; padding: 12px; font-size: 16px; background: #8b5cf6; color: #fff; border: none; border-radius: 5px; 
-            cursor: pointer; font-weight: bold; margin-top: 15px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            width: 100%; padding: 14px; font-size: 16px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; border: none; border-radius: 8px; 
+            cursor: pointer; font-weight: 700; margin-top: 20px; transition: 0.3s; box-shadow: 0 4px 6px rgba(139, 92, 246, 0.25);
         }
-        .print-btn:hover { background: #7c3aed; }
-        .hint-text { font-size: 12px; color: #059669; font-weight: 600; background: #d1fae5; padding: 8px; border-radius: 4px; text-align: center; margin-bottom: 15px;}
+        .print-btn:hover { background: linear-gradient(135deg, #4f46e5, #7c3aed); transform: translateY(-1px); box-shadow: 0 6px 8px rgba(139, 92, 246, 0.3); }
+        
+        .hint-text { font-size: 13px; color: #059669; font-weight: 600; background: #d1fae5; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 18px; border: 1px solid #a7f3d0;}
 
         /* Editable Form Rows */
         .form-content-area { flex: 1; }
-        .section-box { border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; margin-bottom: 15px; background: #fafafa;}
-        .sec-title-input { width: 100%; font-size: 16px; font-weight: bold; color: #4338ca; border: none; border-bottom: 2px solid #c7d2fe; background: transparent; padding-bottom: 5px; margin-bottom: 12px; outline: none;}
+        .section-box { border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 18px; background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.02);}
+        .sec-title-input { width: 100%; font-size: 17px; font-weight: 700; color: #4338ca; border: none; border-bottom: 2px solid #e0e7ff; background: transparent; padding-bottom: 6px; margin-bottom: 15px; outline: none; transition: 0.2s;}
+        .sec-title-input:focus { border-bottom-color: #6366f1; }
         
-        .field-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: center;}
-        .field-row input { padding: 8px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px; font-family: inherit; outline: none; transition: 0.2s;}
-        .field-row input:focus { border-color: #3b82f6; background: #eff6ff; box-shadow: 0 0 0 2px rgba(59,130,246,0.2);}
-        .field-row input::placeholder { color: #94a3b8; font-style: italic; }
+        .field-row { display: flex; gap: 10px; margin-bottom: 12px; align-items: center;}
+        .field-row input { padding: 9px; font-size: 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; outline: none; transition: 0.2s;}
+        .field-row input:focus { border-color: #3b82f6; background: #eff6ff; box-shadow: 0 0 0 3px rgba(59,130,246,0.15);}
+        .field-row input::placeholder { color: #94a3b8; font-style: italic; font-size: 13px;}
         
         .inp-label { width: 35%; font-weight: 600; color: #475569; background: #f8fafc;}
         .inp-value { flex: 1; min-width: 0; }
-        .del-btn { background: #fee2e2; color: #dc2626; border: none; border-radius: 4px; width: 32px; height: 32px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 14px; flex-shrink: 0; transition: 0.2s;}
-        .del-btn:hover { background: #fecaca; }
+        .del-btn { background: #fee2e2; color: #ef4444; border: none; border-radius: 6px; width: 36px; height: 36px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 16px; flex-shrink: 0; transition: 0.2s;}
+        .del-btn:hover { background: #fecaca; color: #dc2626;}
         
-        .add-field-btn { background: #e0f2fe; color: #0284c7; border: 1px dashed #38bdf8; padding: 8px 10px; font-size: 13px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; margin-top: 5px; transition: 0.2s;}
-        .add-field-btn:hover { background: #bae6fd; }
+        .add-field-btn { background: #f0f9ff; color: #0284c7; border: 1px dashed #7dd3fc; padding: 10px; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 5px; transition: 0.2s;}
+        .add-field-btn:hover { background: #e0f2fe; border-color: #38bdf8;}
 
         /* Footer Links */
-        .sidebar-footer { text-align: center; font-size: 12px; padding-top: 15px; border-top: 1px solid #e2e8f0; color: #64748b; margin-top: 20px;}
+        .sidebar-footer { text-align: center; font-size: 13px; padding-top: 20px; border-top: 1px solid #e2e8f0; color: #64748b; margin-top: 25px; padding-bottom: 20px;}
         .sidebar-footer a { color: #2563eb; text-decoration: none; font-weight: 600; cursor: pointer;}
         .sidebar-footer a:hover { text-decoration: underline; }
 
         /* --- Preview Area --- */
         .preview-area {
-            flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 20px; overflow-y: auto; background: #cbd5e1;
-        }
-
-        /* --- MOBILE COMPATIBILITY FIXES --- */
-        @media (max-width: 850px) {
-            body { flex-direction: column; overflow-y: auto; height: auto; overflow-x: hidden; }
-            .sidebar { width: 100%; height: auto; overflow: visible; border-bottom: 3px solid #94a3b8; padding: 15px; }
-            .upload-row { grid-template-columns: 1fr; } 
-            .preview-area { width: 100%; overflow-x: auto; padding: 15px 10px; justify-content: flex-start; }
-            .pdf-wrap { min-width: 210mm; } 
-        }
-
-        /* --- MODAL (POPUP) CSS --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; }
-        .modal-content { background: #fff; width: 90%; max-width: 600px; max-height: 85vh; border-radius: 8px; padding: 25px; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); font-family: 'Hind', sans-serif; position: relative; }
-        .modal-content h2 { color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px;}
-        .modal-content h4 { color: #334155; margin-top: 15px; margin-bottom: 5px;}
-        .modal-content p { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 10px;}
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #ef4444; border: none; background: transparent; font-weight: bold; }
-
-        @media print { 
-            .sidebar, .modal-overlay { display: none !important; } 
-            .preview-area { padding: 0; background: transparent; overflow: visible; display: block;} 
-            body { height: auto; overflow: visible; display: block; }
-            .pdf-wrap { box-shadow: none !important; transform: none !important; min-width: auto; } 
+            flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 30px; overflow-y: auto; background: #cbd5e1;
+            scroll-behavior: smooth;
         }
 
         /* --- Dynamic CSS Variables --- */
@@ -130,9 +162,14 @@
         }
 
         /* --- Biodata Content Styles --- */
+        .pdf-wrap-container {
+            display: flex;
+            justify-content: center;
+            transform-origin: top center;
+        }
         .pdf-wrap { 
             width: 210mm; height: 297mm; position: relative; background-color: var(--base-bg-color); 
-            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); flex-shrink: 0;
+            overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15); flex-shrink: 0;
         }
         .frame-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
         
@@ -166,12 +203,67 @@
         .dots { width: 15px; text-align: center; margin-right: 5px; flex-shrink: 0; }
         .value { flex: 1; word-wrap: break-word; overflow-wrap: break-word; font-weight: 500;}
 
+        /* --- Mobile Sticky Action Bar --- */
+        .mobile-action-bar {
+            display: none;
+        }
+
+        /* --- MOBILE COMPATIBILITY FIXES --- */
+        @media (max-width: 850px) {
+            body { flex-direction: column; overflow-y: auto; overflow-x: hidden; height: auto; }
+            .sidebar { width: 100%; min-width: 100%; height: auto; overflow: visible; box-shadow: none; border-bottom: 1px solid #cbd5e1; padding-bottom: 80px;}
+            .upload-row { grid-template-columns: 1fr; } 
+            
+            .preview-area { width: 100%; overflow: hidden; padding: 20px 0 80px 0; align-items: center; justify-content: center; }
+            
+            /* The Magic Scaling for Mobile A4 Preview */
+            .pdf-wrap-container {
+                transform: scale(0.48); /* Shrinks A4 to fit mobile screens perfectly */
+                margin-bottom: -150%; /* Adjusts the physical space so it doesn't leave a huge blank gap */
+            }
+            @media (max-width: 400px) {
+                .pdf-wrap-container { transform: scale(0.42); margin-bottom: -170%; }
+            }
+
+            /* Show Floating Action Bar on Mobile */
+            .mobile-action-bar {
+                display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff;
+                padding: 12px 15px; box-shadow: 0 -4px 15px rgba(0,0,0,0.08); z-index: 50; gap: 10px;
+                border-top: 1px solid #e2e8f0; justify-content: space-between;
+            }
+            .mobile-action-bar button {
+                flex: 1; padding: 12px; font-size: 15px; font-weight: 700; border-radius: 8px; cursor: pointer; border: none;
+            }
+            .btn-view { background: #e0f2fe; color: #0284c7; }
+            .btn-print { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; }
+            
+            /* Hide Sidebar print button on mobile to use sticky bar instead */
+            .sidebar .print-btn { display: none; }
+        }
+
+        /* --- MODAL (POPUP) CSS --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; backdrop-filter: blur(2px);}
+        .modal-content { background: #fff; width: 90%; max-width: 600px; max-height: 85vh; border-radius: 12px; padding: 30px; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.2); font-family: 'Hind', sans-serif; position: relative; }
+        .modal-content h2 { color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 15px;}
+        .modal-content h4 { color: #334155; margin-top: 18px; margin-bottom: 6px;}
+        .modal-content p { font-size: 14px; color: #475569; line-height: 1.6; margin-bottom: 12px;}
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 26px; cursor: pointer; color: #ef4444; border: none; background: transparent; font-weight: bold; transition: 0.2s;}
+        .close-btn:hover { color: #b91c1c; transform: scale(1.1);}
+
+        @media print { 
+            .sidebar, .mobile-action-bar, .modal-overlay { display: none !important; } 
+            .preview-area { padding: 0; background: transparent; overflow: visible; display: block;} 
+            body { height: auto; overflow: visible; display: block; background: none;}
+            .pdf-wrap-container { transform: scale(1) !important; margin: 0 !important;}
+            .pdf-wrap { box-shadow: none !important; } 
+        }
+
     </style>
 </head>
 <body>
 
     <div class="sidebar" id="appSidebar">
-        <h1>Shanvi Digital - Marriage Biodata Maker</h1>
+        <h1>Shanvi Digital Seva Kendra</h1>
         
         <div class="master-controls">
             <div class="ctrl-group">
@@ -221,24 +313,24 @@
                 <div class="upload-box">
                     <label>📸 Profile Photo</label>
                     <input type="file" id="photoUpload" accept="image/*" onchange="loadPhoto(event)">
-                    <label style="font-weight: normal; margin-top: 8px; font-size: 11px; cursor: pointer; display: flex; gap: 5px; align-items: center; color: #475569;">
-                        <input type="checkbox" id="togglePhoto" onchange="togglePhotoVisibility()"> Show on Biodata
+                    <label style="font-weight: 600; margin-top: 10px; font-size: 12px; cursor: pointer; display: flex; gap: 6px; align-items: center; color: #475569;">
+                        <input type="checkbox" id="togglePhoto" onchange="togglePhotoVisibility()" style="accent-color: #3b82f6;"> Show on Biodata
                     </label>
                 </div>
                 <div class="upload-box">
                     <label>🕉️ God Icon</label>
                     <input type="file" id="godIconUpload" accept="image/*" onchange="loadGodIcon(event)">
-                    <span style="font-size: 10px; color: #64748b; margin-top: 8px;">(Optional, default is Ganesh Ji)</span>
+                    <span style="font-size: 11px; color: #64748b; margin-top: 8px;">(Optional, default is Ganesh Ji)</span>
                 </div>
             </div>
             
             <div class="align-box">
-                <div style="font-weight: bold; text-align: center; margin-bottom: 8px;">🛠️ Alignment & Padding Fixer</div>
+                <div style="font-weight: 700; text-align: center; margin-bottom: 10px; font-size: 13px;">🛠️ Alignment & Padding Fixer</div>
                 <label>Top Space <input type="range" id="padTop" min="20" max="200" value="150" oninput="updatePadding()"></label>
                 <label>Side Space <input type="range" id="padSides" min="20" max="150" value="60" oninput="updatePadding()"></label>
             </div>
 
-            <button class="print-btn" onclick="window.print()">🖨️ Print Biodata</button>
+            <button class="print-btn" onclick="window.print()">🖨️ Print / Save Biodata</button>
         </div>
 
         <div class="form-content-area">
@@ -246,7 +338,7 @@
 
             <div class="section-box">
                 <input type="text" class="sec-title-input hi-enable" id="inp_mainTitle" value="Marriage Biodata" oninput="updateText('prev_mainTitle', this.value)">
-                <input type="text" class="sec-title-input hi-enable" id="inp_godName" value="॥ श्री गणेशाय नमः ॥" style="font-size: 14px; text-align: center; border:none;" oninput="updateText('prev_godName', this.value)">
+                <input type="text" class="sec-title-input hi-enable" id="inp_godName" value="॥ श्री गणेशाय नमः ॥" style="font-size: 15px; text-align: center; border:none;" oninput="updateText('prev_godName', this.value)">
             </div>
 
             <div class="section-box" id="form_sec_1">
@@ -269,48 +361,55 @@
         </div>
 
         <div class="sidebar-footer">
-            <a onclick="openDisclaimer()">Legal Disclaimer & Terms</a> | Shanvi Digital © 2026
+            <a onclick="openDisclaimer()">Legal Disclaimer & Terms</a> | Shanvi Digital © 2026<br>
+            <span style="font-size: 11px; color: #94a3b8; display:block; margin-top:5px;">Contact: +91-9507675743 | Sabji Market, Shaharkola Bazar</span>
         </div>
-        <br><br>
     </div>
 
-    <div class="preview-area">
-        <div class="pdf-wrap" id="biodataPage">
-            <img src="marriage-biodata_frame.png" id="frameImg" class="frame-bg" alt="frame border">
-            
-            <div class="pdf-body">
-                <div class="godImageContainer">
-                    <div class="heading name" id="prev_mainTitle">Marriage Biodata</div>
-                    <img src="r20.png" alt="Shree Ganesh" class="god-image" id="biodataGodIcon">
-                    <div class="heading name god-name" id="prev_godName">॥ श्री गणेशाय नमः ॥</div>
-                </div>
+    <div class="preview-area" id="previewAreaScroll">
+        <div class="pdf-wrap-container">
+            <div class="pdf-wrap" id="biodataPage">
+                <img src="marriage-biodata_frame.png" id="frameImg" class="frame-bg" alt="frame border">
+                
+                <div class="pdf-body">
+                    <div class="godImageContainer">
+                        <div class="heading name" id="prev_mainTitle">Marriage Biodata</div>
+                        <img src="r20.png" alt="Shree Ganesh" class="god-image" id="biodataGodIcon">
+                        <div class="heading name god-name" id="prev_godName">॥ श्री गणेशाय नमः ॥</div>
+                    </div>
 
-                <div class="header-content">
-                    <div class="details-column">
-                        <div class="section" id="prev_sec_1">
-                            <h2 class="heading" id="prev_h_sec1">Personal Details</h2>
-                            <div id="prev_container_sec1"></div>
+                    <div class="header-content">
+                        <div class="details-column">
+                            <div class="section" id="prev_sec_1">
+                                <h2 class="heading" id="prev_h_sec1">Personal Details</h2>
+                                <div id="prev_container_sec1"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="photo-column hide-element" id="profilePhotoContainer">
+                            <img id="biodataPhoto" src="https://via.placeholder.com/120x140?text=Photo" alt="Profile Photo">
                         </div>
                     </div>
-                    
-                    <div class="photo-column hide-element" id="profilePhotoContainer">
-                        <img id="biodataPhoto" src="https://via.placeholder.com/120x140?text=Photo" alt="Profile Photo">
-                    </div>
-                </div>
 
-                <div class="sections">
-                    <div class="section" id="prev_sec_2">
-                        <h2 class="heading" id="prev_h_sec2">Family Details</h2>
-                        <div id="prev_container_sec2"></div>
-                    </div>
+                    <div class="sections">
+                        <div class="section" id="prev_sec_2">
+                            <h2 class="heading" id="prev_h_sec2">Family Details</h2>
+                            <div id="prev_container_sec2"></div>
+                        </div>
 
-                    <div class="section" id="prev_sec_3">
-                        <h2 class="heading" id="prev_h_sec3">Contact Details</h2>
-                        <div id="prev_container_sec3"></div>
+                        <div class="section" id="prev_sec_3">
+                            <h2 class="heading" id="prev_h_sec3">Contact Details</h2>
+                            <div id="prev_container_sec3"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="mobile-action-bar">
+        <button class="btn-view" onclick="scrollToPreview()">👁️ View Preview</button>
+        <button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
     </div>
 
     <div class="modal-overlay" id="disclaimerModal">
@@ -323,22 +422,13 @@
             <p>The content and tools provided on Shanvi Digital (shanvidigital.in) are strictly for general informational and personal formatting purposes only. While we strive to offer the best service, we make no absolute guarantees regarding the accuracy, reliability, or completeness of the biodata generated through this tool.</p>
             
             <h4>Limitation of Liability</h4>
-            <p>Shanvi Digital shall not be held responsible or liable for any direct, indirect, incidental, or consequential loss or damage arising from the use of our biodata maker. You use this website entirely at your own discretion and risk.</p>
+            <p>Shanvi Digital Seva Kendra shall not be held responsible or liable for any direct, indirect, incidental, or consequential loss or damage arising from the use of our biodata maker.</p>
             
             <h4>No Professional Matrimonial Advice</h4>
-            <p>This tool is designed solely to help you format a matrimonial profile visually. It does not constitute professional matchmaking, relationship, or matrimonial advice. We strongly encourage users to verify details and consult appropriate experts before making any major life decisions based on the generated profiles.</p>
+            <p>This tool is designed solely to help you format a matrimonial profile visually. It does not constitute professional matchmaking, relationship, or matrimonial advice.</p>
             
-            <h4>Third-Party Links</h4>
-            <p>Our platform may occasionally feature links to external sites. We do not endorse, monitor, or take responsibility for the content, privacy policies, or practices of any third-party websites.</p>
-            
-            <h4>User Experiences & Independent Views</h4>
-            <p>Any opinions, views, or details expressed by users within their generated biodata are strictly their own and do not represent the official stance or policies of Shanvi Digital. User testimonials reflect individual experiences, and results or experiences may vary.</p>
-            
-            <h4>Fair Usage</h4>
-            <p>Shanvi Digital may utilize certain graphics (such as borders, frames, and icons) strictly for decorative formatting purposes under the principles of "fair use." If you hold the copyright to any material and wish for it to be removed, please reach out to us directly.</p>
-
             <br>
-            <p><strong>Contact Us:</strong> If you have any questions or concerns regarding this disclaimer, please email us at: <a href="mailto:info@shanvidigital.in" style="color: #2563eb; text-decoration: underline;">info@shanvidigital.in</a></p>
+            <p><strong>Contact Us:</strong> Sabji Market, in front of the SBI CSP, Shaharkola Bazar.<br> Phone: +91-9507675743</p>
         </div>
     </div>
 
@@ -379,7 +469,6 @@
             "f25": { en: "Address", hi: "पता" }
         };
 
-        // --- COMPLETELY SAFE 100% DUMMY PLACEHOLDERS ---
         const initialData = {
             "sec1": [
                 { id: "f1", lbl: "Full Name", val: "", placeholder: "e.g., Priya Sharma" },
@@ -424,19 +513,14 @@
             applyTheme();
         }
 
-        // --- CORE LOGIC: Create Row (With Datalist Support) ---
         function createRowDOM(sectionId, id, lblTxt, valTxt, placeholderText = "Leave blank to hide", optionsArray = null) {
             const formContainer = document.getElementById(`container_${sectionId}`);
-            
-            // Build Datalist if options exist
             let dataListHtml = '';
             let listAttr = '';
             if (optionsArray && optionsArray.length > 0) {
                 listAttr = `list="list_${id}"`;
                 dataListHtml = `<datalist id="list_${id}">`;
-                optionsArray.forEach(opt => {
-                    dataListHtml += `<option value="${opt}">`;
-                });
+                optionsArray.forEach(opt => { dataListHtml += `<option value="${opt}">`; });
                 dataListHtml += `</datalist>`;
             }
 
@@ -450,7 +534,6 @@
             `;
             formContainer.insertAdjacentHTML('beforeend', rowHtml);
 
-            // Preview logic: hide if empty initially
             const prevContainer = document.getElementById(`prev_container_${sectionId}`);
             const displayStyle = valTxt.trim() === '' ? 'display: none;' : '';
             const prevHtml = `
@@ -474,18 +557,12 @@
             document.getElementById(`prev_row_${id}`).remove();
         }
 
-        function updateItemLbl(id, newText) {
-            document.getElementById(`prev_lbl_${id}`).innerText = newText;
-        }
+        function updateItemLbl(id, newText) { document.getElementById(`prev_lbl_${id}`).innerText = newText; }
 
         function updateItemVal(id, newText) {
             document.getElementById(`prev_val_${id}`).innerText = newText;
             const rowItem = document.getElementById(`prev_row_${id}`);
-            if (newText.trim() === '') {
-                rowItem.style.display = 'none';
-            } else {
-                rowItem.style.display = 'flex';
-            }
+            rowItem.style.display = newText.trim() === '' ? 'none' : 'flex';
         }
 
         function updateSectionHead(secId, newText) {
@@ -494,11 +571,8 @@
             head.style.display = newText.trim() === '' ? 'none' : 'inline-block';
         }
 
-        function updateText(id, newText) {
-            document.getElementById(id).innerText = newText;
-        }
+        function updateText(id, newText) { document.getElementById(id).innerText = newText; }
 
-        // --- LANGUAGE SWITCH LOGIC ---
         function changeLanguage() {
             const lang = document.getElementById('langSelect').value;
             document.getElementById('hindiHint').style.display = lang === 'hi' ? 'block' : 'none';
@@ -506,10 +580,7 @@
             const updatePairs = (inputId, prevId, newText) => {
                 const inp = document.getElementById(inputId);
                 const prev = document.getElementById(prevId);
-                if(inp && prev) {
-                    inp.value = newText;
-                    prev.innerText = newText;
-                }
+                if(inp && prev) { inp.value = newText; prev.innerText = newText; }
             };
 
             updatePairs('inp_mainTitle', 'prev_mainTitle', langDict['mainTitle'][lang]);
@@ -519,13 +590,10 @@
             updatePairs('inp_h_sec3', 'prev_h_sec3', langDict['h_sec3'][lang]);
 
             for (let key in langDict) {
-                if(key.startsWith('f')) {
-                    updatePairs('inp_lbl_' + key, 'prev_lbl_' + key, langDict[key][lang]);
-                }
+                if(key.startsWith('f')) updatePairs('inp_lbl_' + key, 'prev_lbl_' + key, langDict[key][lang]);
             }
         }
 
-        // --- ALL 24 THEMES CONFIG ---
         const themesConfig = {
             "marriage_biodata": { frame: "marriage-biodata_frame.png", bg: "#ffffff", text: "#000000", heading: "#a3060a", pt: 150, ps: 60 },
             "bright_royal_blue": { frame: "bright_royal_blue_frame.jpg", bg: "#03234c", text: "#d9d95e", heading: "#FFEB3B", pt: 60, ps: 45 },
@@ -569,32 +637,23 @@
         }
 
         function updatePadding() {
-            const top = document.getElementById("padTop").value + "px";
-            const sides = document.getElementById("padSides").value + "px";
             const root = document.documentElement;
-            root.style.setProperty('--padding-top', top);
-            root.style.setProperty('--padding-sides', sides);
+            root.style.setProperty('--padding-top', document.getElementById("padTop").value + "px");
+            root.style.setProperty('--padding-sides', document.getElementById("padSides").value + "px");
         }
 
-        // --- UPLOAD LOGIC ---
         function loadPhoto(event) {
-            const image = document.getElementById('biodataPhoto');
-            image.src = URL.createObjectURL(event.target.files[0]);
+            document.getElementById('biodataPhoto').src = URL.createObjectURL(event.target.files[0]);
             document.getElementById("togglePhoto").checked = true;
             togglePhotoVisibility();
         }
 
         function togglePhotoVisibility() {
-            const isChecked = document.getElementById("togglePhoto").checked;
             const photoContainer = document.getElementById("profilePhotoContainer");
-            if(isChecked) { photoContainer.classList.remove("hide-element"); } 
-            else { photoContainer.classList.add("hide-element"); }
+            document.getElementById("togglePhoto").checked ? photoContainer.classList.remove("hide-element") : photoContainer.classList.add("hide-element");
         }
 
-        function loadGodIcon(event) {
-            const image = document.getElementById('biodataGodIcon');
-            image.src = URL.createObjectURL(event.target.files[0]);
-        }
+        function loadGodIcon(event) { document.getElementById('biodataGodIcon').src = URL.createObjectURL(event.target.files[0]); }
 
         // --- GOOGLE TRANSLITERATION ---
         async function fetchHindi(word) {
@@ -602,51 +661,40 @@
             try {
                 let res = await fetch(`https://inputtools.google.com/request?text=${encodeURIComponent(word)}&itc=hi-t-i0-und&num=1&cp=0&cs=1&ie=utf-8&oe=utf-8&app=demopage`);
                 let data = await res.json();
-                if (data[0] === 'SUCCESS') {
-                    return data[1][0][1][0]; 
-                }
+                if (data[0] === 'SUCCESS') return data[1][0][1][0]; 
             } catch (e) { console.error(e); }
             return word;
         }
 
         document.getElementById('appSidebar').addEventListener('keyup', async function(e) {
-            if (e.target.classList.contains('hi-enable')) {
-                const lang = document.getElementById('langSelect').value;
-                if (e.code === 'Space' && lang === 'hi') {
-                    const inputElem = e.target;
-                    let cursorPosition = inputElem.selectionStart;
-                    let textBeforeCursor = inputElem.value.substring(0, cursorPosition);
-                    let textAfterCursor = inputElem.value.substring(cursorPosition);
-                    
-                    let words = textBeforeCursor.split(' ');
-                    let lastWord = words[words.length - 2]; 
-                    
-                    if (lastWord && lastWord.trim() !== '') {
-                        let hindiWord = await fetchHindi(lastWord);
-                        words[words.length - 2] = hindiWord;
-                        let newTextBefore = words.join(' ');
-                        
-                        inputElem.value = newTextBefore + textAfterCursor;
-                        inputElem.selectionStart = inputElem.selectionEnd = newTextBefore.length;
-                        
-                        const event = new Event('input', { bubbles: true });
-                        inputElem.dispatchEvent(event);
-                    }
+            if (e.target.classList.contains('hi-enable') && e.code === 'Space' && document.getElementById('langSelect').value === 'hi') {
+                const inputElem = e.target;
+                let cursorPosition = inputElem.selectionStart;
+                let textBeforeCursor = inputElem.value.substring(0, cursorPosition);
+                let textAfterCursor = inputElem.value.substring(cursorPosition);
+                let words = textBeforeCursor.split(' ');
+                let lastWord = words[words.length - 2]; 
+                
+                if (lastWord && lastWord.trim() !== '') {
+                    words[words.length - 2] = await fetchHindi(lastWord);
+                    let newTextBefore = words.join(' ');
+                    inputElem.value = newTextBefore + textAfterCursor;
+                    inputElem.selectionStart = inputElem.selectionEnd = newTextBefore.length;
+                    inputElem.dispatchEvent(new Event('input', { bubbles: true }));
                 }
             }
         });
 
-        // --- DISCLAIMER MODAL LOGIC ---
-        function openDisclaimer() {
-            document.getElementById('disclaimerModal').style.display = 'flex';
-        }
-        function closeDisclaimer() {
-            document.getElementById('disclaimerModal').style.display = 'none';
+        // --- MOBILE SMOOTH SCROLL ---
+        function scrollToPreview() {
+            document.getElementById('previewAreaScroll').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Run On Load
+        // --- MODAL ---
+        function openDisclaimer() { document.getElementById('disclaimerModal').style.display = 'flex'; }
+        function closeDisclaimer() { document.getElementById('disclaimerModal').style.display = 'none'; }
+
         window.onload = initApp;
-
     </script>
 </body>
 </html>
