@@ -888,9 +888,8 @@
         function openDisclaimer() { document.getElementById('disclaimerModal').style.display = 'flex'; }
         function closeDisclaimer() { document.getElementById('disclaimerModal').style.display = 'none'; }
 
-        // PATCH FIX: Fast Load (Image load hone ka wait nahi karega, form turant dikhayega)
-        // PATCH FIX: Fast Load (Image load hone ka wait nahi karega, form turant dikhayega)
-        document.addEventListener('DOMContentLoaded', initApp);
+        // 100% BULLETPROOF LOAD: Koi event ka wait nahi, direct chalega.
+        initApp();
     </script>
 </body>
 </html>
