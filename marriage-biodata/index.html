@@ -888,7 +888,8 @@
         function openDisclaimer() { document.getElementById('disclaimerModal').style.display = 'flex'; }
         function closeDisclaimer() { document.getElementById('disclaimerModal').style.display = 'none'; }
 
-        window.onload = initApp;
+        // PATCH FIX: Fast Load (Image load hone ka wait nahi karega, form turant dikhayega)
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
