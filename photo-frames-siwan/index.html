@@ -209,6 +209,48 @@ body {
         .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
         .footer-links a { color: #cbd5e1; text-decoration: none; font-weight: 600; transition: 0.3s; }
         .footer-links a:hover { color: var(--accent); }
+        .call-float,
+.whatsapp-float {
+    position: fixed;
+    right: 22px;
+    z-index: 1500;
+}
+
+.call-float {
+    bottom: 100px;
+}
+
+.whatsapp-float {
+    bottom: 30px;
+}
+
+.call-float a,
+.whatsapp-float a {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    transition: 0.3s ease;
+}
+
+.call-float a {
+    background: #2563eb;
+}
+
+.whatsapp-float a {
+    background: #25D366;
+}
+
+.call-float a:hover,
+.whatsapp-float a:hover {
+    transform: scale(1.08);
+}
 
         @media (max-width: 768px) {
     header {
@@ -305,6 +347,16 @@ body {
         padding: 12px;
         font-size: 14px;
     }
+
+    .call-float {
+    bottom: 100px;
+    right: 18px;
+}
+
+.whatsapp-float {
+    bottom: 30px;
+    right: 18px;
+}
 
     .nap-info {
         padding: 24px 18px;
@@ -534,6 +586,21 @@ body {
         window.onload = () => {
             displayFrames(framesData);
         };
+
+        
     </script>
+
+    <div class="call-float">
+    <a href="tel:+919507675743" aria-label="Call Now">
+        <i class="fas fa-phone-alt"></i>
+    </a>
+</div>
+
+<div class="whatsapp-float">
+    <a href="https://wa.me/919507675743?text=Hello%20Shanvi%20Digital,%20I%20want%20to%20order%20a%20custom%20photo%20frame." target="_blank" aria-label="WhatsApp Chat">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
+
 </body>
 </html>
