@@ -280,6 +280,62 @@ body {
     transform: scale(1.08);
 }
 
+        .handmade-showcase{
+    margin-top: 35px;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 22px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.handmade-showcase h2{
+    font-size: 30px;
+    color: var(--primary);
+    margin-bottom: 12px;
+    font-weight: 800;
+}
+
+.handmade-showcase p{
+    font-size: 17px;
+    color: #64748b;
+    max-width: 900px;
+    margin: 0 auto 18px;
+    line-height: 1.7;
+}
+
+.handmade-features{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+    font-weight: 600;
+    color: #16a34a;
+}
+
+.handmade-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.handmade-grid img{
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 16px;
+    transition: 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.handmade-grid img:hover{
+    transform: scale(1.04);
+}
+        
         @media (max-width: 768px) {
     header {
         padding: 18px 15px;
@@ -400,6 +456,39 @@ body {
 
     .lightbox-title {
         font-size: 16px;
+    }
+                .handmade-showcase {
+        padding: 20px 15px;
+        margin-top: 25px;
+        border-radius: 18px;
+    }
+
+    .handmade-showcase h2 {
+        font-size: 22px;
+        line-height: 1.4;
+        margin-bottom: 12px;
+    }
+
+    .handmade-showcase p {
+        font-size: 14px;
+        line-height: 1.7;
+        margin-bottom: 15px;
+    }
+
+    .handmade-features {
+        font-size: 13px;
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .handmade-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .handmade-grid img {
+        height: 170px;
+        border-radius: 12px;
     }
 }
     </style>
