@@ -778,7 +778,7 @@ body {
     </main>
 
     <div id="image-lightbox" class="lightbox" role="dialog" aria-modal="true">
-        <span class="lightbox-close" onclick="closeLightbox()" aria-label="Close" tabindex="0" onkeydown="if(event.key==='Enter') closeLightbox()">×</span>
+        <span class="lightbox-close" onclick="closeLightbox()" aria-label="Close" tabindex="0" onkeydown="if(event.key==='Enter' || event.key===' ') closeLightbox()">×</span>
         <div class="lightbox-content">
             <img id="lightbox-img" class="lightbox-img" src="" alt="Zoomed View">
             <div class="lightbox-title" id="lightbox-title">Frame Title</div>
@@ -865,7 +865,7 @@ body {
 
         function sendToWhatsApp(title, code) {
             const phone = "919507675743";
-            const message = `नमस्ते शान्वी डिजिटल, \nमुझे आपकी वेबसाइट से *${title}* (Code: ${code}) बनवाना है। कृपया डिटेल्स बताएं।`;
+            const message = `नमस्ते शान्वी डिजिटल, \nमुझे आपकी वेबसाइट से *${title}* (Code: ${code}) ऑर्डर करना है। कृपया डिटेल्स बताएं।`;
             window.location.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
         }
 
@@ -893,9 +893,9 @@ body {
     }
 });
 
-        window.onload = () => {
-            displayFrames(framesData);
-        };
+       document.addEventListener('DOMContentLoaded', function () {
+    displayFrames(framesData);
+});
 
         
     </script>
