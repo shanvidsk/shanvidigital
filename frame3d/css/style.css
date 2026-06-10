@@ -32,3 +32,48 @@ input[type=range]::-webkit-slider-runnable-track {
 .toolbar-btn.active {
     color: #cc0100;
 }
+
+/* Mobile Optimization */
+@media (max-width:768px){
+
+    /* 3D Preview Height */
+    #canvas-container{
+        height:420px !important;
+    }
+
+    /* Photo Adjustment Panel */
+    #editorPanel{
+        width:90%;
+        max-width:320px;
+        gap:10px !important;
+        padding:12px !important;
+        border-radius:16px !important;
+    }
+
+    #editorPanel .flex{
+        flex:1;
+        min-width:70px;
+    }
+
+    #editorPanel label{
+        font-size:9px !important;
+        text-align:center;
+    }
+
+    #editorPanel input[type=range]{
+        width:100% !important;
+    }
+
+    /* Text Panel */
+    #textPanel{
+        width:92%;
+        max-width:340px;
+        padding:10px !important;
+    }
+
+    /* Product Title */
+    h1{
+        font-size:1.9rem !important;
+        line-height:1.2;
+    }
+}
