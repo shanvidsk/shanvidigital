@@ -32,32 +32,36 @@ input[type=range]::-webkit-slider-runnable-track {
 .toolbar-btn.active {
     color: #cc0100;
 }
-
 /* Mobile Optimization */
 @media (max-width:768px){
 
-    /* 3D Preview Height */
+    /* 3D Preview Area */
     #canvas-container{
-        height:420px !important;
+        height:500px !important;
+        border-radius:20px;
+        overflow:hidden;
     }
 
     /* Photo Adjustment Panel */
     #editorPanel{
-        width:90%;
-        max-width:320px;
-        gap:10px !important;
-        padding:12px !important;
-        border-radius:16px !important;
+        width:92%;
+        max-width:340px;
+        gap:12px !important;
+        padding:14px !important;
+        border-radius:18px !important;
+        left:50% !important;
+        transform:translateX(-50%);
     }
 
     #editorPanel .flex{
         flex:1;
-        min-width:70px;
+        min-width:75px;
     }
 
     #editorPanel label{
-        font-size:9px !important;
+        font-size:10px !important;
         text-align:center;
+        font-weight:600;
     }
 
     #editorPanel input[type=range]{
@@ -68,12 +72,52 @@ input[type=range]::-webkit-slider-runnable-track {
     #textPanel{
         width:92%;
         max-width:340px;
-        padding:10px !important;
+        padding:12px !important;
+        border-radius:18px !important;
     }
 
     /* Product Title */
     h1{
-        font-size:1.9rem !important;
-        line-height:1.2;
+        font-size:1.8rem !important;
+        line-height:1.25;
+    }
+
+    /* Frame Color Buttons */
+    #btnBlackFrame,
+    #btnBrownFrame,
+    #btnAddText{
+        width:48px;
+        height:48px;
+    }
+
+    /* Upload Button */
+    label[for="uploadPhoto"]{
+        min-height:52px;
+        font-size:16px;
+    }
+
+    /* WhatsApp Button */
+    #btnWhatsapp{
+        font-size:22px !important;
+        padding:18px !important;
+    }
+
+    /* Size Buttons */
+    .size-btn{
+        min-width:90px;
+        min-height:50px;
+        font-size:18px;
+    }
+
+    /* Delivery Check */
+    #checkPin{
+        min-width:110px;
+        font-size:18px;
+        font-weight:700;
+    }
+
+    /* Better spacing */
+    .grid{
+        gap:14px !important;
     }
 }
