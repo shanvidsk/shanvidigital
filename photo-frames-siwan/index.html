@@ -8,7 +8,8 @@
     
     <title>Customized Photo Frames & Handmade Gift Frames in Siwan Basantpur | Birthday, Anniversary & Couple Gifts</title>
     <meta name="description" content="Customized photo frame banwana hai? Siwan Basantpur में birthday, anniversary और couple photo frames बनवाएं। Starting at ₹149. WhatsApp से direct order करें।">
-    <meta name="keywords" content="photo frame shop in siwan, birthday photo frame siwan, customized gift shop siwan, anniversary frame near me, Shanvi Digital Basantpur, Shaharkola">
+    <meta name="keywords" content="photo frame shop in siwan, birthd
+        ay photo frame siwan, customized gift shop siwan, anniversary frame near me, Shanvi Digital Basantpur, Shaharkola">
     <meta name="author" content="Shanvi Digital Seva Kendra">
     
     <link rel="canonical" href="https://shanvidigital.in/photo-frames-siwan">
@@ -371,7 +372,78 @@ body {
     box-shadow:0 8px 20px rgba(0,0,0,.12);
 }
 
+.frame3d-cta{
+    display:flex;
+    justify-content:center;
+    margin:30px 0;
+}
 
+.frame3d-btn{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    text-decoration:none;
+    padding:18px 30px;
+    border-radius:20px;
+
+    background:linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b,
+        #334155
+    );
+
+    color:#fff;
+    min-width:420px;
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.15);
+
+    transition:.3s ease;
+    position:relative;
+    overflow:hidden;
+}
+
+.frame3d-btn::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.15),
+        transparent
+    );
+    transition:.8s;
+}
+
+.frame3d-btn:hover::before{
+    left:100%;
+}
+
+.frame3d-btn:hover{
+    transform:translateY(-4px);
+}
+
+.frame3d-btn .icon{
+    font-size:34px;
+}
+
+.frame3d-btn .title{
+    font-size:22px;
+    font-weight:700;
+    line-height:1.2;
+}
+
+.frame3d-btn .subtitle{
+    font-size:13px;
+    opacity:.8;
+    margin-top:2px;
+}
 /* YAHAN PASTE KARO */
 @media (min-width: 769px){
 
@@ -651,11 +723,15 @@ body {
     </section>
     <!-- New Video Section End -->
 
-    <div class="text-center my-6">
-    <a href="/frame3d/"
-       class="inline-flex items-center gap-2 bg-[#cc0100] hover:bg-[#b00000] text-white px-8 py-4 rounded-full font-semibold shadow-lg transition-all">
-        👁️ Design Your Frame in 3D
+    <div class="frame3d-cta">
+    <a href="/frame3d/" class="frame3d-btn">
+        <span class="icon">👁️</span>
+        <div>
+            <div class="title">Design Your Frame in 3D</div>
+            <div class="subtitle">Upload Photo • Live Preview • WhatsApp Order</div>
+        </div>
     </a>
+</div>
 </div>
 
     <div class="filter-wrapper" id="filter-container">
