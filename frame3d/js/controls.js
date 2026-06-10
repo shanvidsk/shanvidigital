@@ -31,7 +31,7 @@ new THREE.Color(0x2a2a2a);
             this.container.clientHeight
         );
 
-        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setPixelRatio(     Math.min(window.devicePixelRatio, 1.5) );
 
         this.renderer.outputColorSpace =
             THREE.SRGBColorSpace;
