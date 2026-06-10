@@ -20,7 +20,7 @@ new THREE.Color(0x2a2a2a);
             1000
         );
 
-        this.camera.position.set(1.2, 0.4, 12);
+        this.camera.position.set(1.0, 0.3, 10.5);
 
         this.renderer = new THREE.WebGLRenderer({
             antialias: true
