@@ -526,18 +526,46 @@
             const cx = c.getContext('2d');
             const s = pts.map(p => ({x: p.x * raw.width, y: p.y * raw.height}));
             
-            let drawTri = (s0, s1, s2, d0, d1, d2) => {
-                cx.save(); cx.beginPath(); cx.moveTo(d0.x, d0.y); cx.lineTo(d1.x, d1.y); cx.lineTo(d2.x, d2.y); cx.closePath(); cx.clip();
-                let det = s0.x*(s1.y-s2.y) - s1.x*(s0.y-s2.y) + s2.x*(s0.y-s1.y); if(det===0) return;
+            let drawTri = (s0, s1, s2, d0, d1, d2, fixSeam = false) => {
+                cx.save();
+                cx.beginPath();
+                // Large Doc / A4: slightly expand the triangle clip to prevent a
+                // 1-pixel antialiasing gap along the shared diagonal.
+                if (fixSeam) {
+                    const points = [d0, d1, d2];
+                    const center = {
+                        x: (d0.x + d1.x + d2.x) / 3,
+                        y: (d0.y + d1.y + d2.y) / 3
+                    };
+                    const expand = p => {
+                        const dx = p.x - center.x, dy = p.y - center.y;
+                        const len = Math.hypot(dx, dy) || 1;
+                        return { x: p.x + (dx / len) * 1.5, y: p.y + (dy / len) * 1.5 };
+                    };
+                    const q = points.map(expand);
+                    cx.moveTo(q[0].x, q[0].y);
+                    cx.lineTo(q[1].x, q[1].y);
+                    cx.lineTo(q[2].x, q[2].y);
+                } else {
+                    cx.moveTo(d0.x, d0.y);
+                    cx.lineTo(d1.x, d1.y);
+                    cx.lineTo(d2.x, d2.y);
+                }
+                cx.closePath();
+                cx.clip();
+                let det = s0.x*(s1.y-s2.y) - s1.x*(s0.y-s2.y) + s2.x*(s0.y-s1.y); if(det===0) { cx.restore(); return; }
                 let a = (d0.x*(s1.y-s2.y) - d1.x*(s0.y-s2.y) + d2.x*(s0.y-s1.y))/det;
                 let b = (d0.y*(s1.y-s2.y) - d1.y*(s0.y-s2.y) + d2.y*(s0.y-s1.y))/det;
                 let c_val = (s0.x*(d1.x-d2.x) - s1.x*(d0.x-d2.x) + s2.x*(d0.x-d1.x))/det;
                 let d = (s0.x*(d1.y-d2.y) - s1.x*(d0.y-d2.y) + s2.x*(d0.y-d1.y))/det;
                 let e = d0.x - a*s0.x - c_val*s0.y; let f = d0.y - b*s0.x - d*s0.y;
-                cx.transform(a, b, c_val, d, e, f); cx.drawImage(raw, 0, 0); cx.restore();
+                cx.transform(a, b, c_val, d, e, f);
+                cx.drawImage(raw, 0, 0);
+                cx.restore();
             };
-            drawTri(s[0], s[1], s[2], {x:0,y:0}, {x:w,y:0}, {x:w,y:h});
-            drawTri(s[0], s[2], s[3], {x:0,y:0}, {x:w,y:h}, {x:0,y:h});
+            const fixLargeDocSeam = mode !== 'id';
+            drawTri(s[0], s[1], s[2], {x:0,y:0}, {x:w,y:0}, {x:w,y:h}, fixLargeDocSeam);
+            drawTri(s[0], s[2], s[3], {x:0,y:0}, {x:w,y:h}, {x:0,y:h}, fixLargeDocSeam);
 
             if (mode === 'id') { scans[slot] = c; document.getElementById('btn-'+slot).classList.add('filled'); } 
             else { largeObjs.push({ id: Date.now(), img: c, x: (BASE_W/2) - (w/2), y: (BASE_H/2) - (h/2), w: w, h: h }); selId = largeObjs[largeObjs.length-1].id; }
