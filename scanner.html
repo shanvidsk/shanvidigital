@@ -563,9 +563,9 @@
                 cx.drawImage(raw, 0, 0);
                 cx.restore();
             };
-            const fixLargeDocSeam = mode !== 'id';
-            drawTri(s[0], s[1], s[2], {x:0,y:0}, {x:w,y:0}, {x:w,y:h}, fixLargeDocSeam);
-            drawTri(s[0], s[2], s[3], {x:0,y:0}, {x:w,y:h}, {x:0,y:h}, fixLargeDocSeam);
+            const fixCropSeam = true; // Prevent diagonal seam in ID Card, Large Doc, and A4 crops.
+            drawTri(s[0], s[1], s[2], {x:0,y:0}, {x:w,y:0}, {x:w,y:h}, fixCropSeam);
+            drawTri(s[0], s[2], s[3], {x:0,y:0}, {x:w,y:h}, {x:0,y:h}, fixCropSeam);
 
             if (mode === 'id') { scans[slot] = c; document.getElementById('btn-'+slot).classList.add('filled'); } 
             else { largeObjs.push({ id: Date.now(), img: c, x: (BASE_W/2) - (w/2), y: (BASE_H/2) - (h/2), w: w, h: h }); selId = largeObjs[largeObjs.length-1].id; }
