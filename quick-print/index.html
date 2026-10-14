@@ -1,1 +1,1180 @@
+<!DOCTYPE html>
 
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
+
+    <title>Shanvi Quick Print | Online A4 PDF & Image Printing</title>
+
+    <meta name="description" content="Shanvi Quick Print: prepare images on an A4 page, crop and adjust them, download a PDF, or send a print request to Shanvi Digital Seva Kendra.">
+
+    <link rel="canonical" href="https://shanvidigital.in/quick-print.html">
+
+    <link rel="icon" href="logo.jpg">
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+
+    <style>
+
+        :root { 
+
+            --primary: #3b82f6; 
+
+            --primary-dark: #2563eb;
+
+            --danger: #ef4444;
+
+            --bg-color: #f3f4f6;
+
+            --sidebar-bg: #ffffff;
+
+            --border-color: #e2e8f0;
+
+            --text-main: #1f2937;
+
+            --text-light: #6b7280;
+
+        }
+
+
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+
+
+        body { 
+
+            font-family: 'Inter', sans-serif; background: var(--bg-color); margin: 0; 
+
+            height: 100vh; display: flex; overflow: hidden; color: var(--text-main);
+
+        }
+
+
+
+        .app-container { display: flex; width: 100%; height: 100%; }
+
+
+
+        .sidebar {
+
+            width: 340px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color);
+
+            display: flex; flex-direction: column; padding: 20px; z-index: 20;
+
+            flex-shrink: 0; overflow-y: auto;
+
+        }
+
+
+
+        /* ✅ Back to Home Link Style */
+
+        .back-home-link {
+
+            display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; 
+
+            color: var(--text-light); text-decoration: none; margin-bottom: 20px; transition: 0.2s;
+
+        }
+
+        .back-home-link:hover { color: var(--primary); }
+
+
+
+        .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; }
+
+        .brand-icon { width: 42px; height: 42px; background: var(--primary); border-radius: 8px; color: white; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+
+        .brand-info h1 { font-size: 18px; font-weight: 800; margin: 0; line-height: 1.2; }
+
+        .brand-info p { font-size: 12px; font-weight: 600; color: var(--primary); margin: 0; }
+
+
+
+        .sec-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; margin-top: 10px; }
+
+
+
+        .type-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+
+        .type-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 15px 5px; text-align: center; cursor: pointer; transition: 0.2s; background: white; }
+
+        .type-card:hover { border-color: var(--primary); background: #eff6ff; }
+
+        .type-card.active { border: 2px solid var(--primary); background: #eff6ff; color: var(--primary); }
+
+        .type-card i { font-size: 22px; margin-bottom: 8px; display: block; }
+
+        .type-card span { font-size: 11px; font-weight: 600; display: block; }
+
+
+
+        .settings-box { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; margin-bottom: 20px; }
+
+        .toggle-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+
+        .toggle-row:last-child { margin-bottom: 0; }
+
+        .toggle-label { font-size: 13px; font-weight: 600; color: var(--text-main); }
+
+
+
+        .switch { position: relative; display: inline-block; width: 36px; height: 20px; }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 20px; }
+
+        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: .3s; border-radius: 50%; }
+
+        input:checked + .slider { background-color: var(--primary); }
+
+        input:checked + .slider:before { transform: translateX(16px); }
+
+
+
+        .blue-tip {
+
+            background: #eff6ff; border: 1px solid #dbeafe; border-radius: 8px; padding: 12px;
+
+            font-size: 11px; color: #1e40af; line-height: 1.5; display: flex; gap: 10px; margin-bottom: 15px; align-items: flex-start;
+
+        }
+
+        .blue-tip i { font-size: 14px; margin-top: 2px; flex-shrink: 0; }
+
+
+
+        .scan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+
+        .scan-box { border: 2px dashed #cbd5e1; border-radius: 12px; padding: 25px 5px; text-align: center; cursor: pointer; background: #f8fafc; transition: 0.2s; }
+
+        .scan-box:hover { border-color: var(--primary); background: white; }
+
+        .scan-box.filled { border-style: solid; border-color: #10b981; background: #ecfdf5; }
+
+        .scan-box i { font-size: 24px; color: #94a3b8; margin-bottom: 8px; display: block; }
+
+        .scan-box span { font-size: 11px; font-weight: 700; color: var(--text-light); }
+
+        .filled i { color: #10b981; } .filled span { color: #065f46; }
+
+
+
+        .scan-full { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 90px; border: 2px dashed #cbd5e1; border-radius: 12px; cursor: pointer; background: #f8fafc; color: #64748b; gap: 8px; margin-bottom: 15px; }
+
+        .scan-full:hover { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
+
+        .scan-full i { font-size: 28px; }
+
+        .scan-full span { font-weight: 700; font-size: 13px; }
+
+
+
+        .sidebar-footer { margin-top: auto; display: flex; flex-direction: column; gap: 12px; }
+
+        .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        .btn { height: 44px; border-radius: 8px; border: 1px solid var(--border-color); font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; background: white; }
+
+        .btn-jpg:hover { background: #f8fafc; }
+        .auto-print-box { background:#f8fafc; border:1px solid var(--border-color); border-radius:10px; padding:12px; display:flex; flex-direction:column; gap:8px; }
+        .auto-print-box label { font-size:12px; font-weight:700; color:var(--text-main); }
+        .auto-print-box input { width:100%; min-width:0; border:1px solid #cbd5e1; border-radius:7px; padding:10px; font:inherit; font-size:13px; }
+        .btn-auto { background:#0f766e; color:white; border:0; height:46px; width:100%; border-radius:8px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; }
+        .btn-auto:hover { background:#115e59; }
+        .btn:disabled, .btn-auto:disabled { opacity:.6; cursor:wait; }
+        #jobStatus { font-size:11px; line-height:1.45; color:#475569; white-space:pre-wrap; overflow-wrap:anywhere; }
+        #jobStatus.ok { color:#047857; } #jobStatus.error { color:#b91c1c; }
+
+        .info-trigger { width:100%; border:1px solid #bfdbfe; background:#eff6ff; color:#1d4ed8; border-radius:9px; padding:10px 12px; display:flex; align-items:center; justify-content:center; gap:8px; font:700 12px 'Inter',sans-serif; cursor:pointer; margin:0 0 16px; transition:.2s; }
+        .info-trigger:hover { background:#dbeafe; }
+        .info-modal { display:none; position:fixed; inset:0; z-index:10000; background:rgba(15,23,42,.65); padding:18px; align-items:center; justify-content:center; }
+        .info-modal.open { display:flex; }
+        .info-panel { width:min(760px,100%); max-height:90vh; overflow:auto; background:#fff; color:#1f2937; border-radius:16px; box-shadow:0 24px 80px rgba(0,0,0,.25); }
+        .info-head { position:sticky; top:0; background:#fff; padding:18px 20px; border-bottom:1px solid #e2e8f0; display:flex; align-items:center; justify-content:space-between; gap:12px; z-index:1; }
+        .info-head h2 { font-size:19px; margin:0; }
+        .info-close { width:36px; height:36px; border:0; border-radius:9px; background:#f1f5f9; color:#334155; cursor:pointer; font-size:18px; }
+        .info-content { padding:20px; font-size:13px; line-height:1.7; }
+        .info-content h3 { font-size:15px; margin:20px 0 7px; color:#0f172a; }
+        .info-content h3:first-child { margin-top:0; }
+        .info-content p { margin:7px 0 12px; }
+        .info-content ul { padding-left:20px; margin:8px 0 14px; }
+        .info-note { padding:12px; background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; color:#9a3412; margin:12px 0; }
+        .info-faq { border:1px solid #e2e8f0; border-radius:9px; padding:11px 12px; margin:8px 0; }
+        .info-faq summary { cursor:pointer; font-weight:700; color:#1e293b; }
+        .info-faq p { margin:9px 0 0; color:#475569; }
+        @media(max-width:768px) { .info-modal { padding:10px; } .info-content { padding:16px; } .info-head { padding:14px 16px; } }
+
+
+        .btn-pdf { color: var(--danger); border-color: #fecaca; }
+
+        .btn-pdf:hover { background: #fef2f2; }
+
+        .btn-print { background: var(--primary); color: white; border: none; height: 50px; font-size: 15px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); width: 100%; }
+
+        .btn-print:hover { background: var(--primary-dark); }
+
+
+
+        .main-content { flex: 1; background: #e2e8f0; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; background-image: radial-gradient(#94a3b8 1px, transparent 1px); background-size: 24px 24px; overflow: hidden; }
+
+        .top-tools { position: absolute; top: 20px; background: white; padding: 10px 25px; border-radius: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: flex; gap: 20px; align-items: center; z-index: 10; }
+
+        .tool-g { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #64748b; }
+
+        input[type=range] { width: 100px; height: 4px; accent-color: var(--primary); cursor: pointer; }
+
+        .reset-icon { cursor: pointer; color: var(--primary); font-size: 16px; transition: 0.2s; }
+
+        .reset-icon:hover { transform: rotate(-180deg); }
+
+
+
+        .paper-wrapper { background: white; width: 90%; max-width: 500px; aspect-ratio: 0.707; box-shadow: 0 20px 60px -10px rgba(0,0,0,0.25); position: relative; }
+
+        #finalCanvas { width: 100%; height: 100%; display: block; touch-action: none; }
+
+        .hint-layer { position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+
+        .hint { position: absolute; border: 2px dashed #cbd5e1; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #94a3b8; font-weight: 700; font-size: 12px; background: rgba(255,255,255,0.6); }
+
+
+
+        .float-bar { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background: white; padding: 10px 25px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; gap: 20px; align-items: center; z-index: 50; }
+
+        .fb-btn { width: 44px; height: 44px; border-radius: 50%; border: none; background: #f1f5f9; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: 0.2s; }
+
+        .fb-btn:hover { background: #e2e8f0; color: var(--primary); transform: scale(1.1); }
+
+        .fb-btn.delete { color: #ef4444; background: #fef2f2; }
+
+        .fb-btn.delete:hover { background: #fee2e2; }
+
+
+
+       @media (max-width: 768px) {
+
+
+
+    body { overflow: auto; height: auto; }
+
+
+
+    .app-container { 
+
+        flex-direction: column; 
+
+        height: auto; 
+
+        min-height: 100vh; 
+
+    }
+
+
+
+   .sidebar { 
+
+    width: 100%; 
+
+    height: auto; 
+
+    border-right: none; 
+
+    border-top: none; 
+
+    order: 2; 
+
+    padding: 16px 15px; 
+
+    flex-shrink: 0; 
+
+
+
+    background: #ffffff;
+
+
+
+    border-top-left-radius: 20px;
+
+    border-top-right-radius: 20px;
+
+
+
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.08);
+
+
+
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
+
+}
+
+
+
+    /* ✅ Brand SHOW hoga */
+
+    .brand { 
+
+        display: flex; 
+
+        margin-bottom: 10px;
+
+    }
+
+
+
+    /* Label hide rakh sakte ho compact ke liye */
+
+    .sec-label { 
+
+        display: none; 
+
+    }
+
+
+
+    .type-grid { margin-bottom: 10px; gap: 6px; }
+
+
+
+    .type-card { padding: 10px; }
+
+
+
+    .type-card i { 
+
+        font-size: 18px; 
+
+        margin-bottom: 4px; 
+
+    }
+
+
+
+    /* ✅ Double ID toggle SHOW hoga */
+
+    .settings-box { 
+
+        display: block; 
+
+        padding: 10px; 
+
+        margin-bottom: 10px;
+
+    }
+
+
+
+    .toggle-label {
+
+        font-size: 12px;
+
+    }
+
+
+
+    .scan-grid { margin-bottom: 10px; gap: 8px; }
+
+
+
+    .scan-box { 
+
+        padding: 15px 5px; 
+
+        border-width: 1px; 
+
+    }
+
+
+
+    .scan-full { height: 70px; }
+
+
+
+    .sidebar-footer { 
+
+        margin-top: 10px; 
+
+        gap: 10px; 
+
+    }
+
+
+
+    .btn { 
+
+        height: 40px; 
+
+        font-size: 12px; 
+
+    }
+
+
+
+  .main-content {
+
+    order: 1;
+
+    padding: 15px;
+
+    height: auto;
+
+    min-height: 45vh;
+
+    flex: none;
+
+}
+
+
+
+    .top-tools { 
+
+        width: 90%; 
+
+        justify-content: space-between; 
+
+        top: 15px; 
+
+        padding: 8px 15px; 
+
+    }
+
+
+
+    .float-bar { 
+
+        bottom: 10px; 
+
+        padding: 8px 20px; 
+
+        gap: 15px; 
+
+    }
+
+
+
+    .fb-btn { 
+
+        width: 38px; 
+
+        height: 38px; 
+
+        font-size: 14px; 
+
+    }
+
+
+
+    .back-home-link { 
+
+        display: none; 
+
+    }
+
+}
+
+
+
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; z-index: 9999; display: none; flex-direction: column; }
+
+        .modal-body { flex: 1; position: relative; overflow: hidden; background: #000; }
+
+        #scanImg { max-width: 100%; max-height: 100%; display: block; margin: auto; position: absolute; top:0; bottom:0; left:0; right:0; }
+
+        #svgLayer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+
+        .poly { fill: rgba(59, 130, 246, 0.3); stroke: #3b82f6; stroke-width: 2; }
+
+        .handle { width: 32px; height: 32px; background: rgba(59, 130, 246, 0.8); border: 2px solid white; border-radius: 50%; position: absolute; transform: translate(-50%, -50%); z-index: 20; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+
+        .modal-footer { padding: 20px; background: #1e293b; display: flex; gap: 15px; }
+
+        .m-btn { flex: 1; padding: 14px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; color: white; font-size: 14px; }
+
+        .b-cancel { background: #334155; } .b-ok { background: var(--primary); }
+
+        #print-agent { display: none; }
+
+        @media print { @page { margin: 0; size: A4 portrait; } body * { display: none !important; } body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: white; overflow: hidden; } #print-agent { display: block !important; position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 9999; } }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+<div class="app-container">
+
+    <div class="sidebar">
+
+        <a href="index.html" class="back-home-link"><i class="fas fa-arrow-left"></i> होम पेज पर वापस जाएं</a>
+
+
+
+        <div class="brand">
+
+            <div class="brand-icon"><i class="fas fa-print"></i></div>
+
+            <div class="brand-info"><h1>Shanvi Digital</h1><p>9507675743</p></div>
+
+        </div>
+
+        <button class="info-trigger" type="button" onclick="openInfoModal()">
+            <i class="fas fa-circle-info"></i> सेवा की जानकारी, Privacy Policy & FAQ
+        </button>
+
+
+
+        <div class="sec-label">1. A4 IMAGE WORKSPACE</div>
+        <div class="settings-box">
+            <div class="toggle-row">
+                <span class="toggle-label">A4 Portrait Page</span>
+                <span style="font-size:12px;font-weight:700;color:var(--primary);">210 × 297 mm</span>
+            </div>
+            <div class="toggle-row" style="margin-top:10px;">
+                <span class="toggle-label">HD Quality Image</span>
+                <label class="switch"><input type="checkbox" id="dpiCheck" onchange="toggleDPI()" checked><span class="slider"></span></label>
+            </div>
+        </div>
+
+        <div class="sec-label">2. ADD IMAGES</div>
+        <div class="blue-tip">
+            <i class="fas fa-info-circle"></i>
+            <span>इमेज चुनें, चारों कोनों से crop करें, फिर A4 पेज पर फोटो को खिसकाकर और छोटा-बड़ा करके सेट करें। एक से अधिक इमेज जोड़ सकते हैं।</span>
+        </div>
+        <div class="scan-full" id="scanPage" style="display:flex;" onclick="startScan('large')">
+            <i class="fas fa-plus-circle"></i><span>इमेज जोड़ें (Add Image)</span>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="btn btn-pdf" style="width:100%;height:48px" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> PDF डाउनलोड करें</button>
+            <div class="auto-print-box">
+                <label for="uploadPin">दुकान का Auto Print PIN</label>
+                <input id="uploadPin" type="password" autocomplete="off" placeholder="दुकान से मिला PIN डालें">
+                <button class="btn-auto" id="autoPrintBtn" onclick="sendToAutoPrint()"><i class="fas fa-print"></i> Auto Print पर भेजें</button>
+                <div id="jobStatus" aria-live="polite">Auto Print के लिए Apps Script URL और दुकान का PIN सर्वर पर सेट होना चाहिए।</div>
+            </div>
+        </div>
+
+
+
+        <div style="text-align:center; font-size:10px; color:#cbd5e1; margin-top:10px;">
+
+            <i class="fas fa-lock"></i> Crop & Layout ब्राउज़र में · Auto Print के लिए इंटरनेट जरूरी
+
+        </div>
+
+    </div>
+
+
+
+    <div class="main-content">
+
+        <div class="top-tools">
+
+            <div class="tool-g"><i class="fas fa-sun"></i><input type="range" min="50" max="150" value="100" id="vBright" oninput="render()"></div>
+
+            <div class="tool-g"><i class="fas fa-adjust"></i><input type="range" min="50" max="150" value="100" id="vCont" oninput="render()"></div>
+
+            <i class="fas fa-undo reset-icon" onclick="resetFilters()"></i>
+
+        </div>
+
+
+
+        <div class="paper-wrapper">
+
+            <canvas id="finalCanvas"></canvas>
+
+            <div class="hint-layer" id="hintLayer"></div>
+
+        </div>
+
+
+
+        <div class="float-bar" id="floatBar">
+
+            <button class="fb-btn" onclick="scaleObj(0.9)"><i class="fas fa-search-minus"></i></button>
+
+            <button class="fb-btn" onclick="resetObjPos()"><i class="fas fa-arrows-alt"></i></button>
+
+            <button class="fb-btn delete" onclick="deleteObj()"><i class="fas fa-trash"></i></button>
+
+            <button class="fb-btn" onclick="scaleObj(1.1)"><i class="fas fa-search-plus"></i></button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<input type="file" id="inpFile" accept="image/*" style="display:none">
+
+
+
+<iframe name="uploadFrame" id="uploadFrame" title="Auto print upload response" style="display:none"></iframe>
+<form id="uploadForm" method="post" target="uploadFrame" enctype="application/x-www-form-urlencoded" style="display:none">
+    <input name="fileData" id="uploadFileData">
+    <input name="fileName" id="uploadFileName">
+    <input name="mimeType" value="application/pdf">
+    <input name="pin" id="uploadPinValue">
+    <input name="clientNonce" id="uploadNonce">
+</form>
+
+
+<div class="info-modal" id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle" onclick="if(event.target===this) closeInfoModal()">
+    <section class="info-panel">
+        <header class="info-head">
+            <h2 id="infoModalTitle"><i class="fas fa-print" style="color:#3b82f6"></i> Shanvi Quick Print</h2>
+            <button class="info-close" type="button" aria-label="Close" onclick="closeInfoModal()"><i class="fas fa-times"></i></button>
+        </header>
+        <div class="info-content">
+            <h3>Online A4 Image & PDF Printing</h3>
+            <p>Shanvi Quick Print एक आसान टूल है, जिससे आप इमेज को A4 Portrait पेज पर जोड़ सकते हैं, crop कर सकते हैं, आकार और स्थान सेट कर सकते हैं तथा PDF डाउनलोड कर सकते हैं। जरूरत होने पर आप दुकान के Auto Print सिस्टम पर प्रिंट अनुरोध भी भेज सकते हैं।</p>
+            <ul>
+                <li><strong>A4 Page:</strong> 210 × 297 mm का पेज लेआउट।</li>
+                <li><strong>Crop & Arrange:</strong> इमेज को crop, move और resize करें।</li>
+                <li><strong>PDF Download:</strong> तैयार पेज की PDF अपने डिवाइस पर डाउनलोड करें।</li>
+                <li><strong>Print Request:</strong> Auto Print विकल्प उपलब्ध होने पर दुकान की प्रिंट कतार में अनुरोध भेजें।</li>
+            </ul>
+            <h3><i class="fas fa-shield-halved"></i> Privacy & Data Handling</h3>
+            <p>इमेज crop करना, पेज पर लगाना और PDF बनाना आपके खुले हुए ब्राउज़र पेज में होता है। इस पेज में कोई अकाउंट या ग्राहक प्रोफाइल बनाने की सुविधा नहीं है।</p>
+            <div class="info-note"><strong>Auto Print के बारे में जरूरी जानकारी:</strong> जब आप Auto Print पर भेजते हैं, तो PDF और अनुरोध से जुड़ी जानकारी इंटरनेट के जरिए Google Apps Script पर जाती है और कॉन्फ़िगर किए गए Google Drive queue folder में फाइल के रूप में सेव होती है। इसलिए यह दावा नहीं किया जा सकता कि Auto Print के दौरान डेटा केवल आपके कंप्यूटर पर रहता है या कहीं भी स्टोर नहीं होता।</div>
+            <p>कृपया संवेदनशील या गोपनीय दस्तावेज़ अपलोड करने से पहले सावधानी बरतें। दुकान संचालक को प्रिंट के बाद queue folder से फाइलें हटाने और access सीमित रखने की सलाह दी जाती है।</p>
+            <h3>Frequently Asked Questions (FAQ)</h3>
+            <details class="info-faq"><summary>1. क्या मैं PDF डाउनलोड कर सकता हूँ?</summary><p>हाँ। इमेज जोड़कर A4 पेज सेट करें और “PDF डाउनलोड करें” बटन दबाएँ।</p></details>
+            <details class="info-faq"><summary>2. क्या मेरी इमेज अपने-आप प्रिंट हो जाएगी?</summary><p>नहीं। Auto Print बटन प्रिंट अनुरोध भेजता है। वास्तविक प्रिंटिंग के लिए दुकान का Windows Auto Print Agent, इंटरनेट और प्रिंटर चालू होना चाहिए। Queue में स्वीकार होना पेपर निकलने की गारंटी नहीं है।</p></details>
+            <details class="info-faq"><summary>3. क्या Auto Print के लिए PIN जरूरी है?</summary><p>हाँ। दुकान से मिला सही Auto Print PIN डालना होता है। अपना PIN किसी अन्य व्यक्ति से साझा न करें।</p></details>
+            <details class="info-faq"><summary>4. क्या मेरी फाइल सर्वर पर सेव होती है?</summary><p>PDF डाउनलोड करने और Auto Print अनुरोध भेजने में फर्क है। Auto Print अनुरोध भेजने पर PDF कॉन्फ़िगर किए गए Google Drive queue folder में सेव होती है, ताकि दुकान का Agent उसे प्राप्त कर सके।</p></details>
+            <details class="info-faq"><summary>5. क्या यह मोबाइल पर काम करता है?</summary><p>इमेज जोड़ने, crop करने और PDF बनाने की सुविधा आधुनिक मोबाइल ब्राउज़र में काम कर सकती है। Auto Print दुकान के सेटअप और इंटरनेट कनेक्शन पर निर्भर करता है।</p></details>
+            <details class="info-faq"><summary>6. अगर Auto Print पर loading चलती रहे तो क्या करें?</summary><p>पेज खुला रखें और बार-बार बटन न दबाएँ। इससे duplicate print requests बन सकती हैं। दुकान संचालक से queue folder और Auto Print Agent की स्थिति जाँचने को कहें।</p></details>
+            <p style="margin-top:18px;color:#64748b;font-size:12px;">Shanvi Digital Seva Kendra · Siwan, Bihar</p>
+        </div>
+    </section>
+</div>
+
+<div class="modal" id="scannerModal">
+
+    <div class="modal-body" id="scanBody">
+
+        <img id="scanImg">
+
+        <svg id="svgLayer"><polygon class="poly" id="poly" points=""></polygon></svg>
+
+        <div class="handle" id="h0"></div><div class="handle" id="h1"></div><div class="handle" id="h2"></div><div class="handle" id="h3"></div>
+
+    </div>
+
+    <div class="modal-footer">
+
+        <button class="m-btn b-cancel" onclick="closeScanner()">Cancel</button>
+
+        <button class="m-btn" style="background:#475569" onclick="rotateScan()">Rotate</button>
+
+        <button class="m-btn b-ok" onclick="finishScan()" id="procBtn">CROP & SCAN</button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+    let mode = 'page', isDual = false, slot = 'large', isHighDPI = true; 
+
+    let scans = { f1:null, b1:null, f2:null, b2:null }; 
+
+    let largeObjs = []; let selId = null; 
+
+    let raw = new Image(); 
+
+    let pts = []; let imgRect = {l:0, t:0, w:0, h:0};
+
+    const cvs = document.getElementById('finalCanvas');
+
+    const ctx = cvs.getContext('2d');
+
+    let BASE_W = 2480; let BASE_H = 3508;
+
+
+
+    window.onbeforeunload = () => largeObjs.length ? "Data will be lost." : null;
+
+    setDPI(true); setMode('page');
+
+
+
+    function getFileName(ext) {
+
+        const d = new Date();
+
+        const ds = d.getFullYear() + ("0" + (d.getMonth()+1)).slice(-2) + ("0" + d.getDate()).slice(-2) + "_" + ("0" + d.getHours()).slice(-2) + ("0" + d.getMinutes()).slice(-2);
+
+        return "Shanvi_" + ds + "." + ext;
+
+    }
+
+
+
+    function checkEmpty() {
+
+        if(mode === 'id') {
+
+            if(!scans.f1 && !scans.b1 && !scans.f2) { alert("Please scan at least one document first!"); return false; }
+
+        } else {
+
+            if(largeObjs.length === 0) { alert("Canvas is empty! Add a document."); return false; }
+
+        }
+
+        return true;
+
+    }
+
+
+
+    // Single workspace only: A4 portrait.
+    function setMode(m) {
+        mode = 'page';
+        slot = 'large';
+        document.getElementById('scanPage').style.display = 'flex';
+        document.getElementById('floatBar').style.display = 'flex';
+        render();
+    }
+
+
+    function toggleDPI() { isHighDPI = document.getElementById('dpiCheck').checked; setDPI(isHighDPI); }
+
+    function setDPI(high) { cvs.width = high ? 2480 : 1240; cvs.height = high ? 3508 : 1754; render(); }
+
+    function resetFilters() { document.getElementById('vBright').value = 100; document.getElementById('vCont').value = 100; render(); }
+
+
+
+    function render() {
+
+        ctx.fillStyle = "white"; ctx.fillRect(0, 0, cvs.width, cvs.height);
+
+        const br = document.getElementById('vBright').value;
+
+        const co = document.getElementById('vCont').value;
+
+        ctx.filter = `brightness(${br}%) contrast(${co}%)`;
+
+        const s = isHighDPI ? 1 : 0.5;
+
+        let hHTML = "";
+
+
+
+        if (mode === 'id') {
+
+            const w = 1010 * s; const h = 637 * s; const gap = 120 * s; const cx = cvs.width/2; const cy = 300 * s;
+
+            drawSlot(scans.f1, cx - w - gap/2, cy, w, h, "FRONT");
+
+            drawSlot(scans.b1, cx + gap/2, cy, w, h, "BACK");
+
+            if(isDual) {
+
+                const cy2 = cy + h + 200 * s;
+
+                drawSlot(scans.f2, cx - w - gap/2, cy2, w, h, "FRONT 2");
+
+                drawSlot(scans.b2, cx + gap/2, cy2, w, h, "BACK 2");
+
+            }
+
+        } else {
+
+            const scale = cvs.width / BASE_W; 
+
+            largeObjs.forEach(o => {
+
+                const x = o.x * scale; const y = o.y * scale; const w = o.w * scale; const h = o.h * scale;
+
+                ctx.drawImage(o.img, x, y, w, h);
+
+                if(o.id === selId) {
+
+                    ctx.save(); ctx.filter = 'none'; ctx.strokeStyle = "#3b82f6"; ctx.lineWidth = 4; ctx.strokeRect(x, y, w, h);
+
+                    ctx.fillStyle = "#3b82f6"; const r = 18;
+
+                    ctx.fillRect(x-r, y-r, r*2, r*2); ctx.fillRect(x+w-r, y+h-r, r*2, r*2);
+
+                    ctx.restore();
+
+                }
+
+            });
+
+            if(largeObjs.length === 0) hHTML = `<div class="hint" style="left:15%;top:15%;width:70%;height:50%">CLICK 'ADD DOCUMENT'</div>`;
+
+        }
+
+        document.getElementById('hintLayer').innerHTML = hHTML;
+
+        ctx.filter = 'none';
+
+    }
+
+
+
+    function drawSlot(img, x, y, w, h, txt) {
+
+        if(img) ctx.drawImage(img, x, y, w, h);
+
+        else {
+
+            ctx.save(); ctx.filter = 'none'; ctx.strokeStyle = "#cbd5e1"; ctx.lineWidth = 2; ctx.setLineDash([10, 10]);
+
+            ctx.strokeRect(x, y, w, h); ctx.restore();
+
+        }
+
+    }
+
+
+
+    let dragState = null;
+
+    function getCoords(e) {
+        const rect = cvs.getBoundingClientRect();
+        return { x: (e.clientX - rect.left) * BASE_W / rect.width, y: (e.clientY - rect.top) * BASE_H / rect.height };
+    }
+
+    function handleStart(e) {
+        const p = getCoords(e);
+        selId = null; dragState = null;
+        for (let i = largeObjs.length - 1; i >= 0; i--) {
+            const o = largeObjs[i];
+            if (p.x >= o.x && p.x <= o.x + o.w && p.y >= o.y && p.y <= o.y + o.h) {
+                selId = o.id;
+                // The visible bottom-right square is a direct mouse/touch resize handle.
+                const handleSize = Math.max(70, BASE_W / Math.max(1, cvs.getBoundingClientRect().width) * 18);
+                const onResize = p.x >= o.x + o.w - handleSize && p.y >= o.y + o.h - handleSize;
+                dragState = { mode: onResize ? 'resize' : 'move', start: p, old: {x:o.x,y:o.y,w:o.w,h:o.h}, aspect: o.w / Math.max(1,o.h) };
+                e.preventDefault();
+                if (cvs.setPointerCapture && e.pointerId !== undefined) { try { cvs.setPointerCapture(e.pointerId); } catch(_) {} }
+                break;
+            }
+        }
+        render();
+    }
+
+    function handleMove(e) {
+        if (!dragState || !selId) return;
+        if (e.cancelable) e.preventDefault();
+        const p = getCoords(e);
+        const o = largeObjs.find(obj => obj.id === selId);
+        if (!o) return;
+        const dx = p.x - dragState.start.x, dy = p.y - dragState.start.y;
+        if (dragState.mode === 'resize') {
+            // Keep the original image proportions while resizing with the mouse.
+            let newW = Math.max(100, dragState.old.w + dx);
+            let newH = newW / dragState.aspect;
+            if (Math.abs(dy) > Math.abs(dx)) { newH = Math.max(100, dragState.old.h + dy); newW = newH * dragState.aspect; }
+            o.w = Math.min(BASE_W, newW); o.h = Math.min(BASE_H, newH);
+        } else {
+            o.x = Math.max(0, Math.min(BASE_W - o.w, dragState.old.x + dx));
+            o.y = Math.max(0, Math.min(BASE_H - o.h, dragState.old.y + dy));
+        }
+        render();
+    }
+
+    function handleEnd() { dragState = null; }
+    cvs.addEventListener('pointerdown', handleStart);
+    window.addEventListener('pointermove', handleMove, {passive:false});
+    window.addEventListener('pointerup', handleEnd);
+    window.addEventListener('pointercancel', handleEnd);
+
+    function deleteObj() { if(selId) { largeObjs = largeObjs.filter(o => o.id !== selId); selId = null; render(); } }
+
+    function scaleObj(f) { const o = largeObjs.find(obj => obj.id === selId); if(o) { o.w *= f; o.h *= f; render(); } }
+
+    function resetObjPos() { const o = largeObjs.find(obj => obj.id === selId); if(o) { o.x = (BASE_W/2)-(o.w/2); o.y = (BASE_H/2)-(o.h/2); render(); } }
+
+
+
+    function startScan(s) { slot = s; document.getElementById('inpFile').click(); }
+
+    document.getElementById('inpFile').onchange = e => {
+
+        if(e.target.files[0]) {
+
+            let r = new FileReader();
+
+            r.onload = ev => { document.getElementById('scanImg').src = ev.target.result; raw.src = ev.target.result; raw.onload = () => { openScanner(); } };
+
+            r.readAsDataURL(e.target.files[0]);
+
+        }
+
+        e.target.value = '';
+
+    };
+
+
+
+    function openScanner() {
+
+        document.getElementById('scannerModal').style.display = 'flex';
+
+        if (mode === 'id') pts = [{x:0.2, y:0.2}, {x:0.8, y:0.2}, {x:0.8, y:0.8}, {x:0.2, y:0.8}];
+
+        else pts = [{x:0.1, y:0.1}, {x:0.9, y:0.1}, {x:0.9, y:0.9}, {x:0.1, y:0.9}];
+
+        setTimeout(layoutCrop, 100);
+
+    }
+
+    function closeScanner() { document.getElementById('scannerModal').style.display = 'none'; raw.src = ""; }
+
+
+
+    function layoutCrop() {
+
+        const b = document.getElementById('scanBody').getBoundingClientRect();
+
+        const r = Math.min(b.width / raw.width, b.height / raw.height) * 0.9;
+
+        const w = raw.width * r; const h = raw.height * r;
+
+        const img = document.getElementById('scanImg'); img.style.width = w + 'px'; img.style.height = h + 'px';
+
+        const ir = img.getBoundingClientRect(); imgRect = {l: ir.left - b.left, t: ir.top - b.top, w: w, h: h};
+
+        drawOverlay();
+
+    }
+
+    function drawOverlay() {
+
+        let s = ""; for(let i=0; i<4; i++) {
+
+            let px = imgRect.l + pts[i].x * imgRect.w; let py = imgRect.t + pts[i].y * imgRect.h;
+
+            document.getElementById('h'+i).style.left = px + 'px'; document.getElementById('h'+i).style.top = py + 'px';
+
+            s += px + "," + py + " ";
+
+        }
+
+        document.getElementById('poly').setAttribute('points', s);
+
+    }
+
+    document.querySelectorAll('.handle').forEach((h, i) => {
+
+        const move = (e) => { 
+
+            e.preventDefault(); const b = document.getElementById('scanBody').getBoundingClientRect(); 
+
+            const x = e.touches ? e.touches[0].clientX : e.clientX; const y = e.touches ? e.touches[0].clientY : e.clientY;
+
+            let nx = (x - b.left - imgRect.l) / imgRect.w; let ny = (y - b.top - imgRect.t) / imgRect.h;
+
+            pts[i] = { x: Math.max(0, Math.min(1, nx)), y: Math.max(0, Math.min(1, ny)) }; drawOverlay(); 
+
+        };
+
+        h.addEventListener('mousedown', () => { window.addEventListener('mousemove', move); window.addEventListener('mouseup', () => window.removeEventListener('mousemove', move), {once:true}) });
+
+        h.addEventListener('touchstart', () => { window.addEventListener('touchmove', move, {passive:false}); window.addEventListener('touchend', () => window.removeEventListener('touchmove', move), {once:true}) }, {passive:false});
+
+    });
+
+
+
+    function rotateScan() {
+
+        let c = document.createElement('canvas'); c.width = raw.height; c.height = raw.width;
+
+        let x = c.getContext('2d'); x.translate(c.width/2, c.height/2); x.rotate(90*Math.PI/180); x.drawImage(raw, -raw.width/2, -raw.height/2);
+
+        let url = c.toDataURL(); raw.src = url; document.getElementById('scanImg').src = url; raw.onload = () => setTimeout(layoutCrop, 50);
+
+    }
+
+
+
+    function finishScan() {
+
+        document.getElementById('procBtn').innerText = "Processing...";
+
+        setTimeout(() => {
+
+            let w, h;
+
+            if (mode === 'id') { w = 1010; h = 637; } 
+
+            else { 
+
+                let dx = pts[1].x - pts[0].x; let dy = pts[2].y - pts[1].y;
+
+                w = raw.width * Math.abs(dx); h = raw.height * Math.abs(dy);
+
+                if(w > 2000) { let scale = 2000/w; w*=scale; h*=scale; }
+
+            }
+
+            const c = document.createElement('canvas'); c.width = w; c.height = h;
+
+            const cx = c.getContext('2d', { alpha: false });
+            cx.fillStyle = '#ffffff';
+            cx.fillRect(0, 0, c.width, c.height);
+            cx.imageSmoothingEnabled = true;
+            cx.imageSmoothingQuality = 'high';
+
+            const s = pts.map(p => ({x: p.x * raw.width, y: p.y * raw.height}));
+
+            // Draw each affine triangle with a tiny expanded clip. Canvas anti-aliasing
+            // can otherwise leave a hairline gap along the shared diagonal on A4.
+            let drawTri = (s0, s1, s2, d0, d1, d2) => {
+                let det = s0.x*(s1.y-s2.y) - s1.x*(s0.y-s2.y) + s2.x*(s0.y-s1.y);
+                if (Math.abs(det) < 1e-8) return;
+
+                const expand = 1.5;
+                const center = { x: (d0.x+d1.x+d2.x)/3, y: (d0.y+d1.y+d2.y)/3 };
+                const grow = p => {
+                    const vx = p.x-center.x, vy = p.y-center.y;
+                    const len = Math.hypot(vx, vy) || 1;
+                    return { x: p.x + (vx/len)*expand, y: p.y + (vy/len)*expand };
+                };
+                const q0 = grow(d0), q1 = grow(d1), q2 = grow(d2);
+                cx.save();
+                cx.beginPath(); cx.moveTo(q0.x,q0.y); cx.lineTo(q1.x,q1.y); cx.lineTo(q2.x,q2.y); cx.closePath(); cx.clip();
+
+                let a = (d0.x*(s1.y-s2.y) - d1.x*(s0.y-s2.y) + d2.x*(s0.y-s1.y))/det;
+                let b = (d0.y*(s1.y-s2.y) - d1.y*(s0.y-s2.y) + d2.y*(s0.y-s1.y))/det;
+                let c_val = (s0.x*(d1.x-d2.x) - s1.x*(d0.x-d2.x) + s2.x*(d0.x-d1.x))/det;
+                let d = (s0.x*(d1.y-d2.y) - s1.x*(d0.y-d2.y) + s2.x*(d0.y-d1.y))/det;
+                let e = d0.x - a*s0.x - c_val*s0.y;
+                let f = d0.y - b*s0.x - d*s0.y;
+                cx.transform(a, b, c_val, d, e, f);
+                cx.drawImage(raw, 0, 0);
+                cx.restore();
+            };
+
+            drawTri(s[0], s[1], s[2], {x:0,y:0}, {x:w,y:0}, {x:w,y:h});
+
+            drawTri(s[0], s[2], s[3], {x:0,y:0}, {x:w,y:h}, {x:0,y:h});
+
+
+
+            if (mode === 'id') { scans[slot] = c; document.getElementById('btn-'+slot).classList.add('filled'); } 
+
+            else { largeObjs.push({ id: Date.now(), img: c, x: (BASE_W/2) - (w/2), y: (BASE_H/2) - (h/2), w: w, h: h }); selId = largeObjs[largeObjs.length-1].id; }
+
+
+
+            document.getElementById('procBtn').innerText = "CROP & SCAN";
+
+            closeScanner(); render();
+
+        }, 50);
+
+    }
+
+
+
+    function buildPdf() {
+        if (!checkEmpty()) return null;
+        selId = null; render();
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4', true);
+        const quality = isHighDPI ? 0.98 : 0.82;
+        pdf.addImage(cvs.toDataURL('image/jpeg', quality), 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+        return pdf;
+    }
+
+    function exportPDF() {
+        try { const pdf = buildPdf(); if (pdf) pdf.save(getFileName('pdf')); }
+        catch(e) { alert('PDF नहीं बन सकी: ' + (e.message || e)); }
+    }
+
+
+    function openInfoModal() {
+        document.getElementById('infoModal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeInfoModal() {
+        document.getElementById('infoModal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeInfoModal();
+    });
+
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3ArnjEhbRumQ3xRor4FsQwMBG5KnCPMpP1JgwQrnqkyHdNo0PM_f6Kmi4RnFUdrOE/exec';
+    let activeUploadNonce = '';
+    function setJobStatus(message, kind='') { const el=document.getElementById('jobStatus'); el.textContent=message; el.className=kind; }
+    function bytesToBase64(bytes) { let binary=''; const chunk=0x8000; for(let i=0;i<bytes.length;i+=chunk) binary += String.fromCharCode(...bytes.subarray(i,i+chunk)); return btoa(binary); }
+
+    async function sendToAutoPrint() {
+        const status = document.getElementById('jobStatus');
+        const btn = document.getElementById('autoPrintBtn');
+        if (APPS_SCRIPT_URL.includes('PASTE_YOUR')) {
+            setJobStatus('सेटअप बाकी है: HTML में APPS_SCRIPT_URL की जगह अपना Apps Script Web App URL डालें।', 'error');
+            return;
+        }
+        const pin = document.getElementById('uploadPin').value.trim();
+        if (!pin) { setJobStatus('पहले दुकान का Auto Print PIN डालें।', 'error'); return; }
+        const pdf = buildPdf(); if (!pdf) return;
+        btn.disabled = true; setJobStatus('PDF तैयार हो रही है…');
+        try {
+            const dataUri = pdf.output('datauristring');
+            const base64 = dataUri.split(',')[1];
+            const rawBytes = Math.floor(base64.length * 3 / 4);
+            if (rawBytes > 8 * 1024 * 1024) throw new Error('PDF 8 MB से बड़ी है। फोटो का आकार/गिनती कम करके फिर भेजें।');
+            activeUploadNonce = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + String(Math.random()).slice(2));
+            const form = document.getElementById('uploadForm');
+            form.action = APPS_SCRIPT_URL;
+            document.getElementById('uploadFileData').value = base64;
+            document.getElementById('uploadFileName').value = getFileName('pdf');
+            document.getElementById('uploadPinValue').value = pin;
+            document.getElementById('uploadNonce').value = activeUploadNonce;
+            setJobStatus('PDF दुकान के Auto Print सिस्टम पर भेजी जा रही है। जवाब आने तक यह पेज खुला रखें…');
+            form.submit();
+        } catch(e) { btn.disabled=false; setJobStatus(e.message || 'PDF भेजने में समस्या हुई।', 'error'); }
+    }
+
+    window.addEventListener('message', function(e) {
+        if (e.source !== document.getElementById('uploadFrame').contentWindow) return;
+        const d=e.data;
+        if (!d || d.type !== 'shanvi-upload-result' || d.clientNonce !== activeUploadNonce) return;
+        document.getElementById('autoPrintBtn').disabled=false;
+        if (d.ok) {
+            setJobStatus('अपलोड स्वीकार हुआ। Job ID: ' + d.jobId + '\nस्थिति: QUEUED — यह पुष्टि नहीं है कि पेपर निकल चुका है। Windows Auto Print Agent और प्रिंटर चालू रखें।', 'ok');
+            document.getElementById('uploadPin').value='';
+        } else setJobStatus('अपलोड असफल: ' + (d.message || 'PIN/सेटअप जाँचें और फिर कोशिश करें।'), 'error');
+    });
+
+</script>
+
+</body>
+
+</html>
