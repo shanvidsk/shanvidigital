@@ -1,1 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>PVC Account Card Studio</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- JsBarcode -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+  <!-- PDF.js for Direct NSDL Receipt Parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Exact PVC CR80 Card Dimensions: 85.6mm x 54mm */
+    .pvc-card {
+      width: 85.6mm;
+      height: 54mm;
+      position: relative;
+      overflow: hidden;
+      border-radius: 3.18mm;
+      background: #ffffff;
+      color: #0f172a;
+      box-sizing: border-box;
+      box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.45);
+      user-select: none;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      flex-shrink: 0;
+    }
+
+    /* Security Guilloche Micro-Pattern Background */
+    .card-guilloche {
+      background-color: #ffffff;
+      background-image: 
+        radial-gradient(at 90% 10%, rgba(139, 29, 65, 0.06) 0px, transparent 55%),
+        radial-gradient(at 10% 90%, rgba(30, 58, 138, 0.07) 0px, transparent 55%),
+        repeating-linear-gradient(45deg, rgba(15, 23, 42, 0.015) 0px, rgba(15, 23, 42, 0.015) 1px, transparent 1px, transparent 5px);
+    }
+
+    /* NSDL Maroon + Spice Money Red/Blue Official Header */
+    .nsdl-header {
+      background: linear-gradient(100deg, #7a1230 0%, #9e1b40 52%, #1e3a8a 100%);
+    }
+
+    /* Crop Marks for A4 Paper Cutting */
+    .crop-guide {
+      outline: 0.35mm dashed #94a3b8;
+      outline-offset: 0.8mm;
+    }
+
+    /* Screen Preview Scaling */
+    .preview-zoom-wrap {
+      transform-origin: top center;
+      transition: transform 0.2s ease;
+    }
+    @media (min-width: 1280px) {
+      .preview-zoom-wrap {
+        transform: scale(1.25);
+        margin-bottom: 70px;
+      }
+    }
+
+    /* ================= PRINT RULES ================= */
+    @media print {
+      body, html {
+        background: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .preview-zoom-wrap {
+        transform: none !important;
+        margin: 0 !important;
+      }
+      #printArea {
+        display: flex !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .pvc-card {
+        box-shadow: none !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      /* Mode 1: A4 Side-by-Side Cut & Laminate */
+      body.print-a4-side #printArea {
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        gap: 6mm !important;
+        padding-top: 12mm !important;
+      }
+      body.print-a4-side .pvc-card {
+        border: 0.2mm solid #64748b !important;
+        border-radius: 2.5mm !important;
+      }
+
+      /* Mode 2: Foldable Lamination Pouch (Zero Gap) */
+      body.print-a4-fold #printArea {
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        gap: 0mm !important;
+        padding-top: 12mm !important;
+      }
+      body.print-a4-fold .pvc-card {
+        border: 0.2mm solid #475569 !important;
+        border-radius: 0mm !important;
+      }
+
+      /* Mode 3: Direct Thermal/Inkjet PVC Card Slot (CR80 Page Size) */
+      body.print-direct-pvc #printArea {
+        flex-direction: column !important;
+        gap: 0mm !important;
+        padding: 0mm !important;
+      }
+      body.print-direct-pvc .pvc-card {
+        border: none !important;
+        border-radius: 0mm !important;
+        page-break-after: always;
+      }
+    }
+  </style>
+  <style id="dynamicPageRule">
+    @page { size: A4 portrait; margin: 8mm; }
+  </style>
+</head>
+<body class="print-a4-side min-h-screen flex flex-col">
+
+  <!-- TOP BAR -->
+  <header class="no-print bg-slate-900/95 border-b border-slate-800 sticky top-0 z-40 backdrop-blur">
+    <div class="max-w-[1440px] mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-700 via-red-600 to-blue-800 flex items-center justify-center shadow-lg shadow-rose-900/30 border border-white/10">
+          <i data-lucide="credit-card" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-bold tracking-tight text-white">NSDL • Spice Money PVC Card Studio</h1>
+            <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">Clean CR80 Edition</span>
+          </div>
+          <p class="text-xs text-slate-400">Auto-Fill from NSDL Receipt PDF • Photo Upload • Masked Mobile & Email • High-Contrast Print</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 flex-wrap">
+        <!-- Print Layout Selector -->
+        <div class="flex items-center bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs">
+          <i data-lucide="printer" class="w-3.5 h-3.5 text-amber-400 mr-1.5"></i>
+          <span class="text-slate-400 mr-1.5">Print Mode:</span>
+          <select id="printModeSelect" onchange="updatePrintMode(this.value)" class="bg-transparent text-white font-semibold focus:outline-none cursor-pointer">
+            <option value="a4-side" class="bg-slate-900">A4 Photo Paper (Side-by-Side + Cut Mark)</option>
+            <option value="a4-fold" class="bg-slate-900">Foldable Pouch Mode (Zero-Gap)</option>
+            <option value="direct-pvc" class="bg-slate-900">Direct PVC Card Printer (85.6 × 54mm)</option>
+          </select>
+        </div>
+
+        <!-- Database Drawer Button -->
+        <button onclick="toggleDbModal(true)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition">
+          <i data-lucide="database" class="w-3.5 h-3.5 text-sky-400"></i>
+          <span>My Database</span>
+          <span id="dbCountBadge" class="px-1.5 py-0.2 bg-sky-500/20 text-sky-300 rounded-full text-[10px] font-mono">0</span>
+        </button>
+
+        <!-- Save to DB Button -->
+        <button onclick="saveRecordToDb()" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white shadow-lg shadow-emerald-900/30 transition">
+          <i data-lucide="cloud-upload" class="w-3.5 h-3.5"></i>
+          <span>Save Record</span>
+        </button>
+
+        <!-- Print Button -->
+        <button onclick="window.print()" class="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-gradient-to-r from-rose-600 to-blue-600 hover:from-rose-500 hover:to-blue-500 text-xs font-bold text-white shadow-lg shadow-rose-900/40 transition">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span>Print PVC Card</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="flex-1 max-w-[1440px] w-full mx-auto px-4 py-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+    <!-- LEFT PANEL: PDF UPLOAD + CUSTOMER PHOTO + MINIMAL CONTROLS (5 Cols) -->
+    <section class="no-print lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
+      
+      <!-- STEP 1: 1-CLICK NSDL RECEIPT PDF UPLOAD & AUTO EXTRACT -->
+      <div class="p-4 bg-gradient-to-br from-rose-950/60 via-slate-900 to-blue-950/50 border-b border-slate-800">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-rose-300 flex items-center gap-1.5">
+            <i data-lucide="file-check-2" class="w-4 h-4 text-rose-400"></i>
+            Step 1: Auto-Fill from NSDL Receipt PDF
+          </span>
+          <span id="pdfStatusBadge" class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-medium">
+            Demo Preview Active
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-2">
+          <!-- Upload Original Receipt PDF -->
+          <label class="cursor-pointer group flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-950/80 hover:bg-slate-900 border border-dashed border-rose-500/50 hover:border-rose-400 transition">
+            <div class="w-9 h-9 rounded-lg bg-rose-500/15 border border-rose-500/30 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+              <i data-lucide="file-up" class="w-4 h-4 text-rose-400"></i>
+            </div>
+            <div class="overflow-hidden">
+              <div class="text-xs font-bold text-white truncate">1. Upload NSDL PDF</div>
+              <div class="text-[10px] text-slate-400 truncate">Auto-fills A/c & BC Details</div>
+            </div>
+            <input type="file" id="pdfUploadInput" accept="application/pdf" class="hidden" onchange="handlePdfReceiptUpload(event)" />
+          </label>
+
+          <!-- Upload Customer Photo -->
+          <label class="cursor-pointer group flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-950/80 hover:bg-slate-900 border border-dashed border-sky-500/50 hover:border-sky-400 transition">
+            <div class="w-9 h-9 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+              <i data-lucide="camera" class="w-4 h-4 text-sky-400"></i>
+            </div>
+            <div class="overflow-hidden">
+              <div class="text-xs font-bold text-white truncate">2. Customer Photo</div>
+              <div class="text-[10px] text-slate-400 truncate">JPG / PNG Passport Photo</div>
+            </div>
+            <input type="file" id="photoUploadInput" accept="image/*" class="hidden" onchange="handlePhotoUpload(event)" />
+          </label>
+        </div>
+      </div>
+
+      <!-- STEP 2: MASKING & PRIVACY CONTROLS (MOBILE & EMAIL) -->
+      <div class="p-4 bg-slate-950/60 border-b border-slate-800 space-y-3">
+        <div class="flex items-center justify-between">
+          <label class="text-[11px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            Step 2: Mobile & Email Mask / Print Control
+          </label>
+          <span class="text-[10px] text-slate-400">Privacy Protected</span>
+        </div>
+
+        <!-- Mobile Number Input + Mask Selector -->
+        <div class="grid grid-cols-12 gap-2 items-end">
+          <div class="col-span-7">
+            <label class="block text-[10px] font-semibold text-slate-300 mb-1">Customer Mobile No. (Saved in DB)</label>
+            <input id="inMobile" type="text" maxlength="10" value="9000000000" oninput="syncCard()" placeholder="10-digit Mobile No" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-mono text-white focus:border-amber-500 focus:outline-none" />
+          </div>
+          <div class="col-span-5">
+            <label class="block text-[10px] font-semibold text-slate-400 mb-1">Card Print Option</label>
+            <select id="inMobileMode" onchange="syncCard()" class="w-full px-2 py-1.5 rounded-lg bg-slate-900 border border-amber-500/40 text-xs text-amber-300 font-semibold focus:outline-none">
+              <option value="masked" selected>Mask (XXXXXX0000)</option>
+              <option value="full">Print Full Number</option>
+              <option value="hide">Don't Print (DB Only)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Email ID Input + Mask Selector -->
+        <div class="grid grid-cols-12 gap-2 items-end">
+          <div class="col-span-7">
+            <label class="block text-[10px] font-semibold text-slate-300 mb-1">Customer Email ID (Optional / Saved in DB)</label>
+            <input id="inEmail" type="email" value="demo@example.com" oninput="syncCard()" placeholder="customer@example.com" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:border-amber-500 focus:outline-none" />
+          </div>
+          <div class="col-span-5">
+            <label class="block text-[10px] font-semibold text-slate-400 mb-1">Email Print Option</label>
+            <select id="inEmailMode" onchange="syncCard()" class="w-full px-2 py-1.5 rounded-lg bg-slate-900 border border-amber-500/40 text-xs text-amber-300 font-semibold focus:outline-none">
+              <option value="masked" selected>Mask (de***o@example.com)</option>
+              <option value="full">Print Full Email</option>
+              <option value="hide">Don't Print (DB Only)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: AUTO-EXTRACTED RECEIPT DATA (EDITABLE IF NEEDED) -->
+      <div class="p-4 space-y-3 max-h-[52vh] overflow-y-auto">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="sliders" class="w-3.5 h-3.5 text-rose-400"></i>
+            Extracted PDF Fields (Demo Prefill)
+          </span>
+          <button type="button" onclick="clearForm()" class="text-[11px] text-slate-400 hover:text-rose-400 transition">Clear Fields</button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div class="sm:col-span-2">
+            <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">A/c Holder Name</label>
+            <input id="inName" type="text" value="DEMO CUSTOMER" oninput="syncCard()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-bold text-white focus:border-rose-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">Account Number</label>
+            <input id="inAccNo" type="text" value="000012345678" oninput="syncCard()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono font-bold text-emerald-400 focus:border-rose-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">Customer ID (CIF)</label>
+            <input id="inCustId" type="text" value="0001234" oninput="syncCard()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono text-white focus:border-rose-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">IFSC Code</label>
+            <input id="inIfsc" type="text" value="NSPB0000002" oninput="syncCard()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono uppercase text-sky-300 focus:border-rose-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">Account Type (Savings / Current)</label>
+            <input id="inAccType" type="text" value="SAVINGS" oninput="syncCard()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-semibold text-white focus:border-rose-500 focus:outline-none" />
+          </div>
+
+          <div class="sm:col-span-2">
+            <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">Branch Name</label>
+            <input id="inBranch" type="text" value="Demo Branch Office" oninput="syncCard()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:border-rose-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">A/c Opening Date</label>
+            <input id="inOpenDate" type="text" value="01 Jan 2026" oninput="syncCard()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono text-white focus:border-rose-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">BC Name & Location</label>
+            <input id="inBcInfo" type="text" value="Spice Money (Demo BC)" oninput="syncCard()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs text-white focus:border-rose-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">Agent Name (BC)</label>
+            <input id="inAgentName" type="text" value="Demo Agent" oninput="syncCard()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-semibold text-white focus:border-rose-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">Agent ID</label>
+            <input id="inAgentId" type="text" value="0000001" oninput="syncCard()" class="w-full px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono text-white focus:border-rose-500 focus:outline-none" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: LIVE PVC ID CARD PREVIEW (7 Cols) -->
+    <section class="lg:col-span-7 flex flex-col items-center">
+      
+      <!-- Preview Toolbar -->
+      <div class="no-print w-full bg-slate-900 border border-slate-800 rounded-2xl p-3 mb-5 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-xs font-bold text-slate-200">Live PVC Smart Card Preview (Exact 85.6mm × 54mm CR80)</span>
+        </div>
+        <div class="flex items-center gap-3 text-[11px] text-slate-400">
+          <label class="flex items-center gap-1.5 cursor-pointer">
+            <input type="checkbox" id="cropGuideToggle" checked onchange="toggleCropGuides(this.checked)" class="rounded accent-rose-500" />
+            <span>Show Cut Border</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- PRINTABLE PVC CARD CONTAINER -->
+      <div class="preview-zoom-wrap flex justify-center w-full">
+        <div id="printArea" class="flex flex-col md:flex-row items-center justify-center gap-6 p-3">
+
+          <!-- ========================================================= -->
+          <!-- FRONT SIDE: NSDL PAYMENTS BANK + SPICE MONEY ACCOUNT CARD -->
+          <!-- ========================================================= -->
+          <div class="pvc-card card-guilloche crop-guide flex flex-col justify-between">
+            
+            <!-- Header Banner (11.2mm) -->
+            <div class="nsdl-header px-3 py-1.5 text-white flex items-center justify-between border-b-2 border-amber-400" style="height: 11.2mm;">
+              <div class="flex items-center gap-2">
+                <!-- NSDL Bank Official Logo (logo.png) -->
+                <div class="w-6 h-6 rounded bg-white p-0.5 flex items-center justify-center shadow-sm shrink-0 overflow-hidden">
+                  <img src="logo.png" alt="NSDL Logo" class="w-full h-full object-contain" />
+                </div>
+                <div>
+                  <div class="text-[10.5px] font-extrabold tracking-wide uppercase leading-none">NSDL Payments Bank</div>
+                  <div class="text-[7px] text-amber-200 font-semibold tracking-wider uppercase mt-0.5">Account Identification Card</div>
+                </div>
+              </div>
+
+              <!-- Spice Money Co-Branding Badge -->
+              <div class="text-right bg-white px-1.5 py-0.5 rounded shadow-sm leading-tight">
+                <div class="text-[8px] font-black tracking-tight">
+                  <span class="text-red-600">Spice</span> <span class="text-blue-900">money</span>
+                </div>
+                <div class="text-[6px] font-extrabold text-slate-800 uppercase">Authorized BC</div>
+              </div>
+            </div>
+
+            <!-- Body Content (Photo + Account Core Info + QR) -->
+            <div class="px-2.5 py-1 flex-1 flex gap-2 items-center">
+              
+              <!-- Left Column: Customer Photo Box -->
+              <div class="flex flex-col items-center shrink-0">
+                <div onclick="document.getElementById('photoUploadInput').click()" title="Click to change Customer Photo" class="w-[18.5mm] h-[22.5mm] rounded border border-slate-400 bg-slate-100 overflow-hidden shadow-inner flex flex-col items-center justify-center relative cursor-pointer">
+                  <img id="cardPhotoImg" src="" alt="Photo" class="w-full h-full object-cover hidden" />
+                  <div id="cardPhotoPlaceholder" class="flex flex-col items-center justify-center text-center p-1">
+                    <svg class="w-5 h-5 text-slate-600 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    <span class="text-[6px] font-bold text-slate-700 uppercase leading-tight">Passport<br/>Photo</span>
+                  </div>
+                </div>
+                <span id="outAccTypeBadge" class="mt-1 px-1.5 py-0.2 rounded bg-rose-50 border border-rose-300 text-[6.3px] font-extrabold text-[#8b1d41] uppercase tracking-wider">SAVINGS A/C</span>
+              </div>
+
+              <!-- Center Column: Account Details (Dark Labels + +1 Font Size) -->
+              <div class="flex-1 min-w-0 space-y-0.5">
+                <div class="border-b border-slate-300 pb-0.5">
+                  <div class="text-[6.5px] font-extrabold uppercase text-slate-700 tracking-wider leading-none">Account Holder Name</div>
+                  <div id="outName" class="text-[10.5px] font-black text-slate-950 uppercase truncate leading-tight mt-0.5">DEMO CUSTOMER</div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-x-1.5 gap-y-0.5 pt-0.5">
+                  <div class="col-span-2 bg-slate-900 text-white px-1.5 py-0.5 rounded flex items-center justify-between">
+                    <span class="text-[6.5px] uppercase font-extrabold text-amber-300">A/c No.</span>
+                    <span id="outAccNo" class="text-[10px] font-extrabold mono tracking-wider text-white">000012345678</span>
+                  </div>
+
+                  <div>
+                    <div class="text-[6.2px] font-extrabold uppercase text-slate-700">IFSC Code</div>
+                    <div id="outIfsc" class="text-[8.5px] font-black mono text-blue-950 leading-tight">NSPB0000002</div>
+                  </div>
+
+                  <div>
+                    <div class="text-[6.2px] font-extrabold uppercase text-slate-700">Customer ID</div>
+                    <div id="outCustId" class="text-[8.5px] font-black mono text-slate-950 leading-tight">0001234</div>
+                  </div>
+
+                  <div class="col-span-2">
+                    <div class="text-[6.2px] font-extrabold uppercase text-slate-700">Home Branch</div>
+                    <div id="outBranch" class="text-[7.3px] font-bold text-slate-900 truncate leading-tight">Demo Branch Office</div>
+                  </div>
+
+                  <!-- Masked Mobile & Account Type Row -->
+                  <div id="frontContactRow" class="col-span-2 flex items-center justify-between text-[6.6px] pt-0.5 border-t border-slate-300 text-slate-900">
+                    <div id="outMobileWrap" class="font-bold mono">Mob: <span id="outMobile" class="font-black text-slate-950">XXXXXX0000</span></div>
+                    <div id="outAccTypeWrap" class="font-bold">Account Type: <span id="outAccTypeFront" class="font-black text-[#8b1d41] uppercase">SAVINGS</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Auto QR Code -->
+              <div class="flex flex-col items-center justify-center shrink-0 pl-0.5">
+                <div class="p-1 bg-white border border-slate-400 rounded shadow-sm">
+                  <div id="qrcodeBox" class="w-[15mm] h-[15mm] flex items-center justify-center"></div>
+                </div>
+                <span class="text-[6px] font-extrabold uppercase text-slate-800 mt-0.5 tracking-tight">Scan A/c QR</span>
+              </div>
+
+            </div>
+
+            <!-- Bottom Barcode Strip (7.8mm) -->
+            <div class="bg-slate-100 border-t border-slate-300 px-2.5 py-0.5 flex items-center justify-between" style="height: 7.8mm;">
+              <div class="flex flex-col justify-center">
+                <span class="text-[6px] font-extrabold uppercase text-slate-700 leading-none">Issued Through BC Partner</span>
+                <span id="outBcInfoFront" class="text-[7.2px] font-black text-slate-950 leading-tight">Spice Money (Demo BC)</span>
+              </div>
+              <div class="bg-white px-1.5 py-0.5 rounded border border-slate-300 flex items-center">
+                <svg id="barcodeSvg"></svg>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ========================================================= -->
+          <!-- BACK SIDE: BC / AGENT DETAILS + FEATURES + BANK HELPLINE   -->
+          <!-- ========================================================= -->
+          <div class="pvc-card card-guilloche crop-guide flex flex-col justify-between">
+            
+            <!-- Top Magnetic-Style Official Strip -->
+            <div class="bg-slate-900 text-white px-3 py-1 flex items-center justify-between border-b border-amber-400" style="height: 7.2mm;">
+              <span class="text-[7.5px] font-extrabold uppercase tracking-wider text-amber-300">Official BC & Account Service Record</span>
+              <span class="text-[7px] font-mono font-bold text-white">www.nsdlbank.com</span>
+            </div>
+
+            <!-- Back Main Body -->
+            <div class="px-3 py-1.5 flex-1 flex flex-col justify-between">
+              
+              <!-- Clean BC & Agent Details Grid (Dark Labels + +1 Font Size) -->
+              <div class="bg-slate-50 border border-slate-400 rounded p-1.5 grid grid-cols-2 gap-x-3 gap-y-1 text-[7.3px]">
+                <div>
+                  <span class="text-slate-700 font-extrabold uppercase block text-[6px]">BC Name & Location</span>
+                  <span id="outBcBack" class="font-black text-slate-950">Spice Money (Demo BC)</span>
+                </div>
+                <div>
+                  <span class="text-slate-700 font-extrabold uppercase block text-[6px]">Authorized BC Agent</span>
+                  <span class="font-black text-slate-950"><span id="outAgentName">Demo Agent</span> (<span id="outAgentId" class="mono text-[#8b1d41]">0000001</span>)</span>
+                </div>
+                <div>
+                  <span class="text-slate-700 font-extrabold uppercase block text-[6px]">A/c Opening Date</span>
+                  <span id="outOpenDateBack" class="font-black mono text-slate-950">01 Jan 2026</span>
+                </div>
+                <div id="backEmailRow">
+                  <span class="text-slate-700 font-extrabold uppercase block text-[6px]">Registered Email ID</span>
+                  <span id="outEmail" class="font-black mono text-blue-950 truncate block">de***o@example.com</span>
+                </div>
+              </div>
+
+              <!-- 4 Official Banking Features from Original NSDL PDF -->
+              <div class="grid grid-cols-4 gap-1 my-1">
+                <div class="bg-rose-50/90 border border-rose-300 rounded p-1 text-center">
+                  <div class="text-[6.5px] font-black text-[#8b1d41] uppercase leading-tight">Account Proof</div>
+                  <div class="text-[5.5px] font-semibold text-slate-800 leading-tight mt-0.5">Pre-printed Customer & A/c Details</div>
+                </div>
+                <div class="bg-blue-50/90 border border-blue-300 rounded p-1 text-center">
+                  <div class="text-[6.5px] font-black text-blue-950 uppercase leading-tight">Cash Services</div>
+                  <div class="text-[5.5px] font-semibold text-slate-800 leading-tight mt-0.5">Deposit & Withdrawal at Spice Money BC</div>
+                </div>
+                <div class="bg-amber-50/90 border border-amber-300 rounded p-1 text-center">
+                  <div class="text-[6.5px] font-black text-amber-950 uppercase leading-tight">Instant Debit</div>
+                  <div class="text-[5.5px] font-semibold text-slate-800 leading-tight mt-0.5">Online & POS Activated Card Facility</div>
+                </div>
+                <div class="bg-emerald-50/90 border border-emerald-300 rounded p-1 text-center">
+                  <div class="text-[6.5px] font-black text-emerald-950 uppercase leading-tight">DBT / Subsidy</div>
+                  <div class="text-[5.5px] font-semibold text-slate-800 leading-tight mt-0.5">Direct Benefit Transfer Enabled A/c</div>
+                </div>
+              </div>
+
+              <!-- Digital Verification Banner -->
+              <div class="bg-gradient-to-r from-slate-100 via-white to-slate-100 border border-slate-300 rounded px-2 py-1 flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+                  <span class="text-[6.2px] font-extrabold uppercase tracking-wide text-slate-900">System Generated Digital Account Card • No Signature Required</span>
+                </div>
+                <span class="text-[6.2px] font-black text-[#8b1d41] uppercase">Verified BC</span>
+              </div>
+
+            </div>
+
+            <!-- Official Customer Care Footer from PDF -->
+            <div class="nsdl-header text-white px-2.5 py-1 flex items-center justify-between text-[6.5px]" style="height: 6.5mm;">
+              <div class="font-semibold">
+                <span class="font-extrabold text-amber-300">Customer Care:</span> 022-42022170, 022-69787306
+              </div>
+              <div class="font-semibold">
+                <span class="font-extrabold text-amber-300">Email:</span> spiceaccount@nsdlbank.co.in
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick Instruction Strip -->
+      <div class="no-print mt-3 max-w-2xl text-center text-xs text-slate-400 bg-slate-900/70 border border-slate-800 px-4 py-2.5 rounded-xl">
+        <strong class="text-slate-200">High-Contrast Print Active:</strong> सभी लेबल (IFSC, Customer ID, Branch) को डार्क कर दिया गया है और फॉन्ट साइज +1 बढ़ा दिया गया है ताकि प्रिंट एकदम साफ आए।
+      </div>
+
+    </section>
+  </main>
+
+  <!-- MY DATABASE MODAL -->
+  <div id="dbModal" class="no-print fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="database" class="w-5 h-5 text-sky-400"></i>
+          <h3 class="text-sm font-bold text-white">Customer Account Database (Full Unmasked Mobile & Email Records)</h3>
+        </div>
+        <button onclick="toggleDbModal(false)" class="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-4 border-b border-slate-800 bg-slate-950/50 flex flex-wrap items-center justify-between gap-2">
+        <input id="dbSearchInput" type="text" oninput="renderDatabaseTable()" placeholder="Search by Customer Name, Account No, CIF, Mobile or Email..." class="flex-1 min-w-[240px] px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-sky-500" />
+        <button onclick="exportDbJson()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700">
+          Export Backup (JSON)
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-slate-800 text-[11px] uppercase text-slate-400">
+              <th class="py-2 px-2">Customer Name</th>
+              <th class="py-2 px-2">Account No / CIF</th>
+              <th class="py-2 px-2">Full Mobile No.</th>
+              <th class="py-2 px-2">Full Email ID</th>
+              <th class="py-2 px-2">Opening Date</th>
+              <th class="py-2 px-2 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="dbTableBody" class="divide-y divide-slate-800/70"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Configure PDF.js worker
+    if (window['pdfjsLib']) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    const DB_STORAGE_KEY = 'nsdl_spice_pvc_records_v3';
+    let currentPhotoDataUrl = '';
+
+    // Mask Mobile: 9000000000 -> XXXXXX0000
+    function maskMobileNumber(mob, mode) {
+      const clean = (mob || '').trim();
+      if (!clean || mode === 'hide') return '';
+      if (mode === 'full') return clean;
+      if (clean.length <= 4) return clean;
+      return 'X'.repeat(Math.max(0, clean.length - 4)) + clean.slice(-4);
+    }
+
+    // Mask Email: demo@example.com -> de***o@example.com
+    function maskEmailAddress(email, mode) {
+      const clean = (email || '').trim();
+      if (!clean || mode === 'hide') return '';
+      if (mode === 'full') return clean;
+      const parts = clean.split('@');
+      if (parts.length !== 2) return clean;
+      const user = parts[0];
+      const domain = parts[1];
+      if (user.length <= 2) return user[0] + '***@' + domain;
+      return user.slice(0, 2) + '***' + user.slice(-1) + '@' + domain;
+    }
+
+    // Live Sync Form to Card
+    function syncCard() {
+      const name = document.getElementById('inName').value.trim() || 'DEMO CUSTOMER';
+      const accNo = document.getElementById('inAccNo').value.trim() || '000000000000';
+      const custId = document.getElementById('inCustId').value.trim() || '-';
+      const ifsc = document.getElementById('inIfsc').value.trim().toUpperCase() || 'NSPB0000002';
+      const rawAccType = document.getElementById('inAccType').value.trim().toUpperCase() || 'SAVINGS';
+      const branch = document.getElementById('inBranch').value.trim() || '-';
+      const openDate = document.getElementById('inOpenDate').value.trim() || '-';
+      const bcInfo = document.getElementById('inBcInfo').value.trim() || 'Spice Money';
+      const agentName = document.getElementById('inAgentName').value.trim() || '-';
+      const agentId = document.getElementById('inAgentId').value.trim() || '-';
+
+      const rawMobile = document.getElementById('inMobile').value.trim();
+      const mobileMode = document.getElementById('inMobileMode').value;
+      const rawEmail = document.getElementById('inEmail').value.trim();
+      const emailMode = document.getElementById('inEmailMode').value;
+
+      // Normalize Account Type for Front text & Photo badge
+      const cleanAccType = rawAccType.replace(/\s*ACCOUNT\s*/i, '').replace(/\s*A\/C\s*/i, '').trim() || 'SAVINGS';
+
+      // Populate Front
+      document.getElementById('outName').textContent = name;
+      document.getElementById('outAccNo').textContent = accNo;
+      document.getElementById('outCustId').textContent = custId;
+      document.getElementById('outIfsc').textContent = ifsc;
+      document.getElementById('outAccTypeBadge').textContent = cleanAccType + ' A/C';
+      document.getElementById('outAccTypeFront').textContent = cleanAccType;
+      document.getElementById('outBranch').textContent = branch;
+      document.getElementById('outBcInfoFront').textContent = bcInfo;
+
+      // Handle Mobile Display
+      const maskedMob = maskMobileNumber(rawMobile, mobileMode);
+      const mobWrap = document.getElementById('outMobileWrap');
+      if (maskedMob) {
+        mobWrap.classList.remove('hidden');
+        document.getElementById('outMobile').textContent = maskedMob;
+      } else {
+        mobWrap.classList.add('hidden');
+      }
+
+      // Populate Back (Opening Date only on Back Side)
+      document.getElementById('outBcBack').textContent = bcInfo;
+      document.getElementById('outAgentName').textContent = agentName;
+      document.getElementById('outAgentId').textContent = agentId;
+      document.getElementById('outOpenDateBack').textContent = openDate;
+
+      // Handle Email Display
+      const maskedMail = maskEmailAddress(rawEmail, emailMode);
+      const backEmailRow = document.getElementById('backEmailRow');
+      if (maskedMail) {
+        backEmailRow.classList.remove('hidden');
+        document.getElementById('outEmail').textContent = maskedMail;
+      } else {
+        backEmailRow.classList.add('hidden');
+      }
+
+      // Render QR Code (Name, Account No, IFSC, Account Type - No Customer ID)
+      const qrContainer = document.getElementById('qrcodeBox');
+      qrContainer.innerHTML = '';
+      const qrPayload = `Name: ${name}\nA/c No: ${accNo}\nIFSC: ${ifsc}\nA/c Type: ${cleanAccType}`;
+      new QRCode(qrContainer, {
+        text: qrPayload,
+        width: 54,
+        height: 54,
+        colorDark: '#0f172a',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      // Render 1D Barcode for Account Number
+      try {
+        JsBarcode('#barcodeSvg', accNo, {
+          format: 'CODE128',
+          width: 1.05,
+          height: 16,
+          displayValue: false,
+          margin: 0,
+          lineColor: '#0f172a'
+        });
+      } catch (e) {}
+    }
+
+    // Parse NSDL Account Opening Receipt PDF Automatically
+    async function handlePdfReceiptUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const statusBadge = document.getElementById('pdfStatusBadge');
+      statusBadge.textContent = 'Reading PDF...';
+      statusBadge.className = 'text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 font-medium';
+
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let fullText = '';
+
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          const strings = content.items.map(item => item.str);
+          fullText += strings.join(' ') + '\n';
+        }
+
+        // Normalize spaces
+        const clean = fullText.replace(/\s+/g, ' ');
+
+        // Extract fields matching the NSDL Spice Money Receipt structure
+        const extract = (regex) => {
+          const m = clean.match(regex);
+          return m && m[1] ? m[1].trim() : null;
+        };
+
+        const custId = extract(/Customer\s*ID\s*:\s*([0-9]+)/i);
+        const accType = extract(/Account\s*Type\s*:\s*([A-Z\s]+?)(?=Amount|A\/c|IFSC|$)/i);
+        const holderName = extract(/A\/c\s*Holder\s*Name\s*:\s*([A-Za-z\s\.]+?)(?=IFSC|Account|Branch|$)/i);
+        const ifsc = extract(/IFSC\s*Code\s*:\s*([A-Z0-9]+)/i);
+        const accNo = extract(/Account\s*Number\s*:\s*([0-9]+)/i);
+        const branch = extract(/Branch\s*Name\s*:\s*(.+?)(?=Transaction\s*Id|ACCOUNT\s*CERTIFICATE|$)/i);
+        const agentId = extract(/Agent\s*Id\s*:\s*([0-9]+)/i);
+        const agentName = extract(/Agent\s*Name\s*:\s*([A-Za-z\s\.]+?)(?=\||Date\s*&|\s*Customer\s*ID|$)/i);
+        const bcLocation = extract(/BC\s*Location\s*:\s*([^\|\n]+?)(?=\||BC\s*Name|$)/i);
+        const bcName = extract(/BC\s*Name\s*:\s*([^\|\n]+?)(?=\||A\/c\s*Opening|$)/i);
+        const openDateMatch = extract(/Date\s*&\s*Time\s*:\s*([0-9]{1,2}\s+[A-Za-z]{3}\s+[0-9]{4})/i) ||
+                              extract(/A\/c\s*Opening\s*Date\s*:\s*([0-9\-]+)/i);
+
+        if (holderName) document.getElementById('inName').value = holderName;
+        if (accNo) document.getElementById('inAccNo').value = accNo;
+        if (custId) document.getElementById('inCustId').value = custId;
+        if (ifsc) document.getElementById('inIfsc').value = ifsc;
+        if (accType) document.getElementById('inAccType').value = accType.replace(/\s*ACCOUNT\s*/i, '').trim();
+        if (branch) document.getElementById('inBranch').value = branch;
+        if (openDateMatch) document.getElementById('inOpenDate').value = openDateMatch;
+        if (agentId) document.getElementById('inAgentId').value = agentId;
+        if (agentName) document.getElementById('inAgentName').value = agentName;
+        if (bcName || bcLocation) {
+          document.getElementById('inBcInfo').value = `${bcName || 'Spice Money'}${bcLocation ? ' (' + bcLocation + ')' : ''}`;
+        }
+
+        syncCard();
+
+        statusBadge.textContent = 'PDF Auto-Filled ✓';
+        statusBadge.className = 'text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold';
+      } catch (err) {
+        console.error('PDF Parse Error:', err);
+        statusBadge.textContent = 'Manual Check Needed';
+        statusBadge.className = 'text-[10px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 font-medium';
+      }
+    }
+
+    // Handle Customer Passport Photo Upload
+    function handlePhotoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentPhotoDataUrl = e.target.result;
+        const img = document.getElementById('cardPhotoImg');
+        const placeholder = document.getElementById('cardPhotoPlaceholder');
+        img.src = currentPhotoDataUrl;
+        img.classList.remove('hidden');
+        placeholder.classList.add('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Print Mode Switcher
+    function updatePrintMode(mode) {
+      document.body.classList.remove('print-a4-side', 'print-a4-fold', 'print-direct-pvc');
+      const pageStyle = document.getElementById('dynamicPageRule');
+
+      if (mode === 'a4-side') {
+        document.body.classList.add('print-a4-side');
+        pageStyle.innerHTML = '@page { size: A4 portrait; margin: 8mm; }';
+      } else if (mode === 'a4-fold') {
+        document.body.classList.add('print-a4-fold');
+        pageStyle.innerHTML = '@page { size: A4 portrait; margin: 8mm; }';
+      } else if (mode === 'direct-pvc') {
+        document.body.classList.add('print-direct-pvc');
+        pageStyle.innerHTML = '@page { size: 85.6mm 54mm; margin: 0mm; }';
+      }
+    }
+
+    function toggleCropGuides(show) {
+      document.querySelectorAll('.pvc-card').forEach(card => {
+        if (show) card.classList.add('crop-guide');
+        else card.classList.remove('crop-guide');
+      });
+    }
+
+    function clearForm() {
+      ['inName', 'inAccNo', 'inCustId', 'inMobile', 'inEmail'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      syncCard();
+    }
+
+    // ================= LOCAL DATABASE FUNCTIONS =================
+    function getRecords() {
+      try {
+        return JSON.parse(localStorage.getItem(DB_STORAGE_KEY) || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function saveRecordToDb() {
+      const records = getRecords();
+      const entry = {
+        id: Date.now().toString(),
+        name: document.getElementById('inName').value.trim(),
+        accNo: document.getElementById('inAccNo').value.trim(),
+        custId: document.getElementById('inCustId').value.trim(),
+        ifsc: document.getElementById('inIfsc').value.trim(),
+        accType: document.getElementById('inAccType').value.trim(),
+        branch: document.getElementById('inBranch').value.trim(),
+        openDate: document.getElementById('inOpenDate').value.trim(),
+        bcInfo: document.getElementById('inBcInfo').value.trim(),
+        agentName: document.getElementById('inAgentName').value.trim(),
+        agentId: document.getElementById('inAgentId').value.trim(),
+        mobile: document.getElementById('inMobile').value.trim(),
+        email: document.getElementById('inEmail').value.trim(),
+        photo: currentPhotoDataUrl
+      };
+
+      const existingIndex = records.findIndex(r => r.accNo === entry.accNo && entry.accNo !== '');
+      if (existingIndex >= 0) {
+        records[existingIndex] = entry;
+      } else {
+        records.unshift(entry);
+      }
+
+      localStorage.setItem(DB_STORAGE_KEY, JSON.stringify(records));
+      updateDbBadge();
+      alert(`Saved "${entry.name}" (A/c: ${entry.accNo}) with Full Mobile & Email to Database!`);
+    }
+
+    function updateDbBadge() {
+      const records = getRecords();
+      document.getElementById('dbCountBadge').textContent = records.length;
+    }
+
+    function toggleDbModal(show) {
+      const modal = document.getElementById('dbModal');
+      if (show) {
+        renderDatabaseTable();
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      } else {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function renderDatabaseTable() {
+      const records = getRecords();
+      const q = (document.getElementById('dbSearchInput').value || '').toLowerCase();
+      const tbody = document.getElementById('dbTableBody');
+
+      const filtered = records.filter(r =>
+        (r.name || '').toLowerCase().includes(q) ||
+        (r.accNo || '').toLowerCase().includes(q) ||
+        (r.custId || '').toLowerCase().includes(q) ||
+        (r.mobile || '').toLowerCase().includes(q) ||
+        (r.email || '').toLowerCase().includes(q)
+      );
+
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-500">No saved customer records found. Click "Save Record" to store customer history.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(r => `
+        <tr class="hover:bg-slate-800/50 transition">
+          <td class="py-2.5 px-2 font-bold text-white">${r.name || '-'}</td>
+          <td class="py-2.5 px-2 font-mono text-emerald-400">${r.accNo || '-'} <span class="text-slate-400 text-[10px]">(CIF: ${r.custId || '-'})</span></td>
+          <td class="py-2.5 px-2 font-mono text-amber-300 font-semibold">${r.mobile || '-'}</td>
+          <td class="py-2.5 px-2 text-sky-300">${r.email || '-'}</td>
+          <td class="py-2.5 px-2 text-slate-400">${r.openDate || '-'}</td>
+          <td class="py-2.5 px-2 text-right space-x-1">
+            <button onclick="loadRecordFromDb('${r.id}')" class="px-2.5 py-1 rounded bg-sky-600 hover:bg-sky-500 text-white font-semibold text-[11px]">Load Card</button>
+            <button onclick="deleteRecordFromDb('${r.id}')" class="px-2 py-1 rounded bg-rose-950 hover:bg-rose-800 text-rose-300 text-[11px]">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function loadRecordFromDb(id) {
+      const rec = getRecords().find(r => r.id === id);
+      if (!rec) return;
+
+      document.getElementById('inName').value = rec.name || '';
+      document.getElementById('inAccNo').value = rec.accNo || '';
+      document.getElementById('inCustId').value = rec.custId || '';
+      document.getElementById('inIfsc').value = rec.ifsc || '';
+      document.getElementById('inAccType').value = rec.accType || '';
+      document.getElementById('inBranch').value = rec.branch || '';
+      document.getElementById('inOpenDate').value = rec.openDate || '';
+      document.getElementById('inBcInfo').value = rec.bcInfo || '';
+      document.getElementById('inAgentName').value = rec.agentName || '';
+      document.getElementById('inAgentId').value = rec.agentId || '';
+      document.getElementById('inMobile').value = rec.mobile || '';
+      document.getElementById('inEmail').value = rec.email || '';
+
+      if (rec.photo) {
+        currentPhotoDataUrl = rec.photo;
+        const img = document.getElementById('cardPhotoImg');
+        img.src = currentPhotoDataUrl;
+        img.classList.remove('hidden');
+        document.getElementById('cardPhotoPlaceholder').classList.add('hidden');
+      }
+
+      syncCard();
+      toggleDbModal(false);
+    }
+
+    function deleteRecordFromDb(id) {
+      const updated = getRecords().filter(r => r.id !== id);
+      localStorage.setItem(DB_STORAGE_KEY, JSON.stringify(updated));
+      updateDbBadge();
+      renderDatabaseTable();
+    }
+
+    function exportDbJson() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(getRecords(), null, 2));
+      const a = document.createElement('a');
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", "nsdl_spice_customers_backup.json");
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      updateDbBadge();
+      syncCard();
+    });
+  </script>
+</body>
+</html>
