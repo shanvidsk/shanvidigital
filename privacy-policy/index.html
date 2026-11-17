@@ -3,91 +3,312 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Shanvi Digital Seva Kendra</title>
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0d47a1">
+    <title>Privacy Policy | Shanvi Digital Seva Kendra</title>
+    <link rel="icon" href="/logo.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        :root {
+            --primary-color: #0d47a1; 
+            --secondary-color: #1976d2; 
+            --bg-light: #f0f4f8; 
+            --text-dark: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
+            background-color: var(--bg-light);
+            background-image: linear-gradient(180deg, #f4f7f6 0%, #e2e8f0 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+        /* Header Matching Main Site */
+        header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            flex-wrap: wrap;
         }
-        h1, h2 {
-            color: #2c3e50;
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
         }
-        h1 {
+
+        .site-logo {
+            height: 55px;
+            width: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: white;
+            padding: 2px;
+            border: 2px solid rgba(255,255,255,0.8);
+        }
+
+        .logo-text h1 {
+            font-size: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: #ffca28;
+            color: #0d47a1;
+            border-color: #ffca28;
+        }
+
+        /* Mini Hero Banner */
+        .page-banner {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a1a2e 100%);
+            color: white;
             text-align: center;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+            padding: 50px 20px;
         }
-        .date {
-            text-align: right;
-            font-style: italic;
-            color: #7f8c8d;
+
+        .page-banner h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
         }
-        ul {
-            margin-bottom: 20px;
+
+        .page-banner p {
+            font-size: 16px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        .contact-info {
-            background-color: #f1f8ff;
-            padding: 15px;
-            border-left: 4px solid #3498db;
+
+        /* Main Content Card */
+        .policy-container {
+            max-width: 900px;
+            margin: -30px auto 50px;
+            background: white;
+            padding: 45px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+            border-top: 5px solid var(--primary-color);
+            position: relative;
+            z-index: 2;
+        }
+
+        .policy-section {
+            margin-bottom: 30px;
+        }
+
+        .policy-section h3 {
+            color: var(--primary-color);
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        .policy-section p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 12px;
+        }
+
+        .policy-section ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .policy-section ul li {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background-color: #f0f7ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 18px 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 15px 0;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2f6 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
             margin-top: 20px;
+        }
+
+        .contact-card p {
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .contact-card a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Footer Matching Main Site */
+        footer {
+            background: linear-gradient(180deg,#0f172a,#000);
+            padding: 35px 20px;
+            text-align: center;
+            color: #fff;
+            margin-top: auto;
+            border-top: 4px solid var(--primary-color);
+        }
+
+        @media screen and (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 12px;
+                padding: 15px 20px;
+                text-align: center;
+            }
+            .policy-container {
+                margin: 20px 15px 40px;
+                padding: 25px 20px;
+            }
+            .page-banner {
+                padding: 35px 15px;
+            }
+            .page-banner h2 {
+                font-size: 26px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Privacy Policy</h1>
-    <p class="date">Effective Date: November 17, 2026</p>
+    <header>
+        <a href="/" class="header-left">
+            <img src="/logo.jpg" alt="Shanvi Digital Seva Kendra Logo" class="site-logo" onerror="this.src='https://via.placeholder.com/55?text=Logo'">
+            <div class="logo-text">
+                <h1>शान्वी डिजिटल सेवा केंद्र</h1>
+            </div>
+        </a>
+        <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> मुख्य पृष्ठ पर वापस जाएं</a>
+    </header>
 
-    <p>Welcome to <strong>Shanvi Digital Seva Kendra</strong> ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our physical shop or our website at <a href="https://shanvidigital.in">shanvidigital.in</a>.</p>
-
-    <h2>1. Information We Collect</h2>
-    <p>We only collect personal information that you voluntarily provide to us when requesting our digital, printing, or e-governance services. This may include:</p>
-    <ul>
-        <li>Name, Phone Number, and Email Address.</li>
-        <li>Documents provided for digital applications (e.g., Aadhaar, PAN, Voter ID).</li>
-        <li>Files, images, or documents sent via WhatsApp or Email for custom printing (like PVC cards, photo frames, or notebooks).</li>
-    </ul>
-
-    <h2>2. How We Use Your Information</h2>
-    <p>We use the information we collect solely for the purpose of fulfilling the specific services you have requested, which includes:</p>
-    <ul>
-        <li>Processing government portal applications (PAN, Voter ID, RTPS certificates).</li>
-        <li>Completing digital banking transactions (AEPS) and ticket bookings.</li>
-        <li>Fulfilling custom printing and manufacturing orders.</li>
-    </ul>
-
-    <h2>3. Data Protection and Retention (Important)</h2>
-    <p>We take your privacy very seriously. <strong>We process customer requests in person and do not store sensitive personal or financial information on our local systems after the service is completed.</strong></p>
-    <p>Any documents, images, or files sent to us by customers via WhatsApp or Email for printing purposes are <strong>permanently deleted immediately after the print job is finished.</strong></p>
-
-    <h2>4. Sharing of Information</h2>
-    <p>We do not sell, rent, or trade your personal information to third parties. Your data is only shared with official, secure government or banking portals (such as CSC, UTI, NSDL) strictly as required to complete your requested online applications.</p>
-
-    <h2>5. Changes to This Privacy Policy</h2>
-    <p>We may update this Privacy Policy from time to time. We encourage you to review this page periodically for any changes. </p>
-
-    <h2>6. Contact Us</h2>
-    <p>If you have any questions or concerns about this Privacy Policy or how we handle your data, please contact us at:</p>
-    
-    <div class="contact-info">
-        <p><strong>Shanvi Digital Seva Kendra</strong></p>
-        <p>Email: <a href="mailto:shanvi.dsk@gmail.com">shanvi.dsk@gmail.com</a></p>
-        <p>Phone: +91 9507675743</p>
-        <p>Website: <a href="https://shanvidigital.in">shanvidigital.in</a></p>
+    <div class="page-banner">
+        <h2><i class="fas fa-user-shield"></i> Privacy Policy</h2>
+        <p>Your privacy and data security are our top priorities at Shanvi Digital Seva Kendra.</p>
     </div>
-</div>
+
+    <div class="policy-container">
+        <div class="policy-section">
+            <p>Welcome to <strong>Shanvi Digital Seva Kendra</strong> ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our physical shop in Basantpur, Siwan, or use our website at <a href="https://shanvidigital.in" style="color: var(--primary-color); font-weight: 600;">shanvidigital.in</a>.</p>
+        </div>
+
+        <div class="policy-section">
+            <h3><i class="fas fa-database"></i> 1. Information We Collect</h3>
+            <p>We only collect personal information that you voluntarily provide to us when requesting our digital, cyber cafe, printing, or web design services. This includes:</p>
+            <ul>
+                <li><strong>Contact Details:</strong> Name, Phone Number, WhatsApp Number, and Email Address.</li>
+                <li><strong>Service Documents:</strong> Information or documents provided in-person for online applications (such as PAN Card, Aadhaar Print, Passport, Ration Card, or E-KYC).</li>
+                <li><strong>Printing Media:</strong> Photos, text, or files shared via WhatsApp or Email for custom printing (such as PVC cards, customized photo frames, or resumes/CVs).</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h3><i class="fas fa-cogs"></i> 2. How We Use Your Information</h3>
+            <p>We use the information we collect strictly to fulfill the specific service you have requested:</p>
+            <ul>
+                <li>To fill out and submit online forms and public service applications as requested by you.</li>
+                <li>To process AEPS banking inquiries, LIC premium payments, and travel ticket bookings.</li>
+                <li>To design, print, and deliver customized products like photo frames, PVC ID cards, and websites.</li>
+                <li>To communicate with you via phone, WhatsApp, or email regarding your service status or order updates.</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h3><i class="fas fa-shield-alt"></i> 3. Strict Data Protection & Deletion Policy</h3>
+            <div class="highlight-box">
+                <p><strong>Zero Permanent Storage:</strong> We process customer requests in person and <strong>do not store sensitive personal, identity, or financial information</strong> on our local computer systems after your service is completed.</p>
+                <p style="margin-bottom: 0;"><strong>Immediate File Deletion:</strong> Any documents, photographs, or personal files sent to us via WhatsApp or Email for printing or application purposes are <strong>permanently deleted from our devices immediately after the print job or application is finished.</strong></p>
+            </div>
+        </div>
+
+        <div class="policy-section">
+            <h3><i class="fas fa-cookie-bite"></i> 4. Cookies, Analytics & Google Ads Compliance</h3>
+            <p>When you visit our website (shanvidigital.in), standard internet log information and visitor behavior details may be collected automatically through cookies and similar technologies:</p>
+            <ul>
+                <li><strong>Google Analytics:</strong> We use Google Analytics to understand how visitors interact with our website (such as page views and time spent) to improve user experience. This data is anonymized and does not personally identify you.</li>
+                <li><strong>Google Ads & Third-Party Vendors:</strong> Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to our website or other websites on the internet. Users may opt out of personalized advertising by visiting <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Ads Settings</a>.</li>
+            </ul>
+        </div>
+
+        <div class="policy-section">
+            <h3><i class="fas fa-share-alt"></i> 5. Information Sharing & Disclosure</h3>
+            <p>We <strong>never sell, rent, or trade</strong> your personal information to any third party or marketing agency. Your details are only entered into official, authorized government or service portals (such as Passport Seva, NSDL/UTI, or banking networks) strictly at your request to complete your application.</p>
+        </div>
+
+        <div class="policy-section">
+            <h3><i class="fas fa-external-link-alt"></i> 6. Third-Party Links (WhatsApp & Maps)</h3>
+            <p>Our website contains direct links to external platforms such as WhatsApp, Google Maps, and Instagram to make communication easier. Once you click these links and leave our website, your interactions are governed by the respective privacy policies of those third-party platforms.</p>
+        </div>
+
+        <div class="policy-section">
+            <h3><i class="fas fa-user-check"></i> 7. Your Consent & Rights</h3>
+            <p>By using our website or availing of services at our shop, you consent to the terms of this Privacy Policy. You have the right to ask us to delete any message or file you have shared with us on WhatsApp or Email at any time.</p>
+        </div>
+
+        <div class="policy-section" style="margin-bottom: 0;">
+            <h3><i class="fas fa-headset"></i> 8. Contact Us</h3>
+            <p>If you have any questions about this Privacy Policy or how your data is handled, please reach out to us directly:</p>
+            <div class="contact-card">
+                <p><strong>Business Name:</strong> Shanvi Digital Seva Kendra (शान्वी डिजिटल सेवा केंद्र)</p>
+                <p><i class="fas fa-map-marker-alt" style="color: var(--primary-color); width: 20px;"></i> <strong>Address:</strong> Sabji Market, Near SBI CSP, Shaharkola Bazar, Basantpur, Siwan, Bihar – 841406</p>
+                <p><i class="fas fa-phone-alt" style="color: var(--primary-color); width: 20px;"></i> <strong>Phone / WhatsApp:</strong> <a href="tel:+919507675743">+91 9507675743</a></p>
+                <p><i class="fas fa-envelope" style="color: var(--primary-color); width: 20px;"></i> <strong>Email:</strong> <a href="mailto:shanvi.dsk@gmail.com">shanvi.dsk@gmail.com</a></p>
+                <p><i class="fas fa-globe" style="color: var(--primary-color); width: 20px;"></i> <strong>Website:</strong> <a href="https://shanvidigital.in">https://shanvidigital.in</a></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p style="font-size:15px; font-weight:600; margin-bottom:8px;">
+            Shanvi Digital Seva Kendra – Trusted Digital & Cyber Cafe Services in Basantpur, Siwan
+        </p>
+        <p style="font-size:12px; color:#888;">
+            © सर्वाधिकार सुरक्षित | <a href="/" style="color: #ffca28; text-decoration: none;">होम पेज</a>
+        </p>
+    </footer>
 
 </body>
 </html>
